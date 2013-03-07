@@ -64,5 +64,16 @@ module Mars
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+    
+    # added for Rspec based on tutorial at http://railsapps.github.com/tutorial-rails-devise-rspec-cucumber.html
+    config.generators do |g|
+        g.test_framework :rspec, fixture: true
+        g.fixture_replacement :factory_girl, dir: 'spec/factories'
+        g.view_specs false
+        g.helper_specs false
+        g.stylesheets = false
+        g.javascripts = false
+        g.helper = false
+      end
   end
 end
