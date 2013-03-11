@@ -1,0 +1,9 @@
+<div class="hero-unit">
+<h1>MARS</h1>
+<p>an MS Access Replacement System for Elderberry</p>
+<% unless user_signed_in? %>
+<p>
+<%= link_to "Login", new_user_session_path, class: "btn btn-primary" %>
+</p>
+<% end %>
+</div>

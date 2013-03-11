@@ -18,6 +18,7 @@ gem 'cancan'
 gem 'figaro'
 gem 'prawn'
 gem 'unicorn'
+gem 'strong_parameters'
 
 group :development do
 # Deploy with Capistrano
