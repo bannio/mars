@@ -1,6 +1,4 @@
-<h2>Sign up</h2>
-
-<%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+<%= simple_form_for(@user) do |f| %>
   <%= f.error_notification %>
 
   <div class="form-inputs">
@@ -8,7 +6,6 @@
     <%= f.input :email, :required => true %>
     <%= f.input :password, :required => true %>
     <%= f.input :password_confirmation, :required => true %>
-
 	<p>
 	  <%= f.label :roles %><br />
 	  <% for role in User::ROLES %>
@@ -17,12 +14,9 @@
 	  <% end %>
 	  <%= hidden_field_tag "user[roles][]", "" %>
 	</p>
-
   </div>
 
   <div class="form-actions">
-    <%= f.button :submit, "Sign up" %>
+    <%= f.button :submit, class: "btn btn-primary"  %>
   </div>
 <% end %>
-
-<%= render "devise/shared/links" %>

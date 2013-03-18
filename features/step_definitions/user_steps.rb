@@ -16,10 +16,19 @@ def create_unconfirmed_user
   visit '/users/sign_out'
 end
 
+def create_spare_user
+  FactoryGirl.create(:user, name: 'Alpha', email: 'alpha@example.com')
+end
 def create_user
   create_visitor
   delete_user
   @user = FactoryGirl.create(:user, name: @visitor[:name], email: @visitor[:email])
+end
+
+def create_admin_user
+  create_visitor
+  delete_user
+  @user = FactoryGirl.create(:user, name: @visitor[:name], email: @visitor[:email], roles_mask: 1)
 end
 
 def delete_user
@@ -54,6 +63,17 @@ Given /^I am logged in$/ do
   create_user
   sign_in
 end
+
+When(/^I log in as a non\-admin user$/) do
+  create_user
+  sign_in
+end
+
+Given /^I am logged in as an admin$/ do
+  create_admin_user
+  sign_in
+end
+
 
 Given /^I exist as a user$/ do
   create_user
@@ -128,13 +148,21 @@ end
 
 When /^I edit my account details$/ do
   click_link "Change Password"
-  fill_in "user_name", :with => "newname"
+  fill_in "user_email", :with => "newname@new.co.uk"
   fill_in "user_current_password", :with => @visitor[:password]
   click_button "Update"
 end
 
 When /^I look at the list of users$/ do
   visit '/'
+end
+
+When /^I click the first "(.*?)" link$/ do |link|
+  first(:link, "#{link}").click
+end
+
+When(/^I click "(.*?)"$/) do |target|
+  click_link "#{target}"
 end
 
 ### THEN ###
@@ -192,4 +220,46 @@ end
 Then /^I should see my name$/ do
   create_user
   page.should have_content @user[:name]
+end
+
+Then(/^I should see "(.*?)" as a menu option$/) do |opt|
+  page.should have_content(opt)
+end
+
+Then(/^I should not see "(.*?)" as a menu option$/) do |opt|
+  page.should_not have_content(opt)
+end
+
+Then(/^I should see a list of users$/) do
+  page.should have_content('Listing Users')
+end
+
+Then(/^I should be on the "(.*?)" page$/) do |page|
+  page.should have_content(page)
+end
+
+Then(/^there should be an "(.*?)" button$/) do |button|
+  page.should have_selector('input.btn')
+  page.should have_button(button)
+end
+
+Then(/^I make a valid change to the password fields$/) do
+  fill_in('user_password', with: 'secret12')
+  fill_in('user_password_confirmation', with: 'secret12')
+  click_button('Update User')
+end
+
+Then(/^I make an invalid change to the password fields$/) do
+  fill_in('user_password', with: 'secret12')
+  fill_in('user_password_confirmation', with: 'public12')
+  click_button('Update User')
+end
+
+Then(/^I should see a successful change message$/) do
+  page.should have_content "User was successfully updated."
+end
+
+Given(/^there is a user to edit$/) do
+  create_spare_user
+  click_link('Users')
 end

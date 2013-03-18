@@ -14,7 +14,7 @@ gem 'jquery-rails'
 gem 'select2-rails', '~> 3.2.1'
 gem 'simple_form', '~> 2.0.4'
 gem 'devise'
-gem 'cancan'
+# gem 'cancan' - replaced by scratch built authorisation
 gem 'figaro'
 gem 'prawn'
 gem 'unicorn'
