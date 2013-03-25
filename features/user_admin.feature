@@ -30,7 +30,7 @@ Feature: User management
 		And I click the first "Edit" link
 		And I make a valid change to the password fields
 		Then I should see a successful change message
-		And I should be on the "green" page
+		And I should be on the "Show User" page
 
 	Scenario: I cannot list users as a non-admin
 		Given I am not logged in

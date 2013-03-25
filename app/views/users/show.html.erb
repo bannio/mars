@@ -1,4 +1,4 @@
-<h1>User <%= @user.name %></h1>
+<h1>Show User - <%= @user.name %></h1>
 
 <%= simple_form_for @user, defaults: { input_html: { class: "uneditable-input"}} do |f| %>
 	<%= f.error_notification %>

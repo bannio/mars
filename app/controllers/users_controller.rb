@@ -4,6 +4,7 @@ class UsersController < ApplicationController
   end
 
   def show
+    # current_resource used to provide parameter level authorization
     @user = current_resource
   end
 

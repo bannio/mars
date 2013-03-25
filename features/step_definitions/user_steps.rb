@@ -234,8 +234,8 @@ Then(/^I should see a list of users$/) do
   page.should have_content('Listing Users')
 end
 
-Then(/^I should be on the "(.*?)" page$/) do |page|
-  page.should have_content(page)
+Then(/^I should be on the "(.*?)" page$/) do |content|
+  page.should have_content(content)
 end
 
 Then(/^there should be an "(.*?)" button$/) do |button|
