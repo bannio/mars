@@ -12,5 +12,13 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require select2
 //= require bootstrap
 //= require_tree .
+
+$(document).ready(function(){
+  $('select').select2({
+	placeholder: "Please Select",
+	width: 'resolve'
+  });
+});

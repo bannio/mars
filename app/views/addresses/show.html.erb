@@ -1,0 +1,23 @@
+<p>
+  <b>Company:</b>
+  <%= @address.company.name %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%= @address.name %>
+</p>
+
+<p>
+  <b>Body:</b>
+  <%= @address.body %>
+</p>
+
+<p>
+  <b>Post code:</b>
+  <%= @address.post_code %>
+</p>
+
+
+<%= link_to 'Edit', edit_address_path(@address) %> |
+<%= link_to 'Back', addresses_path %>

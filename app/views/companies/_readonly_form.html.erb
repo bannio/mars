@@ -2,10 +2,10 @@
   <%= f.error_notification %>
   <div class="form-inputs">
 	<% if allow_param? :company, :name %>
-    	<%= f.input :name %>
+    	<%= f.input :name, readonly: true %>
 	<% end %>
 	<% if allow_param? :company, :reference %>
-    	<%= f.input :reference, label: 'Accounts Reference' %>
+    	<%= f.input :reference, label: 'Accounts Reference', readonly: true %>
 	<% end %>
   </div>
   

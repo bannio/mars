@@ -1,5 +1,8 @@
 Mars::Application.routes.draw do
 
+  resources :addresses
+
+
   root :to => 'home#index'
   get "home/index"
   

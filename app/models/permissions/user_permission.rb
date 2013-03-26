@@ -5,7 +5,9 @@ module Permissions
       allow 'users/registrations', [:edit, :update]
       if user.has_role?('company')
         allow :companies, [:index, :show, :new, :create, :edit, :update, :destroy] 
-        allow_param :company, :name
+        allow_param :company, [:name, :reference]
+        allow :addresses, [:index, :show, :new, :create, :edit, :update, :destroy]
+        allow_param :address, [:name, :body, :post_code, :company_id]
       end
     end
   end

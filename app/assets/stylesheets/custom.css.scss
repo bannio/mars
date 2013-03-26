@@ -2,4 +2,8 @@
 body {
 	padding-top: 60px;
 }
+input[readonly] {
+  cursor: not-allowed;
+  background-color: white;
+}
 @import "bootstrap-responsive";

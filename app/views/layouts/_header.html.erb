@@ -13,6 +13,9 @@
 						<% if allow? :companies, :index %>
 						  <li><%= link_to "Companies", companies_path %></li>
 						<% end %>
+						<% if allow? :addresses, :index %>
+						  <li><%= link_to "Addresses", addresses_path %></li>
+						<% end %>
 						<% if allow? :users, :index %>
 						  <li><%= link_to "Users", users_path %></li>
 						<% end %>
