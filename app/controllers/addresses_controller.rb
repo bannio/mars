@@ -13,7 +13,7 @@ class AddressesController < ApplicationController
   # GET /addresses/1
   # GET /addresses/1.json
   def show
-    @address = Address.find(params[:id])
+    @address = current_resource
 
     respond_to do |format|
       format.html # show.html.erb
@@ -34,17 +34,17 @@ class AddressesController < ApplicationController
 
   # GET /addresses/1/edit
   def edit
-    @address = Address.find(params[:id])
+    @address = current_resource
   end
 
   # POST /addresses
   # POST /addresses.json
   def create
-    @address = Address.new(address_params)
+    @address = Address.new(params[:address])
 
     respond_to do |format|
       if @address.save
-        format.html { redirect_to @address, notice: 'Address was successfully created.' }
+        format.html { redirect_to @address, flash: {success: 'Address was successfully created.'} }
         format.json { render json: @address, status: :created, location: @address }
       else
         format.html { render action: "new" }
@@ -56,11 +56,11 @@ class AddressesController < ApplicationController
   # PATCH/PUT /addresses/1
   # PATCH/PUT /addresses/1.json
   def update
-    @address = Address.find(params[:id])
+    @address = current_resource
 
     respond_to do |format|
-      if @address.update_attributes(address_params)
-        format.html { redirect_to @address, notice: 'Address was successfully updated.' }
+      if @address.update_attributes(params[:address])
+        format.html { redirect_to @address, flash: {success: 'Address was successfully updated.'} }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -86,7 +86,11 @@ class AddressesController < ApplicationController
     # Use this method to whitelist the permissible parameters. Example:
     # params.require(:person).permit(:name, :age)
     # Also, you can specialize this method with per-user checking of permissible attributes.
-    def address_params
-      params.require(:address).permit(:body, :company_id, :name, :post_code)
+    # def address_params
+    #       params.require(:address).permit(:body, :company_id, :name, :post_code)
+    #     end
+    
+    def current_resource
+      @current_resource ||= Address.find(params[:id]) if params[:id]
     end
 end

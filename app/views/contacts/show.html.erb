@@ -1,0 +1,49 @@
+<h1>Contact</h1>
+<% @title = "MARS - show #{@contact.name}"%>
+<table class='table table-condensed'>
+  <tr>
+    <td>Name</td>
+    <td><%= @contact.name %></td>
+  </tr>
+  <tr>
+    <td>Job Title</td>
+    <td><%= @contact.job_title %></td>
+  </tr>
+  <tr>
+    <td>Company</td>
+    <td><%= @contact.company.name %></td>
+  </tr>
+  <tr>
+    <td>Address</td>
+	<% if @contact.address %>
+    	<td><%= simple_format("#{@contact.address.body}\n#{@contact.address.post_code}") %></td>
+    <% else %>
+		<td></td>
+	<% end %>
+  </tr>
+  <tr>
+    <td>Telephone</td>
+    <td><%= @contact.telephone %></td>
+  </tr>
+  <tr>
+    <td>Mobile</td>
+    <td><%= @contact.mobile %></td>
+  </tr>
+  <tr>
+    <td>Fax</td>
+    <td><%= @contact.fax %></td>
+  </tr>
+  <tr>
+    <td>Email</td>
+    <td><%= @contact.email %></td>
+  </tr>
+  <tr>
+    <td>Notes</td>
+    <td><%= simple_format(@contact.notes) %></td>
+  </tr>
+</table>
+
+
+
+<%= link_to 'Edit', edit_contact_path(@contact) %> |
+<%= link_to 'Back', contacts_path %>

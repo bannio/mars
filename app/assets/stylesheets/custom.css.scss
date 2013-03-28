@@ -2,7 +2,7 @@
 body {
 	padding-top: 60px;
 }
-input[readonly] {
+input[readonly], textarea[readonly], select[readonly] {
   cursor: not-allowed;
   background-color: white;
 }

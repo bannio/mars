@@ -1,0 +1,25 @@
+<%= simple_form_for @contact, defaults: { input_html: { class: 'readonly', readonly: true}} do |f| %>
+  <%= f.error_notification %>
+
+	<div class="row">
+		<div class="span6">
+			<div class="form-inputs">
+			<%= f.input :name %>
+			<%= f.input :job_title %>
+		    <%= f.association :company %>
+			<%= f.association :address %>
+			<%= f.input :telephone %>
+			<%= f.input :mobile %>
+			</div>
+		</div>
+	<div class="row">
+		<div class="span6">
+			<div class="form-inputs">
+			<%= f.input :fax %>
+			<%= f.input :email %>
+			<%= f.input :notes, input_html: {rows: 6} %>
+			</div>
+		</div>
+	</div>
+
+<% end %>

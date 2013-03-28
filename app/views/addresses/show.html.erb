@@ -1,22 +1,24 @@
-<p>
-  <b>Company:</b>
-  <%= @address.company.name %>
-</p>
+<h1>Address</h1>
 
-<p>
-  <b>Name:</b>
-  <%= @address.name %>
-</p>
+<table class='table table-condensed'>
+  <tr>
+    <td>Company</td>
+    <td><%= @address.company.name %></td>
+  </tr>
+  <tr>
+    <td>Name</td>
+    <td><%= @address.name %></td>
+  </tr>
+  <tr>
+    <td>Address</td>
+    <td><%= simple_format(@address.body) %></td>
+  </tr>
+  <tr>
+    <td>Postcode</td>
+    <td><%= @address.post_code %></td>
+  </tr>
 
-<p>
-  <b>Body:</b>
-  <%= @address.body %>
-</p>
-
-<p>
-  <b>Post code:</b>
-  <%= @address.post_code %>
-</p>
+</table>
 
 
 <%= link_to 'Edit', edit_address_path(@address) %> |

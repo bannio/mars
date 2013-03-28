@@ -1,16 +1,22 @@
 <h1>Show User - <%= @user.name %></h1>
 
-<%= simple_form_for @user, defaults: { input_html: { class: "uneditable-input"}} do |f| %>
-	<%= f.error_notification %>
-	<%= f.input :name %>
-	<%= f.input :email %>
+<table class='table table-condensed'>
+  <tr>
+    <td>Name</td>
+    <td><%= @user.name %></td>
+  </tr>
+  <tr>
+    <td>Email</td>
+    <td><%= @user.email %></td>
+  </tr>
+  <tr>
+    <td>Roles</td>
+    <td><% for role in User::ROLES %>
+	    <%= check_box_tag "user[roles][]", role, @user.roles.include?(role) %>
+	    <%=h role.humanize %><br />
+	  <% end %>
+	</td>
+  </tr>
+</table>
 	
-  <%= f.label :roles %><br />
-  <% for role in User::ROLES %>
-    <%= check_box_tag "user[roles][]", role, @user.roles.include?(role) %>
-    <%=h role.humanize %><br />
-  <% end %>
-
-<% end%>
-
 <%= link_to 'Back', users_path %> | <%= link_to 'Edit', edit_user_path(@user) %>

@@ -19,6 +19,7 @@ gem 'figaro'
 gem 'prawn'
 gem 'unicorn'
 gem 'strong_parameters'
+gem 'validates_email_format_of'
 
 group :development do
 # Deploy with Capistrano
