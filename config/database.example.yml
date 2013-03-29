@@ -1,0 +1,9 @@
+
+production:
+  adapter: postgresql
+  encoding: unicode
+  database: mars_production
+  pool: 5
+  host: localhost
+  username: mars
+  password:
