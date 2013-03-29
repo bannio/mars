@@ -5,8 +5,8 @@ set :application, "mars"
 set :user, "deployer"             # adduser on domain server before running this
 set :domain, "loft.is-a-geek.com"
 
-# set :rvm_ruby_string, ENV['GEM_HOME'].gsub(/.*\//,"")   # should pick up the gemset if used
-set :rvm_ruby_string, 'ruby-1.9.3-p320@mars'
+set :rvm_ruby_string, ENV['GEM_HOME'].gsub(/.*\//,"")   # should pick up the gemset if used
+# set :rvm_ruby_string, 'ruby-1.9.3-p392@mars'
 set :rvm_type, :user
 
 # file paths
