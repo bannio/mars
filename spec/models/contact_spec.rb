@@ -32,4 +32,10 @@ describe Contact do
     contact.should_not be_valid
   end
   
+  it "should require a company_id" do
+    contact = Contact.new(@attr.merge(company_id: ''))
+    contact.should_not be_valid
+  end
+  
+  
 end
