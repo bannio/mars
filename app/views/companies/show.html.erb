@@ -1,4 +1,4 @@
-<h1>Company</h1>
+<h1><%= @company.name %></h1>
 <% @title = "MARS - show #{@company.name}" %>
 
 <table class='table table-condensed'>
@@ -6,39 +6,65 @@
     <td>Name</td>
     <td><%= @company.name %></td>
 	<td></td>
-	<td></td>
+	<% if allow? :companies, :edit %>
+		<td><%= link_to 'Edit', edit_company_path(@company) %></td>
+	<% else %>
+		<td></td>
+	<% end %>
   </tr>
   <tr>
     <td>Accounts Reference</td>
     <td><%= @company.reference %></td>
 	<td></td>
-	<td></td>
+	<% if allow? :companies, :edit %>
+		<td><%= link_to 'Edit', edit_company_path(@company) %></td>
+	<% else %>
+		<td></td>
+	<% end %>
   </tr>
   <tr>
-  	<th>Addresses</th><th></th><th></th><td><%= link_to 'New', new_address_path %></td>
+  	<th>Addresses</th><th></th><th></th>
+	<% if allow? :addresses, :new %>
+		<td><%= link_to 'New', new_address_path, id: 'new-address' %></td>
+	<% else %>
+		<td></td>
+	<% end %>
   </tr>
   <% @company.addresses.each do |addr| %>
 	  <tr>
 	    <td><%= addr.name %></td>
 	    <td><%= simple_format("#{addr.body}\n#{addr.post_code}") %></td>
 		<td></td>
-		<td><%= link_to 'Show', address_path(addr) %></td>
+		<% if allow? :addresses, :edit %>
+			<td><%= link_to 'Edit', edit_address_path(addr) %> 
+			| <%= link_to 'Remove', addr, method: :delete, data: { confirm: 'Are you sure?' }%></td>
+		<% else %>
+			<td></td>
+		<% end %>
 	  </tr>
   <% end %>
   <tr>
-  <th>Contacts</th><th></th><th></th><td><%= link_to 'New', new_contact_path %></td>
+  <th>Contacts</th><th></th><th></th>
+	<% if allow? :contacts, :new %>
+		<td><%= link_to 'New', new_contact_path, id: 'new-contact' %></td>
+	<% else %>
+		<td></td>
+	<% end %>
   </tr>
 	<% @company.contacts.each do |contact| %>
 	  <tr>
 	    <td><%= contact.name  %></td>
 	    <td><%= simple_format("#{contact.job_title}\n#{contact.email}") %></td>
 		<td><%= simple_format("T #{contact.telephone}\nM #{contact.mobile}") %></td>
-		<td><%= link_to 'Show', contact_path(contact) %></td>
+		<% if allow? :contacts, :edit %>
+			<td><%= link_to 'Show', contact_path(contact) %> | 
+			<%= link_to 'Edit', edit_contact_path(contact)%> | 
+			<%= link_to 'Remove', contact, method: :delete, data: { confirm: 'Are you sure?'}%></td>
+		<% else %>
+			<td><%= link_to 'Show', contact_path(contact) %></td>
+		<% end %>
 	  </tr>
   <% end %>
 </table>
 
-
-
-<%= link_to 'Edit', edit_company_path(@company) %> |
 <%= link_to 'Back', companies_path %>

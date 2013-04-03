@@ -25,6 +25,7 @@ class AddressesController < ApplicationController
   # GET /addresses/new.json
   def new
     @address = Address.new
+    session[:return_to] = request.referer
 
     respond_to do |format|
       format.html # new.html.erb
@@ -35,6 +36,7 @@ class AddressesController < ApplicationController
   # GET /addresses/1/edit
   def edit
     @address = current_resource
+    session[:return_to] = request.referer
   end
 
   # POST /addresses
@@ -44,7 +46,7 @@ class AddressesController < ApplicationController
 
     respond_to do |format|
       if @address.save
-        format.html { redirect_to @address, flash: {success: 'Address was successfully created.'} }
+        format.html { redirect_to session[:return_to], flash: {success: 'Address was successfully created.'} }
         format.json { render json: @address, status: :created, location: @address }
       else
         format.html { render action: "new" }
@@ -60,7 +62,7 @@ class AddressesController < ApplicationController
 
     respond_to do |format|
       if @address.update_attributes(params[:address])
-        format.html { redirect_to @address, flash: {success: 'Address was successfully updated.'} }
+        format.html { redirect_to session[:return_to], flash: {success: 'Address was successfully updated.'} }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -73,11 +75,15 @@ class AddressesController < ApplicationController
   # DELETE /addresses/1.json
   def destroy
     @address = Address.find(params[:id])
-    @address.destroy
+    session[:return_to] = request.referer
 
     respond_to do |format|
-      format.html { redirect_to addresses_url }
-      format.json { head :no_content }
+      if @address.destroy
+        format.html { redirect_to session[:return_to] }
+        format.json { head :no_content }
+      else
+        format.html { redirect_to session[:return_to], flash: {error: 'Not able to delete address, maybe in use by a contact'} }
+      end
     end
   end
 

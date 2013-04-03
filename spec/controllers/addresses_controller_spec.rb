@@ -71,7 +71,7 @@ describe AddressesController do
   describe "GET edit" do
     it "assigns the requested address as @address" do
       address = Address.create! valid_attributes
-      get :edit, {:id => address.to_param}, valid_session
+      get :edit, {:id => address.to_param}, valid_session.merge(return_to: addresses_path)
       assigns(:address).should eq(address)
     end
   end
@@ -80,19 +80,20 @@ describe AddressesController do
     describe "with valid params" do
       it "creates a new Address" do
         expect {
-          post :create, {:address => valid_attributes}, valid_session
+          post :create, {:address => valid_attributes}, valid_session.merge(return_to: addresses_path)
         }.to change(Address, :count).by(1)
       end
 
       it "assigns a newly created address as @address" do
-        post :create, {:address => valid_attributes}, valid_session
+        post :create, {:address => valid_attributes}, valid_session.merge(return_to: addresses_path)
         assigns(:address).should be_a(Address)
         assigns(:address).should be_persisted
       end
 
-      it "redirects to the created address" do
-        post :create, {:address => valid_attributes}, valid_session
-        response.should redirect_to(Address.last)
+      it "redirects to the calling page on create address" do
+        post :create, {:address => valid_attributes}, valid_session.merge(return_to: addresses_path)
+        #response.should redirect_to(Address.last)
+        response.should redirect_to(addresses_path)
       end
     end
 
@@ -100,7 +101,7 @@ describe AddressesController do
       it "assigns a newly created but unsaved address as @address" do
         # Trigger the behavior that occurs when invalid params are submitted
         Address.any_instance.stub(:save).and_return(false)
-        post :create, {:address => { "company_id" => "invalid value" }}, valid_session
+        post :create, {:address => { "company_id" => "invalid value" }}, valid_session.merge(return_to: addresses_path)
         assigns(:address).should be_a_new(Address)
       end
 
@@ -122,19 +123,19 @@ describe AddressesController do
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         Address.any_instance.should_receive(:update_attributes).with({ "company_id" => "1" })
-        put :update, {:id => address.to_param, :address => { "company_id" => "1" }}, valid_session
+        put :update, {:id => address.to_param, :address => { "company_id" => "1" }}, valid_session.merge(return_to: addresses_path)
       end
 
       it "assigns the requested address as @address" do
         address = Address.create! valid_attributes
-        put :update, {:id => address.to_param, :address => valid_attributes}, valid_session
+        put :update, {:id => address.to_param, :address => valid_attributes}, valid_session.merge(return_to: addresses_path)
         assigns(:address).should eq(address)
       end
 
-      it "redirects to the address" do
+      it "redirects to the calling page on update address" do
         address = Address.create! valid_attributes
-        put :update, {:id => address.to_param, :address => valid_attributes}, valid_session
-        response.should redirect_to(address)
+        put :update, {:id => address.to_param, :address => valid_attributes}, valid_session.merge(return_to: addresses_path)
+        response.should redirect_to(addresses_path)
       end
     end
 
@@ -143,7 +144,7 @@ describe AddressesController do
         address = Address.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Address.any_instance.stub(:save).and_return(false)
-        put :update, {:id => address.to_param, :address => { "company_id" => "invalid value" }}, valid_session
+        put :update, {:id => address.to_param, :address => { "company_id" => "invalid value" }}, valid_session.merge(return_to: addresses_path)
         assigns(:address).should eq(address)
       end
 
@@ -151,13 +152,17 @@ describe AddressesController do
         address = Address.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Address.any_instance.stub(:save).and_return(false)
-        put :update, {:id => address.to_param, :address => { "company_id" => "invalid value" }}, valid_session
+        put :update, {:id => address.to_param, :address => { "company_id" => "invalid value" }}, valid_session.merge(return_to: addresses_path)
         response.should render_template("edit")
       end
     end
   end
 
   describe "DELETE destroy" do
+    before do
+      controller.request.stub(:referer).and_return addresses_url
+    end
+    
     it "destroys the requested address" do
       address = Address.create! valid_attributes
       expect {
@@ -165,10 +170,18 @@ describe AddressesController do
       }.to change(Address, :count).by(-1)
     end
 
-    it "redirects to the addresses list" do
+    it "redirects to the calling page" do
       address = Address.create! valid_attributes
       delete :destroy, {:id => address.to_param}, valid_session
       response.should redirect_to(addresses_url)
+    end
+    
+    it "does not delete if contacts still use the address" do
+      address = Address.create! valid_attributes
+      contact = Contact.create! address_id: address.id, name: 'address contact', company_id: 1
+      expect {
+        delete :destroy, {:id => address.to_param}, valid_session
+      }.to_not change(Address, :count)
     end
   end
 

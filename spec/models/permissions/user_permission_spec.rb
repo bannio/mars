@@ -7,7 +7,12 @@ describe Permissions::UserPermission do
     
     it "allows" do
       should allow(:home, :index)
-      should_not allow(:companies, :index)
+      should allow(:companies, :index)
+      should allow(:addresses, :index)
+      should allow(:contacts, :index)
+      should_not allow(:companies, :edit)
+      should_not allow(:addresses, :edit)
+      should_not allow(:contacts, :edit)
       should allow('users/registrations', :edit)
       should allow('users/registrations', :update)
     end

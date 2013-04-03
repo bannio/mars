@@ -1,5 +1,5 @@
 Then(/^I should see a list of companies$/) do
-  page.should have_content "Listing Companies"
+  page.should have_selector('h1#companies-index-page')
 end
 
 Then(/^I can create a new company$/) do
@@ -20,4 +20,19 @@ end
 Then(/^the company should be gone$/) do
   visit companies_path
   page.should_not have_content "MyCompany"
+end
+
+Given(/^I am on the Company page for "(.*?)"$/) do |company|
+  @company = create_company(company)
+  visit company_path(@company)
+  page.should have_content(company)
+end
+
+Then(/^I should be on the Company page for "(.*?)"$/) do |company|
+  within('h1'){page.should have_content('Company')}
+  page.should have_content(company)
+end
+
+Given(/^the company "(.*?)" exists$/) do |company|
+  create_company(company)
 end

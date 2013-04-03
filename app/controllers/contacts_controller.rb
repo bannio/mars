@@ -9,10 +9,12 @@ class ContactsController < ApplicationController
 
   def new
     @contact = Contact.new
+    session[:return_to] = request.referer
   end
   
   def edit
     @contact = current_resource
+    session[:return_to] = request.referer
   end
 
   def create
@@ -20,7 +22,7 @@ class ContactsController < ApplicationController
 
     respond_to do |format|
       if @contact.save
-        format.html { redirect_to @contact, notice: 'Contact was successfully created.' }
+        format.html { redirect_to session[:return_to], notice: 'Contact was successfully created.' }
         format.json { render json: @contact, status: :created, location: @contact }
       else
         format.html { render action: "new" }
@@ -34,7 +36,7 @@ class ContactsController < ApplicationController
 
     respond_to do |format|
       if @contact.update_attributes(params[:contact])
-        format.html { redirect_to @contact, notice: 'Contact was successfully updated.' }
+        format.html { redirect_to session[:return_to], notice: 'Contact was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -45,11 +47,15 @@ class ContactsController < ApplicationController
 
   def destroy
     @contact = current_resource
-    @contact.destroy
+    session[:return_to] = request.referer
 
     respond_to do |format|
-      format.html { redirect_to contacts_url }
-      format.json { head :no_content }
+      if @contact.destroy
+        format.html { redirect_to session[:return_to] }
+        format.json { head :no_content }
+      else
+        format.html { redirect_to session[:return_to], flash: {error: 'Not able to delete contact'} }
+      end
     end
   end
   

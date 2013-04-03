@@ -63,19 +63,20 @@ describe ContactsController do
       describe "with valid params" do
         it "creates a new Contact" do
           expect {
-            post :create, {:contact => valid_attributes}, valid_session
+            post :create, {:contact => valid_attributes}, valid_session.merge(return_to: contacts_path)
           }.to change(Contact, :count).by(1)
         end
 
         it "assigns a newly created contact as @contact" do
-          post :create, {:contact => valid_attributes}, valid_session
+          post :create, {:contact => valid_attributes}, valid_session.merge(return_to: contacts_path)
           assigns(:contact).should be_a(Contact)
           assigns(:contact).should be_persisted
         end
 
-        it "redirects to the created contact" do
-          post :create, {:contact => valid_attributes}, valid_session
-          response.should redirect_to(Contact.last)
+        it "redirects to the calling page on create" do
+          post :create, {:contact => valid_attributes}, valid_session.merge(return_to: contacts_path)
+          response.should_not redirect_to(Contact.last)
+          response.should redirect_to(contacts_path)
         end
       end
 
@@ -110,14 +111,17 @@ describe ContactsController do
 
         it "assigns the requested contact as @contact" do
           contact = Contact.create! valid_attributes
-          put :update, {:id => contact.to_param, :contact => valid_attributes}, valid_session
+          put :update, {:id => contact.to_param, :contact => valid_attributes}, valid_session.merge(return_to: contacts_path)
           assigns(:contact).should eq(contact)
         end
 
-        it "redirects to the contact" do
+        it "redirects to the calling page" do
           contact = Contact.create! valid_attributes
-          put :update, {:id => contact.to_param, :contact => valid_attributes}, valid_session
-          response.should redirect_to(contact)
+          # session[:return_to] = contacts_url
+          visit contacts_path
+          put :update, {:id => contact.to_param, :contact => valid_attributes}, valid_session.merge(return_to: contacts_path)
+          response.should_not redirect_to(contact)
+          response.should redirect_to(contacts_path)
         end
       end
 
@@ -141,6 +145,11 @@ describe ContactsController do
     end
 
     describe "DELETE destroy" do
+      
+      before do
+        controller.request.stub(:referer).and_return contacts_url
+      end
+      
       it "destroys the requested contact" do
         contact = Contact.create! valid_attributes
         expect {
@@ -148,7 +157,7 @@ describe ContactsController do
         }.to change(Contact, :count).by(-1)
       end
 
-      it "redirects to the contacts list" do
+      it "redirects to the calling page" do
         contact = Contact.create! valid_attributes
         delete :destroy, {:id => contact.to_param}, valid_session
         response.should redirect_to(contacts_url)

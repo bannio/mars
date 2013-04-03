@@ -25,9 +25,9 @@ Feature: Addresses
 		Then I can change the address
 		And I should see a successfully updated message
 	
-	Scenario: A user without the "company" role cannot access companies
+	Scenario: A user without the "company" role cannot edit addresses
 		Given I am not logged in
 		When I log in as a non-admin user
-		Then I should not see "Addresses" as a menu option
-		And if I try to visit the companies page
+		And I am on the "addresses" page
+		When I click "Edit"
 		Then I should see "Not authorised"
