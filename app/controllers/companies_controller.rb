@@ -1,6 +1,7 @@
 class CompaniesController < ApplicationController
-  # GET /companies
-  # GET /companies.json
+
+  rescue_from ActiveRecord::RecordNotFound, with: :not_found_message
+  
   def index
     @companies = Company.all
 
@@ -44,7 +45,7 @@ class CompaniesController < ApplicationController
 
     respond_to do |format|
       if @company.save
-        format.html { redirect_to @company, notice: 'Company was successfully created.' }
+        format.html { redirect_to @company, flash: {success: 'Company was successfully created.'} }
         format.json { render json: @company, status: :created, location: @company }
       else
         format.html { render action: "new" }
@@ -60,7 +61,7 @@ class CompaniesController < ApplicationController
 
     respond_to do |format|
       if @company.update_attributes(params[:company])
-        format.html { redirect_to @company, notice: 'Company was successfully updated.' }
+        format.html { redirect_to @company, flash: {success: 'Company was successfully updated.'} }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -82,16 +83,13 @@ class CompaniesController < ApplicationController
   end
 
   private
-
-    # Use this method to whitelist the permissible parameters. Example:
-    # params.require(:person).permit(:name, :age)
-    # Also, you can specialize this method with per-user checking of permissible attributes.
-    # NOTE: replaced this with before filter in application controller (authorize) 
-    # def company_params
-    #       params.require(:company).permit(:name)
-    #     end
     
     def current_resource
       @current_resource ||= Company.find(params[:id]) if params[:id]
+    end
+    
+    def not_found_message
+      session[:return_to]||= root_url
+      redirect_to session[:return_to], flash: {error: 'Not authorised or no record found'}
     end
 end

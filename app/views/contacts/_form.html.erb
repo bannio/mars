@@ -1,4 +1,4 @@
-<%= simple_form_for(@contact) do |f| %>
+<%= simple_form_for [@company, @contact] do |f| %>
   <%= f.error_notification %>
 
 	<div class="row">
@@ -6,10 +6,10 @@
 			<div class="form-inputs">
 			<%= f.input :name %>
 			<%= f.input :job_title %>
-		    <%= f.association :company %>
-			<%= f.association :address %>
+			<%= f.association :address, collection: @company.addresses %>
 			<%= f.input :telephone %>
 			<%= f.input :mobile %>
+			<%= f.hidden_field :company_id, value: @company.id %>
 			</div>
 		</div>
 	<div class="row">

@@ -14,14 +14,14 @@ Feature: Contacts
 		Then I should see a list of contacts
 		
 	Scenario: Add a new contact as an authorised user
-		When I click "Contacts"
-		And I click "New Contact"
-		Then I can create a new contact for "MyCompany"
+		Given I am on the Company page for "Company X"
+		When  I click on "New" against "Contacts"
+		Then I can create a new contact for "Company X"
 		And I should see a successfully created message
 		
 	Scenario: Edit an existing contact
 		Given the contact "MyContact" exists
-		And I am on the "contacts" page
+		And I am on the "contacts/index" page
 		When I click "Edit"
 		Then I can change the contact
 		And I should see a successfully updated message
@@ -30,8 +30,9 @@ Feature: Contacts
 		Given I am not logged in
 		When I log in as a non-admin user
 		Given the contact "MyContact" exists
-		And I am on the "contacts" page
-		When I click "Edit"
+		And I am on the "contacts/index" page
+		Then I should not see "Edit"
+		And if I try by editing the url to "/companies/1/contacts/1/edit"
 		Then I should see "Not authorised"
 		
 	Scenario: When I come from a Company page then I return to that page

@@ -1,4 +1,8 @@
 class ContactsController < ApplicationController
+  
+  before_filter :find_company
+  rescue_from ActiveRecord::RecordNotFound, with: :not_found_message
+  
   def index
     @contacts = Contact.all
   end
@@ -8,7 +12,7 @@ class ContactsController < ApplicationController
   end
 
   def new
-    @contact = Contact.new
+    @contact = @company.contacts.build
     session[:return_to] = request.referer
   end
   
@@ -22,7 +26,7 @@ class ContactsController < ApplicationController
 
     respond_to do |format|
       if @contact.save
-        format.html { redirect_to session[:return_to], notice: 'Contact was successfully created.' }
+        format.html { redirect_to session[:return_to], flash: {success: 'Contact was successfully created.'} }
         format.json { render json: @contact, status: :created, location: @contact }
       else
         format.html { render action: "new" }
@@ -36,7 +40,7 @@ class ContactsController < ApplicationController
 
     respond_to do |format|
       if @contact.update_attributes(params[:contact])
-        format.html { redirect_to session[:return_to], notice: 'Contact was successfully updated.' }
+        format.html { redirect_to session[:return_to], flash: {success: 'Contact was successfully updated.'} }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -62,5 +66,18 @@ class ContactsController < ApplicationController
   private
     def current_resource
       @current_resource ||= Contact.find(params[:id]) if params[:id]
+    end
+    
+    def find_company
+      if params[:company_id]
+        @company = Company.find(params[:company_id])
+      else
+        @company = Company.find(params[:id]) unless params[:id] == nil
+      end
+    end
+    
+    def not_found_message
+      session[:return_to]||= root_url
+      redirect_to session[:return_to], flash: {error: 'Not authorised or no record found'}
     end
 end

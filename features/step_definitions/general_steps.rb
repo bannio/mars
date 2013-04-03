@@ -28,6 +28,10 @@ Then(/^I should see "(.*?)"$/) do |arg1|
   page.has_content?(arg1).should be_true
 end
 
+Then(/^I should not see "(.*?)"$/) do |arg1|
+  page.has_content?(arg1).should_not be_true
+end
+
 Given(/^I am logged in as a user with a role "(.*?)"$/) do |role|
   create_company_user if role == 'company'
   sign_in
@@ -47,5 +51,9 @@ end
 
 Then(/^if I try to visit the (.*?) page$/) do |page|
   visit "/#{page}"
+end
+
+When(/^if I try by editing the url to "(.*?)"$/) do |url|
+  visit "#{url}"
 end
 

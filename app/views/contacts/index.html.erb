@@ -19,14 +19,23 @@
 	<td><%= contact.company.name %></td>
 	<td><%= contact.telephone %></td>
 	<td><%= contact.email %></td>
-    <td><%= link_to 'Show', contact %></td>
-    <td><%= link_to 'Edit', edit_contact_path(contact) %></td>
-    <td><%= link_to 'Destroy', contact, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td><%= link_to 'Show', [contact.company, contact] %></td>
+	<% if allow? :contacts, :edit %>
+    	<td><%= link_to 'Edit', edit_company_contact_path(contact.company, contact) %></td>
+	<% else %>
+		<td></td>
+	<% end %>
+	<% if allow? :contacts, :destroy %>
+    	<td><%= link_to 'Destroy', [contact.company, contact], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+	<% else %>
+		<td></td>
+	<% end %>
   </tr>
 <% end %>
 </table>
 
 <br />
-
-<%= link_to 'New Contact', new_contact_path %>
+<% if allow? :contacts, :new %>
+	<%= link_to 'New Contact via Companies', companies_path %>
+<% end %>
 

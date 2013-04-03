@@ -1,6 +1,8 @@
 class AddressesController < ApplicationController
-  # GET /addresses
-  # GET /addresses.json
+  
+  before_filter :find_company
+  rescue_from ActiveRecord::RecordNotFound, with: :not_found_message
+  
   def index
     @addresses = Address.all
 
@@ -10,8 +12,6 @@ class AddressesController < ApplicationController
     end
   end
 
-  # GET /addresses/1
-  # GET /addresses/1.json
   def show
     @address = current_resource
 
@@ -21,10 +21,8 @@ class AddressesController < ApplicationController
     end
   end
 
-  # GET /addresses/new
-  # GET /addresses/new.json
   def new
-    @address = Address.new
+    @address = @company.addresses.build
     session[:return_to] = request.referer
 
     respond_to do |format|
@@ -33,14 +31,11 @@ class AddressesController < ApplicationController
     end
   end
 
-  # GET /addresses/1/edit
   def edit
     @address = current_resource
     session[:return_to] = request.referer
   end
 
-  # POST /addresses
-  # POST /addresses.json
   def create
     @address = Address.new(params[:address])
 
@@ -55,8 +50,6 @@ class AddressesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /addresses/1
-  # PATCH/PUT /addresses/1.json
   def update
     @address = current_resource
 
@@ -71,8 +64,6 @@ class AddressesController < ApplicationController
     end
   end
 
-  # DELETE /addresses/1
-  # DELETE /addresses/1.json
   def destroy
     @address = Address.find(params[:id])
     session[:return_to] = request.referer
@@ -88,15 +79,21 @@ class AddressesController < ApplicationController
   end
 
   private
-
-    # Use this method to whitelist the permissible parameters. Example:
-    # params.require(:person).permit(:name, :age)
-    # Also, you can specialize this method with per-user checking of permissible attributes.
-    # def address_params
-    #       params.require(:address).permit(:body, :company_id, :name, :post_code)
-    #     end
     
     def current_resource
       @current_resource ||= Address.find(params[:id]) if params[:id]
+    end
+    
+    def find_company
+      if params[:company_id]
+        @company = Company.find(params[:company_id])
+      else
+        @company = Company.find(params[:id]) unless params[:id] == nil
+      end
+    end
+    
+    def not_found_message
+      session[:return_to]||= root_url
+      redirect_to session[:return_to], flash: {error: 'Not authorised or no record found'}
     end
 end

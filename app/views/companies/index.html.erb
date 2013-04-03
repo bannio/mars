@@ -14,12 +14,17 @@
     <td><%= company.name %></td>
 	<td><%= company.reference %></td>
     <td><%= link_to 'Show', company %></td>
-    <td><%= link_to 'Edit', edit_company_path(company) %></td>
-    <td><%= link_to 'Destroy', company, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+	<% if allow? :companies, :edit %>
+    	<td><%= link_to 'Edit', edit_company_path(company) %></td>
+	    <td><%= link_to 'Destroy', company, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+	<% else %>
+		<td></td>
+	<% end %>
   </tr>
 <% end %>
 </table>
 
 <br />
-
-<%= link_to 'New Company', new_company_path %>
+<% if allow? :companies, :new %>
+	<%= link_to 'New Company', new_company_path %>
+<% end %>

@@ -14,13 +14,13 @@ Feature: Addresses
 		Then I should see a list of addresses
 		
 	Scenario: Add a new address as an authorised user
-		When I click "Addresses"
-		And I click "New Address"
-		Then I can create a new address for "MyCompany"
+		Given I am on the Company page for "Company X"
+		When  I click on "New" against "Addresses"
+		Then I can create a new address for "Company X"
 		And I should see a successfully created message
 		
 	Scenario: Edit an existing address
-		Given I am on the "addresses" page
+		Given I am on the "addresses/index" page
 		When I click "Edit"
 		Then I can change the address
 		And I should see a successfully updated message
@@ -28,6 +28,7 @@ Feature: Addresses
 	Scenario: A user without the "company" role cannot edit addresses
 		Given I am not logged in
 		When I log in as a non-admin user
-		And I am on the "addresses" page
-		When I click "Edit"
+		And I am on the "addresses/index" page
+		Then I should not see "Edit"
+		And if I try by editing the url to "/companies/1/addresses/1/edit"
 		Then I should see "Not authorised"

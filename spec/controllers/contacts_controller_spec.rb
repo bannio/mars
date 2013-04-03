@@ -14,7 +14,7 @@ describe ContactsController do
   # in order to pass any filters (e.g. authentication) defined in
   # ContactesController. Be sure to keep this updated too.
   def valid_session
-    {"warden.user.user.key" => session["warden.user.user.key"]}
+    {"warden.user.user.key" => session["warden.user.user.key"]}.merge(return_to: contacts_index_path)
   end
 
   before do
@@ -26,6 +26,9 @@ describe ContactsController do
             true
           end
         end
+        @company = FactoryGirl.create(:company)
+        params = {}
+        params[:company] = @company
   end
 
   describe "GET index" do
@@ -39,14 +42,14 @@ describe ContactsController do
     describe "GET show" do
       it "assigns the requested contact as @contact" do
         contact = Contact.create! valid_attributes
-        get :show, {:id => contact.to_param}, valid_session
+        get :show, {company_id: @company, :id => contact.to_param}, valid_session
         assigns(:contact).should eq(contact)
       end
     end
 
     describe "GET new" do
       it "assigns a new contact as @contact" do
-        get :new, {}, valid_session
+        get :new, {company_id: @company}, valid_session
         assigns(:contact).should be_a_new(Contact)
       end
     end
@@ -54,7 +57,7 @@ describe ContactsController do
     describe "GET edit" do
       it "assigns the requested contact as @contact" do
         contact = Contact.create! valid_attributes
-        get :edit, {:id => contact.to_param}, valid_session
+        get :edit, {company_id: @company,:id => contact.to_param}, valid_session
         assigns(:contact).should eq(contact)
       end
     end
@@ -63,20 +66,19 @@ describe ContactsController do
       describe "with valid params" do
         it "creates a new Contact" do
           expect {
-            post :create, {:contact => valid_attributes}, valid_session.merge(return_to: contacts_path)
+            post :create, {company_id: @company, :contact => valid_attributes}, valid_session
           }.to change(Contact, :count).by(1)
         end
 
         it "assigns a newly created contact as @contact" do
-          post :create, {:contact => valid_attributes}, valid_session.merge(return_to: contacts_path)
+          post :create, {company_id: @company, :contact => valid_attributes}, valid_session
           assigns(:contact).should be_a(Contact)
           assigns(:contact).should be_persisted
         end
 
         it "redirects to the calling page on create" do
-          post :create, {:contact => valid_attributes}, valid_session.merge(return_to: contacts_path)
-          response.should_not redirect_to(Contact.last)
-          response.should redirect_to(contacts_path)
+          post :create, {company_id: @company, :contact => valid_attributes}, valid_session
+          response.should redirect_to(contacts_index_path)
         end
       end
 
@@ -84,14 +86,14 @@ describe ContactsController do
         it "assigns a newly created but unsaved contact as @contact" do
           # Trigger the behavior that occurs when invalid params are submitted
           Contact.any_instance.stub(:save).and_return(false)
-          post :create, {:contact => { "company_id" => "invalid value" }}, valid_session
+          post :create, {company_id: @company, :contact => { "company_id" => "invalid value" }}, valid_session
           assigns(:contact).should be_a_new(Contact)
         end
 
         it "re-renders the 'new' template" do
           # Trigger the behavior that occurs when invalid params are submitted
           Contact.any_instance.stub(:save).and_return(false)
-          post :create, {:contact => { "company_id" => "invalid value" }}, valid_session
+          post :create, {company_id: @company, :contact => { "company_id" => "invalid value" }}, valid_session
           response.should render_template("new")
         end
       end
@@ -106,22 +108,21 @@ describe ContactsController do
           # receives the :update_attributes message with whatever params are
           # submitted in the request.
           Contact.any_instance.should_receive(:update_attributes).with({ "company_id" => "1" })
-          put :update, {:id => contact.to_param, :contact => { "company_id" => "1" }}, valid_session
+          put :update, {company_id: @company, :id => contact.to_param, :contact => { "company_id" => "1" }}, valid_session
         end
 
         it "assigns the requested contact as @contact" do
           contact = Contact.create! valid_attributes
-          put :update, {:id => contact.to_param, :contact => valid_attributes}, valid_session.merge(return_to: contacts_path)
+          put :update, {company_id: @company, :id => contact.to_param, :contact => valid_attributes}, valid_session
           assigns(:contact).should eq(contact)
         end
 
         it "redirects to the calling page" do
-          contact = Contact.create! valid_attributes
+          contact = Contact.create! valid_attributes.merge(company_id: @company.id)
           # session[:return_to] = contacts_url
-          visit contacts_path
-          put :update, {:id => contact.to_param, :contact => valid_attributes}, valid_session.merge(return_to: contacts_path)
-          response.should_not redirect_to(contact)
-          response.should redirect_to(contacts_path)
+          visit company_contacts_path(@company)
+          put :update, {company_id: @company, :id => contact.to_param, :contact => valid_attributes}, valid_session
+          response.should redirect_to(contacts_index_path)
         end
       end
 
@@ -130,7 +131,7 @@ describe ContactsController do
           contact = Contact.create! valid_attributes
           # Trigger the behavior that occurs when invalid params are submitted
           Contact.any_instance.stub(:save).and_return(false)
-          put :update, {:id => contact.to_param, :contact => { "company_id" => "invalid value" }}, valid_session
+          put :update, {company_id: @company, :id => contact.to_param, :contact => { "company_id" => "invalid value" }}, valid_session
           assigns(:contact).should eq(contact)
         end
 
@@ -138,7 +139,7 @@ describe ContactsController do
           contact = Contact.create! valid_attributes
           # Trigger the behavior that occurs when invalid params are submitted
           Contact.any_instance.stub(:save).and_return(false)
-          put :update, {:id => contact.to_param, :contact => { "company_id" => "invalid value" }}, valid_session
+          put :update, {company_id: @company, :id => contact.to_param, :contact => { "company_id" => "invalid value" }}, valid_session
           response.should render_template("edit")
         end
       end
@@ -147,20 +148,20 @@ describe ContactsController do
     describe "DELETE destroy" do
       
       before do
-        controller.request.stub(:referer).and_return contacts_url
+        controller.request.stub(:referer).and_return contacts_index_url
       end
       
       it "destroys the requested contact" do
         contact = Contact.create! valid_attributes
         expect {
-          delete :destroy, {:id => contact.to_param}, valid_session
+          delete :destroy, {company_id: @company, :id => contact.to_param}, valid_session
         }.to change(Contact, :count).by(-1)
       end
 
       it "redirects to the calling page" do
         contact = Contact.create! valid_attributes
-        delete :destroy, {:id => contact.to_param}, valid_session
-        response.should redirect_to(contacts_url)
+        delete :destroy, {company_id: @company, :id => contact.to_param}, valid_session
+        response.should redirect_to(contacts_index_url)
       end
     end
 

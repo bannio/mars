@@ -3,7 +3,7 @@ Then(/^I should see a list of addresses$/) do
 end
 
 Then(/^I can create a new address for "(.*?)"$/) do |company|
-  select(company, from: 'Company')
+  # select(company, from: 'Company')
   fill_in('Name', with: 'My address')
   click_button('Create Address')
 end
@@ -15,4 +15,8 @@ end
 Then(/^I can change the address$/) do
   fill_in('Address', with: "new address")
   click_button('Update Address')
+end
+
+When (/^I click on "New" against "Addresses"$/) do
+  click_link('new-address')
 end

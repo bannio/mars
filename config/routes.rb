@@ -2,10 +2,13 @@ Mars::Application.routes.draw do
 
   root :to => 'home#index'
   get "home/index"
+  get "addresses/index"
+  get "contacts/index"
   
-  resources :companies
-  resources :addresses
-  resources :contacts
+  resources :companies do
+    resources :contacts
+    resources :addresses
+  end
 
   # devise_for :users , :controllers => {:registrations => "users/registrations", :passwords => "users/passwords"}
   devise_for :users, :skip => [:registrations]                                          

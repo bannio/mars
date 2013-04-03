@@ -25,14 +25,16 @@ describe AddressesController do
   # update the return value of this method accordingly.
   def valid_attributes
     { company_id: 1,
-      name: 'My Address' }
+      name: 'My Address',
+      body: 'My address body',
+      post_code: 'ABC 123'}
   end
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # AddressesController. Be sure to keep this updated too.
   def valid_session
-    {"warden.user.user.key" => session["warden.user.user.key"]}
+    {"warden.user.user.key" => session["warden.user.user.key"]}.merge(return_to: addresses_index_path)
   end
 
   before do
@@ -44,6 +46,9 @@ describe AddressesController do
             true
           end
         end
+        @company = FactoryGirl.create(:company)
+        params = {}
+        params[:company] = @company
   end
   describe "GET index" do
     it "assigns all addresses as @addresses" do
@@ -56,14 +61,14 @@ describe AddressesController do
   describe "GET show" do
     it "assigns the requested address as @address" do
       address = Address.create! valid_attributes
-      get :show, {:id => address.to_param}, valid_session
+      get :show, {company_id: @company, :id => address.to_param}, valid_session
       assigns(:address).should eq(address)
     end
   end
 
   describe "GET new" do
     it "assigns a new address as @address" do
-      get :new, {}, valid_session
+      get :new, {company_id: @company}, valid_session
       assigns(:address).should be_a_new(Address)
     end
   end
@@ -71,7 +76,7 @@ describe AddressesController do
   describe "GET edit" do
     it "assigns the requested address as @address" do
       address = Address.create! valid_attributes
-      get :edit, {:id => address.to_param}, valid_session.merge(return_to: addresses_path)
+      get :edit, {company_id: @company, :id => address.to_param}, valid_session
       assigns(:address).should eq(address)
     end
   end
@@ -80,20 +85,20 @@ describe AddressesController do
     describe "with valid params" do
       it "creates a new Address" do
         expect {
-          post :create, {:address => valid_attributes}, valid_session.merge(return_to: addresses_path)
+          post :create, {company_id: @company, :address => valid_attributes}, valid_session
         }.to change(Address, :count).by(1)
       end
 
       it "assigns a newly created address as @address" do
-        post :create, {:address => valid_attributes}, valid_session.merge(return_to: addresses_path)
+        post :create, {company_id: @company, :address => valid_attributes}, valid_session
         assigns(:address).should be_a(Address)
         assigns(:address).should be_persisted
       end
 
       it "redirects to the calling page on create address" do
-        post :create, {:address => valid_attributes}, valid_session.merge(return_to: addresses_path)
+        post :create, {company_id: @company, :address => valid_attributes}, valid_session
         #response.should redirect_to(Address.last)
-        response.should redirect_to(addresses_path)
+        response.should redirect_to(addresses_index_path)
       end
     end
 
@@ -101,14 +106,14 @@ describe AddressesController do
       it "assigns a newly created but unsaved address as @address" do
         # Trigger the behavior that occurs when invalid params are submitted
         Address.any_instance.stub(:save).and_return(false)
-        post :create, {:address => { "company_id" => "invalid value" }}, valid_session.merge(return_to: addresses_path)
+        post :create, {company_id: @company, :address => { "company_id" => "invalid value" }}, valid_session
         assigns(:address).should be_a_new(Address)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Address.any_instance.stub(:save).and_return(false)
-        post :create, {:address => { "company_id" => "invalid value" }}, valid_session
+        post :create, {company_id: @company, :address => { "company_id" => "invalid value" }}, valid_session
         response.should render_template("new")
       end
     end
@@ -123,19 +128,19 @@ describe AddressesController do
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         Address.any_instance.should_receive(:update_attributes).with({ "company_id" => "1" })
-        put :update, {:id => address.to_param, :address => { "company_id" => "1" }}, valid_session.merge(return_to: addresses_path)
+        put :update, {company_id: @company, :id => address.to_param, :address => { "company_id" => "1" }}, valid_session
       end
 
       it "assigns the requested address as @address" do
         address = Address.create! valid_attributes
-        put :update, {:id => address.to_param, :address => valid_attributes}, valid_session.merge(return_to: addresses_path)
+        put :update, {company_id: @company, :id => address.to_param, :address => valid_attributes}, valid_session
         assigns(:address).should eq(address)
       end
 
       it "redirects to the calling page on update address" do
         address = Address.create! valid_attributes
-        put :update, {:id => address.to_param, :address => valid_attributes}, valid_session.merge(return_to: addresses_path)
-        response.should redirect_to(addresses_path)
+        put :update, {company_id: @company, :id => address.to_param, :address => valid_attributes}, valid_session
+        response.should redirect_to(addresses_index_path)
       end
     end
 
@@ -144,7 +149,7 @@ describe AddressesController do
         address = Address.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Address.any_instance.stub(:save).and_return(false)
-        put :update, {:id => address.to_param, :address => { "company_id" => "invalid value" }}, valid_session.merge(return_to: addresses_path)
+        put :update, {company_id: @company, :id => address.to_param, :address => { "company_id" => "invalid value" }}, valid_session
         assigns(:address).should eq(address)
       end
 
@@ -152,7 +157,7 @@ describe AddressesController do
         address = Address.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Address.any_instance.stub(:save).and_return(false)
-        put :update, {:id => address.to_param, :address => { "company_id" => "invalid value" }}, valid_session.merge(return_to: addresses_path)
+        put :update, {company_id: @company, :id => address.to_param, :address => { "company_id" => "invalid value" }}, valid_session
         response.should render_template("edit")
       end
     end
@@ -160,27 +165,27 @@ describe AddressesController do
 
   describe "DELETE destroy" do
     before do
-      controller.request.stub(:referer).and_return addresses_url
+      controller.request.stub(:referer).and_return addresses_index_url
     end
     
     it "destroys the requested address" do
       address = Address.create! valid_attributes
       expect {
-        delete :destroy, {:id => address.to_param}, valid_session
+        delete :destroy, {company_id: @company, :id => address.to_param}, valid_session
       }.to change(Address, :count).by(-1)
     end
 
     it "redirects to the calling page" do
       address = Address.create! valid_attributes
-      delete :destroy, {:id => address.to_param}, valid_session
-      response.should redirect_to(addresses_url)
+      delete :destroy, {company_id: @company, :id => address.to_param}, valid_session
+      response.should redirect_to(addresses_index_url)
     end
     
     it "does not delete if contacts still use the address" do
       address = Address.create! valid_attributes
       contact = Contact.create! address_id: address.id, name: 'address contact', company_id: 1
       expect {
-        delete :destroy, {:id => address.to_param}, valid_session
+        delete :destroy, {company_id: @company, :id => address.to_param}, valid_session
       }.to_not change(Address, :count)
     end
   end

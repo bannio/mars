@@ -3,7 +3,7 @@ Then(/^I should see a list of contacts$/) do
 end
 
 Then(/^I can create a new contact for "(.*?)"$/) do |company|
-  select(company, from: 'Company')
+  # select(company, from: 'Company')
   # select(company, from: 'Address')
   fill_in('Name', with: 'My Contact')
   click_button('Create Contact')

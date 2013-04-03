@@ -25,7 +25,7 @@
   <tr>
   	<th>Addresses</th><th></th><th></th>
 	<% if allow? :addresses, :new %>
-		<td><%= link_to 'New', new_address_path, id: 'new-address' %></td>
+		<td><%= link_to 'New Address', new_company_address_path(@company), id: 'new-address' %></td>
 	<% else %>
 		<td></td>
 	<% end %>
@@ -36,8 +36,8 @@
 	    <td><%= simple_format("#{addr.body}\n#{addr.post_code}") %></td>
 		<td></td>
 		<% if allow? :addresses, :edit %>
-			<td><%= link_to 'Edit', edit_address_path(addr) %> 
-			| <%= link_to 'Remove', addr, method: :delete, data: { confirm: 'Are you sure?' }%></td>
+			<td><%= link_to 'Edit', edit_company_address_path(@company, addr) %> 
+			| <%= link_to 'Remove', [@company, addr], method: :delete, data: { confirm: 'Are you sure?' }%></td>
 		<% else %>
 			<td></td>
 		<% end %>
@@ -46,7 +46,7 @@
   <tr>
   <th>Contacts</th><th></th><th></th>
 	<% if allow? :contacts, :new %>
-		<td><%= link_to 'New', new_contact_path, id: 'new-contact' %></td>
+		<td><%= link_to 'New Contact', new_company_contact_path(@company), id: 'new-contact' %></td>
 	<% else %>
 		<td></td>
 	<% end %>
@@ -57,11 +57,11 @@
 	    <td><%= simple_format("#{contact.job_title}\n#{contact.email}") %></td>
 		<td><%= simple_format("T #{contact.telephone}\nM #{contact.mobile}") %></td>
 		<% if allow? :contacts, :edit %>
-			<td><%= link_to 'Show', contact_path(contact) %> | 
-			<%= link_to 'Edit', edit_contact_path(contact)%> | 
-			<%= link_to 'Remove', contact, method: :delete, data: { confirm: 'Are you sure?'}%></td>
+			<td><%= link_to 'Show', company_contact_path(@company, contact) %> | 
+			<%= link_to 'Edit', edit_company_contact_path(@company, contact)%> | 
+			<%= link_to 'Remove', [@company, contact], method: :delete, data: { confirm: 'Are you sure?'}%></td>
 		<% else %>
-			<td><%= link_to 'Show', contact_path(contact) %></td>
+			<td><%= link_to 'Show', company_contact_path(@company, contact) %></td>
 		<% end %>
 	  </tr>
   <% end %>

@@ -29,7 +29,8 @@ Feature: Company
 		Given I am not logged in
 		When I log in as a non-admin user
 		And I am on the "companies" page
-		When I click "Edit"
+		Then I should not see "Edit"
+		And if I try by editing the url to "/companies/1/edit"
 		Then I should see "Not authorised"
 		
 	@javascript
