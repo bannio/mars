@@ -15,7 +15,7 @@ Feature: Company
 		
 	Scenario: Add a new company as an authorised user
 		When I click "Companies"
-		And I click "New Company"
+		And I click the first "New Company" link
 		Then I can create a new company
 		And I should see a successfully created message
 

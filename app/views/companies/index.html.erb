@@ -1,30 +1,16 @@
 <h1 id="companies-index-page">Companies</h1>
-
-<table class="table">
-  <tr>
-    <th>Name</th>
-    <th>Accounts Ref.</th>
-	<th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @companies.each do |company| %>
-  <tr>
-    <td><%= company.name %></td>
-	<td><%= company.reference %></td>
-    <td><%= link_to 'Show', company %></td>
-	<% if allow? :companies, :edit %>
-    	<td><%= link_to 'Edit', edit_company_path(company) %></td>
-	    <td><%= link_to 'Destroy', company, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-	<% else %>
-		<td></td>
-	<% end %>
-  </tr>
+<% if allow? :companies, :new %>
+	<%= link_to 'New Company', new_company_path, class: "pull-right" %>
 <% end %>
-</table>
 
-<br />
+<%= form_tag companies_path, method: 'get', class: "navbar-search pull-left", remote: true, id: "companies_search" do %>
+	<%= text_field_tag :search, params[:search], class: "search-query", placeholder: 'Search' %>
+	<%= submit_tag "Search", name: nil, class: "hidden" %>
+<% end %>
+
+<br><br>
+<div id="companies"><%= render 'companies' %></div>
+
 <% if allow? :companies, :new %>
 	<%= link_to 'New Company', new_company_path %>
 <% end %>
