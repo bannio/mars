@@ -6,7 +6,6 @@ Feature: Company
 	Background:
 		Given I am logged in as a user with a role "company"
 		And the company "MyCompany" exists
-		And the address "MyCompany Address" exists
 		
 	Scenario: I can see a Company menu item
 		Then I should see "Companies" as a menu option

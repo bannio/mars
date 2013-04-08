@@ -21,3 +21,10 @@ end
 When (/^I click on "New" against "Contacts"$/) do
   click_link('new-contact')
 end
+
+Given(/^I have the following contacts$/) do |table|
+  table.hashes.each do |a|
+    Contact.create!(name: a[:name], email: a[:email], company_id: Company.find_by_name(a[:company]).id)
+  end
+end
+

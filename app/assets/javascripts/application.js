@@ -22,10 +22,3 @@ $(document).ready(function(){
 	width: 'resolve'
   });
 });
-
-$(function() {
-	$('#companies_search input').keyup(function() {
-		$.get($('#companies_search').attr('action'), $('#companies_search').serialize(), null, 'script');
-		return false;
-	});
-});

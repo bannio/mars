@@ -12,7 +12,7 @@ When(/^I type "(.*?)" into the "(.*?)" field$/) do |content, field|
   fill_in(field, with: content)
 end
 
-Then(/^I should see the companies in this order:$/) do |table|
+Then(/^I should see the (.*?) in this order:$/) do |name, table|
   expected_order = table.raw.flatten
   actual_order = page.all('td:first-child').collect(&:text)
   actual_order.should ==  expected_order

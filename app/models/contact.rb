@@ -7,4 +7,15 @@ class Contact < ActiveRecord::Base
   validates :email, allow_blank: true, 
                     uniqueness: { case_sensitive: false }, 
                     email_format: {message: 'format looks invalid'}
+                    
+private
+
+  def self.search(search)
+    if search.present?
+      order(:name).where('name ilike :q', q: "%#{search}%")
+    else
+      order(:name).scoped
+    end
+  end
+
 end

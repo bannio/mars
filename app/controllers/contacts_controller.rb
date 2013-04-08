@@ -4,7 +4,12 @@ class ContactsController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :not_found_message
   
   def index
-    @contacts = Contact.order(:name)
+    @contacts = Contact.includes(:company).search(params[:search])
+    
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   def show
