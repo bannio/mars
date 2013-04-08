@@ -170,6 +170,22 @@ describe CompaniesController do
       delete :destroy, {:id => company.to_param}, valid_session
       response.should redirect_to(companies_url)
     end
+    
+    it "does not destroy when a contact exists" do
+      company = Company.create! valid_attributes
+      contact = company.contacts.build(name: "MyContact").save
+      expect {
+        delete :destroy, {:id => company.to_param}, valid_session
+      }.to_not change(Company, :count)
+    end
+    
+    it "does not destroy when an address exists" do
+      company = Company.create! valid_attributes
+      contact = company.addresses.build(name: "MyAddress").save
+      expect {
+        delete :destroy, {:id => company.to_param}, valid_session
+      }.to_not change(Company, :count)
+    end
   end
 
 end

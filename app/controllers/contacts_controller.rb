@@ -4,7 +4,7 @@ class ContactsController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :not_found_message
   
   def index
-    @contacts = Contact.all
+    @contacts = Contact.order(:name)
   end
 
   def show

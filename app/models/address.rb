@@ -11,7 +11,6 @@ class Address < ActiveRecord::Base
   
   def check_use_by_contacts
     if !self.contacts.empty?
-      errors.add(:address, "This address is in use by contacts")
       false
     end
   end

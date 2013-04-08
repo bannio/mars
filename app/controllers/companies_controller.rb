@@ -3,7 +3,6 @@ class CompaniesController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :not_found_message
   
   def index
-    # @companies = Company.order(:name).all
     @companies = Company.search(params[:search])
 
     respond_to do |format|
@@ -13,8 +12,6 @@ class CompaniesController < ApplicationController
     end
   end
 
-  # GET /companies/1
-  # GET /companies/1.json
   def show
     @company = current_resource
 
@@ -24,8 +21,6 @@ class CompaniesController < ApplicationController
     end
   end
 
-  # GET /companies/new
-  # GET /companies/new.json
   def new
     @company = Company.new
 
@@ -35,13 +30,10 @@ class CompaniesController < ApplicationController
     end
   end
 
-  # GET /companies/1/edit
   def edit
     @company = current_resource
   end
 
-  # POST /companies
-  # POST /companies.json
   def create
     @company = Company.new(params[:company])
 
@@ -56,8 +48,6 @@ class CompaniesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /companies/1
-  # PATCH/PUT /companies/1.json
   def update
     @company = current_resource
 
@@ -72,15 +62,15 @@ class CompaniesController < ApplicationController
     end
   end
 
-  # DELETE /companies/1
-  # DELETE /companies/1.json
   def destroy
-    @company = current_resource
-    @company.destroy
-
+    @company = current_resource 
+    
     respond_to do |format|
-      format.html { redirect_to companies_url }
-      format.json { head :no_content }
+      if @company.destroy
+        format.html { redirect_to companies_url, flash: {success: 'Company was successfully deleted.'} }
+      else
+        format.html { redirect_to companies_url, flash: {error: 'Company not deleted. Maybe contacts or addresses exist'} }
+      end
     end
   end
 
