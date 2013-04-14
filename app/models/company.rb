@@ -2,6 +2,7 @@ class Company < ActiveRecord::Base
   has_many :addresses
   has_many :contacts #, inverse_of: :company
   # accepts_nested_attributes_for :contact
+  has_many :projects
   
   validates_presence_of :name
   before_destroy :check_for_contacts, :check_for_addresses

@@ -12,13 +12,8 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery.ui.datepicker
 //= require select2
 //= require bootstrap
 //= require_tree .
 
-$(document).ready(function(){
-  $('select').select2({
-	placeholder: "Please Select",
-	width: 'resolve'
-  });
-});

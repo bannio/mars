@@ -1,0 +1,43 @@
+<h1>Project</h1>
+<% @title = "MARS - show #{@project.name}"%>
+<table class='table table-condensed'>
+  <tr>
+    <td>Code</td>
+    <td><%= @project.code %></td>
+  </tr>
+  <tr>
+    <td>Name</td>
+    <td><%= @project.name %></td>
+  </tr>
+  <tr>
+    <td>Company</td>
+    <td><%= @project.company.name %></td>
+  </tr>
+  <tr>
+    <td>Start Date</td>
+    <td><%= @project.start_date %></td>
+  </tr>
+  <tr>
+    <td>End Date</td>
+    <td><%= @project.end_date %></td>
+  </tr>
+  <tr>
+    <td>Status</td>
+    <td><%= @project.status %></td>
+  </tr>
+  <tr>
+    <td>Value</td>
+    <td><%= @project.value %></td>
+  </tr>
+  <tr>
+    <td>Notes</td>
+    <td><%= simple_format(@project.notes) %></td>
+  </tr>
+  <tr>
+    <td>Completion Date</td>
+    <td><%= @project.completion_date %></td>
+  </tr>
+</table>
+
+
+<%= link_to 'Back', :back %>

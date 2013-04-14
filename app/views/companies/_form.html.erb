@@ -1,4 +1,4 @@
-<%= simple_form_for(@company) do |f| %>
+<%= simple_form_for(@company, :html => { :class => 'form-horizontal'}) do |f| %>
   <%= f.error_notification %>
   <div class="form-inputs">
 	<% if allow_param? :company, :name %>
@@ -9,9 +9,7 @@
 	<% end %>
   </div>
   
-  <% if params[:action] == 'edit' || params[:action] == 'new' %>
   <div class="form-actions">
     <%= f.button :submit, class: "btn btn-primary" %>
   </div>
-  <% end %>
 <% end %>

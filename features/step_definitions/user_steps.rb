@@ -157,10 +157,6 @@ When /^I look at the list of users$/ do
   visit '/'
 end
 
-When /^I click the first "(.*?)" link$/ do |link|
-  first(:link, "#{link}").click
-end
-
 When(/^I click "(.*?)"$/) do |target|
   click_link "#{target}"
 end

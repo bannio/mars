@@ -10,6 +10,9 @@
 			      <div class="nav-collapse collapse">
 			        <ul class="pull-right nav">					
 					<% if user_signed_in? %>
+						<% if allow? :projects, :index %>
+						  <li><%= link_to "Projects", projects_path %></li>
+						<% end %>
 						<% if allow? :companies, :index %>
 						  <li><%= link_to "Companies", companies_path %></li>
 						<% end %>

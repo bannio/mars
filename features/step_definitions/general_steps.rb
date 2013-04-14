@@ -1,7 +1,7 @@
-def create_company_user
+def create_user_with_role(role)
   create_visitor
-  delete_user
-  @user = FactoryGirl.create(:user, name: @visitor[:name], email: @visitor[:email], roles_mask: 3)
+  delete_user 
+  @user = FactoryGirl.create(:user, name: @visitor[:name], email: @visitor[:email], roles_mask: role)
 end
 
 def create_company(name)
@@ -33,7 +33,12 @@ Then(/^I should not see "(.*?)"$/) do |arg1|
 end
 
 Given(/^I am logged in as a user with a role "(.*?)"$/) do |role|
-  create_company_user if role == 'company'
+  create_user_with_role(1) if role == 'admin'
+  create_user_with_role(2) if role == 'company'
+  create_user_with_role(4) if role == 'project'
+  create_user_with_role(8) if role == 'sales_quote'
+  create_user_with_role(16) if role == 'sales_order'
+  create_user_with_role(32) if role == 'purchase'
   sign_in
 end
 
@@ -57,3 +62,6 @@ When(/^if I try by editing the url to "(.*?)"$/) do |url|
   visit "#{url}"
 end
 
+When /^I click the first "(.*?)" link$/ do |link|
+  first(:link, "#{link}").click
+end

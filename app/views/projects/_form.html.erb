@@ -1,0 +1,37 @@
+<%= simple_form_for(@project, :html => { :class => 'form-horizontal'}) do |f| %>
+  <%= f.error_notification %>
+  <div class="form-inputs">
+	<% if allow_param? :project, :code %>
+    	<%= f.input :code %>
+	<% end %>
+	<% if allow_param? :project, :name %>
+    	<%= f.input :name %>
+	<% end %>
+	<% if allow_param? :project, :company_id %>
+    	<%= f.association :company %>
+	<% end %>
+	<% if allow_param? :project, :start_date %>
+    	<%= f.input :start_date, as: :string, input_html: {class: 'date_picker'} %>
+	<% end %>
+	<% if allow_param? :project, :end_date %>
+    	<%= f.input :end_date, as: :string, input_html: {class: 'date_picker'} %>
+	<% end %>
+	<% if allow_param? :project, :status %>
+    	<%= f.input :status %>
+	<% end %>
+	<% if allow_param? :project, :value %>
+    	<%= f.input :value %>
+	<% end %>
+	<% if allow_param? :project, :notes %>
+    	<%= f.input :notes, input_html: {rows: 6} %>
+	<% end %>
+	<% if allow_param? :project, :completion_date %>
+    	<%= f.input :completion_date, as: :string, input_html: {class: 'date_picker'} %>
+	<% end %>
+  </div>
+  
+  <div class="form-actions">
+    <%= f.button :submit, class: "btn btn-primary" %>
+  </div>
+
+<% end %>

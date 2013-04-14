@@ -1,0 +1,35 @@
+<table class="table">
+  <tr>
+    <th>Code</th>
+    <th>Name</th>
+	<th>Company</th>
+	<th>Start</th>
+	<th>End</th>
+	<th>Status</th>
+    <th></th>
+	<th></th>
+    <th></th>
+  </tr>
+
+<% @projects.each do |project| %>
+  <tr>
+    <td><%= project.code %></td>
+	<td><%= project.name %></td>
+	<td><%= project.company.name %></td>
+	<td><%= project.start_date %></td>
+	<td><%= project.end_date %></td>
+	<td><%= project.status %></td>
+    <td><%= link_to 'Show', [project] %></td>
+	<% if allow? :projects, :edit %>
+    	<td><%= link_to 'Edit', edit_project_path(project) %></td>
+	<% else %>
+		<td></td>
+	<% end %>
+	<% if allow? :projects, :destroy %>
+    	<td><%= link_to 'Destroy', [project], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+	<% else %>
+		<td></td>
+	<% end %>
+  </tr>
+<% end %>
+</table>

@@ -9,6 +9,7 @@ Mars::Application.routes.draw do
     resources :contacts
     resources :addresses
   end
+  resources :projects
 
   # devise_for :users , :controllers => {:registrations => "users/registrations", :passwords => "users/passwords"}
   devise_for :users, :skip => [:registrations]                                          
