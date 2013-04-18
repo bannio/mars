@@ -6,6 +6,7 @@ class SalesQuotePdf < Prawn::Document
     
     define_grid(columns: 3, rows: 7, gutter: 0)
     #grid.show_all
+    font_size 11
     
     grid([0,2],[0,2]).bounding_box do
       logo
@@ -20,13 +21,17 @@ class SalesQuotePdf < Prawn::Document
     grid([1,0],[1,1]).bounding_box do
       address_box
     end
-    grid([2,0],[6,2]).bounding_box do
-      quote_number_and_date
-      quote_comment
-      quote_table
-      quote_total
-      # payment_details     
-    end
+    # grid([2,0],[6,2]).bounding_box do
+    #       quote_number_and_date
+    #       quote_comment
+    #       quote_table
+    #       quote_total
+    #       # payment_details     
+    #     end
+    quote_number_and_date
+    quote_comment
+    quote_table
+    quote_total
     fold_mark
     sales_quote_page_number
     
@@ -68,13 +73,14 @@ class SalesQuotePdf < Prawn::Document
   end
   
   def quote_number_and_date
-      data = [["","Ref.:", "#{@quotation.code}"],["","Date:","#{@quotation.issue_date}"]]
+      data = [["Ref.:","#{@quotation.code}","Date","#{@quotation.issue_date}"]]
       table(data) do
         cells.borders = []
-        columns(1).align = :right
         columns(2).align = :right
-        columns(0).width = 380
-        columns(1).width = 80
+        columns(3).align = :right
+        columns(0).width = 80
+        columns(1).width = 300
+        columns(2).width = 80
         columns(2).width = 80
       end
     end
@@ -100,10 +106,10 @@ class SalesQuotePdf < Prawn::Document
         row(0).border_width = 0.5
         row(-1).border_width = 0.5
         columns(0).width = 80
-        columns(1).width = 210
-        columns(2).width = 70
-        columns(3).width = 90
-        columns(4).width = 90
+        columns(1).width = 245
+        columns(2).width = 55
+        columns(3).width = 80
+        columns(4).width = 80
       end
     end
     
@@ -135,11 +141,11 @@ class SalesQuotePdf < Prawn::Document
   #     #bounding_box([0,100], width: 350, height: 100) do
   #       text "Please make payment to:", size: 10
   #       table([
-  #           ["News Horizons Ltd", ""],
+  #           ["compnay Ltd", ""],
   #           ["Lloyds TSB Plc", ""],
   #           ["Stratford upon Avon",""],
-  #           ["Sort Code:","30-98-26"],
-  #           ["Account No:","41114060"],
+  #           ["Sort Code:","99-99-99"],
+  #           ["Account No:","999999"],
   #           ["BIC:","LOYDGB21093"],
   #           ["IBAN:","GB20 LOYD 3098 2641 1140 60"]
   #           ]) do
