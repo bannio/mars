@@ -17,8 +17,9 @@ class ProjectsController < ApplicationController
   
   def new
     @project = Project.new
-    @project.code = Project.last.code.next
+    @project.code = Project.last ? Project.last.code.next : 'P0001'
     @project.start_date = Date.today
+    @project.company_id = params[:company] || ''
     session[:return_to] = request.referer
     
     respond_to do |format|

@@ -1,0 +1,108 @@
+<h1>Sales Quotation for <%= @quotation.customer.name %></h1>
+<% @title = "MARS - show #{@quotation.name}" %>
+<h3><%= @quotation.code %> <%= link_to 'Edit', edit_quotation_path(@quotation), class: 'pull-right btn btn-primary' %></h3>
+
+<table class='table table-condensed' id="sq-header-table">
+  <tr>
+    <td>Title</td>
+    <th><%= @quotation.name %></th>
+	<td>Total</td>
+	<th class="text-right"><%= number_to_currency(@quotation.total) %></th>
+  </tr>
+  <tr>
+    <td>Description</td>
+    <td><%= simple_format(@quotation.description) %></td>
+	<td>Project</td>
+	<td><%= simple_format("#{@quotation.project.code}\n#{@quotation.project.name}") %></td>
+  </tr>
+  <tr>
+    <td>Customer</td>
+    <td><%= @quotation.customer.name %><br />
+		<% if @quotation.address %>
+		<%= simple_format("#{@quotation.address.body}\n#{@quotation.address.post_code}") %>
+		<% end %>
+	</td>
+	<td>Supplier</td>
+	<td><%= @quotation.supplier.name %><br />
+	<% if @quotation.supplier.addresses.first %>
+	<%= simple_format("#{@quotation.supplier.addresses.first.body}\n#{@quotation.supplier.addresses.first.post_code}") %>
+	<% end %>
+	</td>
+  </tr>
+  <tr>
+    <td>Delivery</td>
+    <td><%= @quotation.customer.name %><br />
+	<% if @quotation.delivery_address %>
+	<%= simple_format("#{@quotation.delivery_address.body}\n#{@quotation.delivery_address.post_code}") %>
+	<% end %></td>
+	<td>Contact</td>
+	<td><% if @quotation.contact %>
+		<%= @quotation.contact.name %><br />
+		<%=	@quotation.contact.telephone %><br />
+		<%= mail_to(@quotation.contact.email, nil, encode: :javascript) %>
+		<% end %>
+	</td>
+  </tr>
+  <tr>
+    <td>Notes</td>
+    <td><%= simple_format(@quotation.notes) %></td>
+	<td></td>
+	<td></td>
+  </tr>
+</table>
+<h3>Detail</h3>
+
+<table class='table table-condensed' id='sq-detail-table'>
+	<tr>
+		<th>Item</th>
+		<th>Specification</th>
+		<th class="text-right">Quantity</th>
+		<th class="text-right">Unit Price</th>
+		<th class="text-right">Total</th>
+		<th></th>
+	</tr>
+	<% @quotation.quotation_lines.each do |line| %>
+		<tr>
+			<td width="120"><%= line.name %></td>
+			<td width="350"><%= line.description %></td>
+			<td class="text-right"><%= line.quantity %></td>
+			<td class="text-right"><%= number_to_currency(line.unit_price) %></td>
+			<td class="text-right"><%= number_to_currency(line.total) %></td>
+			<td class="text-right">
+			<% if allow? :quotation_line, :edit %>
+				<%= link_to 'Edit', edit_quotation_quotation_line_path(@quotation, line) %> |
+				<%= link_to 'Remove', [@quotation, line], method: :delete, data: { confirm: 'Are you sure?' } %>
+			<% end %>
+			</td>
+		</tr>
+	<% end %>
+</table>
+<div class="form-actions">
+	Add line:
+	<%= form_for @quotation, class: 'form-inline' do |q| %>
+		<%= q.fields_for :quotation_lines, @quotation.quotation_lines.new do |f| %>
+		<fieldset id="new-line-form">
+			<%= f.text_field :name, placeholder: 'item' ,class: 'span2'%>
+			<%= f.text_area :description, placeholder: 'specification',class: 'span5',rows: 1 %>
+			<%= f.text_field :quantity, placeholder: 'quantity',class: 'span2' %>
+			<%= f.text_field :unit_price, placeholder: 'unit price',class: 'span2' %>
+			<%= f.submit 'Add', class: 'btn btn-primary pull-right' %>
+		</fieldset>
+		<% end %>
+	<% end %>
+
+	<div class='row'>
+		<div class='span3'>
+			or select CSV file to upload:
+		</div>
+		<div class='span6'>
+	<%= form_tag import_quotations_path, multipart: true do %>
+		<%= file_field_tag :file %>
+		<%= hidden_field_tag :id, @quotation.id %>
+		<%= submit_tag "Import",class: "btn btn-primary" %>
+	<% end %>
+		</div>
+	</div>
+</div> 
+<%= link_to 'Return to Customer', company_path(@quotation.customer_id) %> | 
+<%= link_to "Printable Quote (PDF)", quotation_path(@quotation, format: "pdf") %>

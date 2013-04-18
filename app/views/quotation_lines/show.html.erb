@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @quotation_line.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @quotation_line.description %>
+</p>
+
+<p>
+  <b>Quantity:</b>
+  <%= @quotation_line.quantity %>
+</p>
+
+<p>
+  <b>Unit price:</b>
+  <%= @quotation_line.unit_price %>
+</p>
+
+<p>
+  <b>Total:</b>
+  <%= @quotation_line.total %>
+</p>
+
+
+<%= link_to 'Edit', edit_quotation_line_path(@quotation_line) %> |
+<%= link_to 'Back', quotation_lines_path %>

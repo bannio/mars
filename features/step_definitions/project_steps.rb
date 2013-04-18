@@ -1,5 +1,4 @@
 
-
 Then(/^I should see a list of projects$/) do
   page.should have_selector('h1#projects-index-page')  
 end

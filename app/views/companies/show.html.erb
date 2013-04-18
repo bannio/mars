@@ -54,7 +54,7 @@
 	<% @company.contacts.each do |contact| %>
 	  <tr>
 	    <td><%= contact.name  %></td>
-	    <td><%= simple_format("#{contact.job_title}\n#{contact.email}") %></td>
+	    <td><%= contact.job_title %><br /><%= mail_to(contact.email, nil, encode: :javascript) %></td>
 		<td><%= simple_format("T #{contact.telephone}\nM #{contact.mobile}") %></td>
 		<% if allow? :contacts, :edit %>
 			<td><%= link_to 'Show', company_contact_path(@company, contact) %> | 
@@ -65,6 +65,48 @@
 		<% end %>
 	  </tr>
   <% end %>
+<th>Projects</th><th></th><th></th>
+	<% if allow? :projects, :new %>
+		<td><%= link_to 'New Project', new_project_path(company: @company.id), id: 'new-project' %></td>
+	<% else %>
+		<td></td>
+	<% end %>
+  </tr>
+	<% @company.projects.each do |project| %>
+	  <tr>
+	    <td><%= project.code %></td>
+		<td><%= project.name %></td>
+		<td><%= project.status %></td>
+	    <td><%= link_to 'Show', [project] %>
+		<% if allow? :projects, :edit %>
+	    	| <%= link_to 'Edit', edit_project_path(project) %> |
+			<%= link_to 'Destroy', [project], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+		<% else %>
+			</td>
+		<% end %>
+	  </tr>
+  <% end %>
+<th>Quotations</th><th></th><th></th>
+	<% if allow? :quotations, :new %>
+		<td><%= link_to 'New Quotation', new_quotation_path(customer_id: @company.id), id: 'new-quotation' %></td>
+	<% else %>
+		<td></td>
+	<% end %>
+  </tr>
+	<% @company.requested_quotations.each do |quote| %>
+	  <tr>
+	    <td><%= quote.name %></td>
+		<td><%= number_to_currency(quote.total) %></td>
+		<td><%= quote.status %></td>
+	    <td><%= link_to 'Show', [quote] %>
+		<% if allow? :quotations, :edit %>
+	    	| <%= link_to 'Edit', edit_quotation_path(quote) %> |
+			<%= link_to 'Destroy', [quote], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+		<% else %>
+			</td>
+		<% end %>
+	  </tr>
+  <% end %>
 </table>
 
-<%= link_to 'Back', companies_path %>
+<%= link_to 'Company List', companies_path %>

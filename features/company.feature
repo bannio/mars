@@ -31,10 +31,3 @@ Feature: Company
 		Then I should not see "Edit"
 		And if I try by editing the url to "/companies/1/edit"
 		Then I should see "Not authorised"
-		
-	@javascript
-	Scenario: Delete a company
-		Given I am on the "companies" page
-		When I click "Destroy"
-		And I click OK in popup
-		Then the company should be gone

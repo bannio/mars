@@ -1,0 +1,37 @@
+<h1>Quotations</h1>
+
+<table class='table table-condensed'>
+  <tr>
+    <th>Code</th>
+	<th>Name</th>
+    <th>Project</th>
+    <th>Customer</th>
+    <th>Supplier</th>
+    <th>Issue date</th>
+    <th>Total</th>
+    <th>Status</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @quotations.each do |quotation| %>
+  <tr>
+    <td><%= quotation.code %></td>
+	<td><%= quotation.name %></td>
+    <td><%= quotation.project.code %></td>
+    <td><%= quotation.customer.name %></td>
+    <td><%= quotation.supplier.name %></td>
+    <td><%= quotation.issue_date %></td>
+    <td><%= quotation.total %></td>
+    <td><%= quotation.status %></td>
+    <td><%= link_to 'Show', quotation %></td>
+    <td><%= link_to 'Edit', edit_quotation_path(quotation) %></td>
+    <td><%= link_to 'Destroy', quotation, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Quotation', new_quotation_path %>

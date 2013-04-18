@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130411154515) do
+ActiveRecord::Schema.define(:version => 20130417165425) do
 
   create_table "addresses", :force => true do |t|
     t.integer  "company_id"
@@ -58,6 +58,34 @@ ActiveRecord::Schema.define(:version => 20130411154515) do
     t.text     "notes"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
+  end
+
+  create_table "quotation_lines", :force => true do |t|
+    t.integer  "quotation_id"
+    t.string   "name"
+    t.text     "description"
+    t.integer  "quantity"
+    t.decimal  "unit_price",   :precision => 10, :scale => 2
+    t.decimal  "total",        :precision => 10, :scale => 2
+    t.datetime "created_at",                                  :null => false
+    t.datetime "updated_at",                                  :null => false
+  end
+
+  create_table "quotations", :force => true do |t|
+    t.string   "name"
+    t.integer  "project_id"
+    t.integer  "customer_id"
+    t.integer  "supplier_id"
+    t.integer  "contact_id"
+    t.date     "issue_date"
+    t.string   "status"
+    t.text     "notes"
+    t.integer  "address_id"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+    t.string   "code"
+    t.text     "description"
+    t.integer  "delivery_address_id"
   end
 
   create_table "users", :force => true do |t|

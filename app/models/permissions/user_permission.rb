@@ -6,6 +6,8 @@ module Permissions
       allow :addresses, [:index, :show]
       allow :contacts, [:index, :show]
       allow :projects, [:index, :show]
+      allow :quotations, [:index, :show]
+      allow :quotation_lines, [:index, :show]
       allow 'users/registrations', [:edit, :update]
       if user.has_role?('company')
         allow :companies, [:new, :create, :edit, :update, :destroy] 
@@ -18,6 +20,14 @@ module Permissions
       if user.has_role?('project')
         allow :projects, [:new, :create, :edit, :update, :destroy] 
         allow_param :project, [:name, :code, :company_id, :start_date, :due_date, :completion_date, :status, :value, :notes]
+      end
+      if user.has_role?('sales_quote')
+        allow :quotations, [:new, :create, :edit, :update, :destroy, :import]
+        allow :quotation_lines, [:new, :create, :edit, :update, :destroy]
+        allow_param :quotation, [:code, :address_id, :delivery_address_id,
+          :description, :customer_id, :contact_id, :issue_date, :name, :notes, :project_id, :status, :supplier_id,
+          {quotation_lines_attributes: [:quotation_id, :description, :name, :quantity, :total, :unit_price]}]
+        allow_param :quotation_line, [:quotation_id, :description, :name, :quantity, :total, :unit_price]
       end
     end
   end

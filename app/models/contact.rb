@@ -1,7 +1,11 @@
 class Contact < ActiveRecord::Base
+  
+   # attr_accessible :email, :fax, :job_title, :mobile, :name, :notes, :telephone
+   
   belongs_to :company #, inverse_of: :contacts
   belongs_to :address #, inverse_of: :contacts
-  # attr_accessible :email, :fax, :job_title, :mobile, :name, :notes, :telephone
+  has_many  :quotations
+ 
   
   validates_presence_of :name, :company_id
   validates :email, allow_blank: true, 

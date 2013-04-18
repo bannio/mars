@@ -1,0 +1,15 @@
+<%= simple_form_for [@quotation, @quotation_line], :html => { :class => 'form-horizontal'} do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+	<%= f.hidden_field :quotation_id, value: @quotation.id %>
+    <%= f.input :name %>
+    <%= f.input :description, input_html: {rows: 4, class: 'span8'} %>
+    <%= f.input :quantity %>
+    <%= f.input :unit_price %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

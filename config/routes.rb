@@ -4,12 +4,18 @@ Mars::Application.routes.draw do
   get "home/index"
   get "addresses/index"
   get "contacts/index"
+  get "quotation_lines/index"
   
   resources :companies do
     resources :contacts
     resources :addresses
   end
   resources :projects
+  
+  resources :quotations do
+    collection {post :import }
+    resources :quotation_lines
+  end
 
   # devise_for :users , :controllers => {:registrations => "users/registrations", :passwords => "users/passwords"}
   devise_for :users, :skip => [:registrations]                                          

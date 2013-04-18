@@ -7,3 +7,8 @@ input[readonly], textarea[readonly], select[readonly] {
   background-color: white;
 }
 @import "bootstrap-responsive";
+
+.text-right
+{
+    text-align: right !important;
+}
