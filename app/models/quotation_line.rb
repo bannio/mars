@@ -4,6 +4,8 @@ class QuotationLine < ActiveRecord::Base
   belongs_to :quotation
   before_save :update_total
   
+  validates :name, presence: true
+  
   protected
   def update_total
     self.quantity ||= 0

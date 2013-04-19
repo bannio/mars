@@ -1,0 +1,24 @@
+<table class='table table-condensed'>
+  <th>Contacts</th><th></th><th></th><th></th>
+	<% if allow? :contacts, :new %>
+		<td><%= link_to 'New Contact', new_company_contact_path(@company), id: 'new-contact' %></td>
+	<% else %>
+		<td></td>
+	<% end %>
+  </tr>
+	<% @company.contacts.each do |contact| %>
+	  <tr>
+	    <td><%= contact.name  %></td>
+	    <td><%= contact.job_title %><br /><%= mail_to(contact.email, nil, encode: :javascript) %></td>
+		<td><%= simple_format("T #{contact.telephone}\nM #{contact.mobile}") %></td>
+		<td></td>
+		<% if allow? :contacts, :edit %>
+			<td><%= link_to 'Show', company_contact_path(@company, contact) %> | 
+			<%= link_to 'Edit', edit_company_contact_path(@company, contact)%> | 
+			<%= link_to 'Remove', [@company, contact], method: :delete, data: { confirm: 'Are you sure?'}%></td>
+		<% else %>
+			<td><%= link_to 'Show', company_contact_path(@company, contact) %></td>
+		<% end %>
+	  </tr>
+  <% end %>
+</table>

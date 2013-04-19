@@ -1,0 +1,24 @@
+<table class='table table-condensed'>
+<th>Quotations</th><th></th><th></th><th></th>
+	<% if allow? :quotations, :new %>
+		<td><%= link_to 'New Quotation', new_quotation_path(customer_id: @company.id), id: 'new-quotation' %></td>
+	<% else %>
+		<td></td>
+	<% end %>
+  </tr>
+	<% @company.requested_quotations.each do |quote| %>
+	  <tr>
+		<td><%= quote.code %></td>
+	    <td><%= quote.name %></td>
+		<td><%= number_to_currency(quote.total) %></td>
+		<td><%= quote.status %></td>
+	    <td><%= link_to 'Show', [quote] %>
+		<% if allow? :quotations, :edit %>
+	    	| <%= link_to 'Edit', edit_quotation_path(quote) %> |
+			<%= link_to 'Destroy', [quote], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+		<% else %>
+			</td>
+		<% end %>
+	  </tr>
+  <% end %>
+</table>

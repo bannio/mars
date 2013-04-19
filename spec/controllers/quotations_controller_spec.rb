@@ -32,7 +32,7 @@ describe QuotationsController do
     @company = FactoryGirl.create(:company)                           # so company 1 exists for valid attributes
     # @customer = @company
     @project = @company.projects.create(code: 'P001', name: 'my project')
-    controller.stub(:session).and_return({return_to: quotations_path})  # for redirects to return_to path
+    request.env["HTTP_REFERER"] = root_url  # for redirects to return_to path
   end
 
   describe "GET index" do
@@ -155,10 +155,10 @@ describe QuotationsController do
       }.to change(Quotation, :count).by(-1)
     end
 
-    it "redirects to the quotations list" do
+    it "redirects to the calling page" do
       quotation = Quotation.create! valid_attributes
       delete :destroy, {:id => quotation.to_param}, valid_session
-      response.should redirect_to(quotations_url)
+      response.should redirect_to(root_url)
     end
   end
 

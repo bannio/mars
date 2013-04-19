@@ -37,6 +37,7 @@ class QuotationsController < ApplicationController
     @quotation.issue_date = Date.today
     @customer = Company.find(params[:customer_id])
     @quotation.customer_id = @customer.id
+    @quotation.project_id = params[:project_id]
     @quotation.supplier_id = 2                          # hard coded! To be changed.
 
     respond_to do |format|
@@ -90,7 +91,7 @@ class QuotationsController < ApplicationController
     @quotation.destroy
 
     respond_to do |format|
-      format.html { redirect_to quotations_url }
+      format.html { redirect_to :back } # destroy link on company show page NOT on quotation show
       format.json { head :no_content }
     end
   end

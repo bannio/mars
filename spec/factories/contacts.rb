@@ -3,7 +3,7 @@
 FactoryGirl.define do
   factory :contact do
     name "MyString"
-    company nil
+    company_id 1
     job_title "MyString"
     address nil
     telephone "MyString"

@@ -13,7 +13,7 @@
     <td>Description</td>
     <td><%= simple_format(@quotation.description) %></td>
 	<td>Project</td>
-	<td><%= simple_format("#{@quotation.project.code}\n#{@quotation.project.name}") %></td>
+	<td><%= simple_format("#{@quotation.project.code} - #{@quotation.project.name}") %></td>
   </tr>
   <tr>
     <td>Customer</td>
@@ -104,5 +104,6 @@
 		</div>
 	</div>
 </div> 
-<%= link_to 'Return to Customer', company_path(@quotation.customer_id) %> | 
+<%= link_to 'Customer', company_path(@quotation.customer_id) %> |
+<%= link_to 'Project', project_path(@quotation.project_id) %> | 
 <%= link_to "Printable Quote (PDF)", quotation_path(@quotation, format: "pdf") %>

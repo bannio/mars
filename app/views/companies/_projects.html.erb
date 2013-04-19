@@ -1,0 +1,24 @@
+<table class='table table-condensed'>
+	<tr>
+<th>Projects</th><th></th><th></th><th></th>
+	<% if allow? :projects, :new %>
+		<td><%= link_to 'New Project', new_project_path(company: @company.id), id: 'new-project' %></td>
+	<% else %>
+		<td></td>
+	<% end %>
+  </tr>
+	<% @company.projects.each do |project| %>
+	  <tr>
+	    <td><%= project.code %></td>
+		<td><%= project.name %></td>
+		<td><%= number_to_currency(project.value) %></td>
+		<td><%= project.status %></td>
+	    <td><%= link_to 'Show', [project] %>
+		<% if allow? :projects, :edit %>
+	    	| <%= link_to 'Edit', edit_project_path(project) %> |
+			<%= link_to 'Destroy', [project], method: :delete, data: { confirm: 'Are you sure?' } %>
+		</td>
+		<% end %>
+	  </tr>
+  <% end %>
+</table>
