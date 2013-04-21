@@ -16,9 +16,13 @@ When(/^I click button "(.*?)"$/) do |target|
 end
 
 Given(/^I visit the (.*?) company page$/) do |arg1|
-  company = Company.find_by_name(arg1)
-  id = company.id
+  @company = Company.find_by_name(arg1)
+  id = @company.id
   visit "/companies/#{id}"
+end
+
+And(/^I fill in "(.*?)" with "(.*?)"$/) do |field, value|
+  fill_in(field, with: value)
 end
 
 Then(/^when I enter the following detail$/) do |table|

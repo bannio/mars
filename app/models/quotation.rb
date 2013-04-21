@@ -19,10 +19,7 @@ class Quotation < ActiveRecord::Base
   
   def import(file)
     CSV.foreach(file.path, headers: true) do |row|
-      if !self.quotation_lines.create(row.to_hash)
-        flash[:alert] = 'some records failed validation'
-        return
-      end
+      self.quotation_lines.create(row.to_hash)
     end
   end
   
