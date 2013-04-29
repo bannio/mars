@@ -14,8 +14,12 @@
 		<div class="span6">
 	    <%= f.association :address, collection: @customer.addresses, label: 'Contact address' %>
 		<%= f.association :delivery_address, collection: @customer.addresses %>
-	    <%= f.input :issue_date, as: :string, input_html: {class: 'date_picker'} %>
-	    <%= f.input :status %>
+		<div class="control-group string optional"><label class="string optional control-label">Date Issued </label>
+		<div class="controls string optional"><label class="string optional control-label">
+		<%= @quotation.issue_date %></label> </div></div>
+	    <div class="control-group string optional"><label class="string optional control-label">Status </label>
+		<div class="controls string optional"><label class="string optional control-label">
+		<%= @quotation.current_state %></label> </div></div>
 		</div>
 	<div class="row">
 		<div class="span12">

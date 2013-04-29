@@ -46,4 +46,31 @@ describe Quotation do
                                     unit_price: 10.0)
     expect {quote.destroy}.to change(QuotationLine, :count).by(-1)
   end
+  
+  it "does not issue quotes with no lines" do
+    quote = Quotation.create(@attr)
+    user = FactoryGirl.create(:user)
+    quote.issue(user).should be_false
+  end
+  
+  it "does issue quotes with lines" do
+    quote = Quotation.create(@attr)
+    lines = quote.quotation_lines.create!(name: 'test item', 
+                                    description: 'test item description',
+                                    quantity: 12,
+                                    unit_price: 10.0)
+    user = FactoryGirl.create(:user)
+    quote.issue(user).should be_valid
+  end
+  
+  it "does not issue quotes unless current_state is open" do
+    quote = Quotation.create(@attr)
+    lines = quote.quotation_lines.create!(name: 'test item', 
+                                    description: 'test item description',
+                                    quantity: 12,
+                                    unit_price: 10.0)
+    user = FactoryGirl.create(:user)
+    quote.events.create(user_id: user.id, state: 'issued')
+    quote.issue(user).should be_false
+  end
 end

@@ -22,6 +22,7 @@ describe QuotationsController do
   
   before do
     user = double('user')
+    user.stub id: 1
     request.env['warden'].stub :authenticate! => user
     controller.stub :current_user => user
     user.stub(:has_role?) do |role|

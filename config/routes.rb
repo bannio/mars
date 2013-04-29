@@ -13,6 +13,8 @@ Mars::Application.routes.draw do
   resources :projects
   
   resources :quotations do
+    put :issue
+    put :reopen
     collection {post :import }
     resources :quotation_lines
   end

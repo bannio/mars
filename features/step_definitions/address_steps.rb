@@ -23,13 +23,13 @@ end
 
 When (/^I click on Edit against the address$/) do
   # works when there is an address present
-  within("tr:nth-child(4) td:nth-child(4)") do
+  within("table.address-table") do
     click_link("Edit")
   end
 end
 
 Then(/^I should not see "(.*?)" against the address$/) do |arg1|
-  within("tr:nth-child(4) td:nth-child(4)") do
+  within("table.address-table") do
     page.should_not have_content("Edit")
   end
 end

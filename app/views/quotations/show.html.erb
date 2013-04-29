@@ -1,6 +1,12 @@
 <h1>Sales Quotation for <%= @quotation.customer.name %></h1>
 <% @title = "MARS - show #{@quotation.name}" %>
-<h3><%= @quotation.code %> <%= link_to 'Edit', edit_quotation_path(@quotation), class: 'pull-right btn btn-primary' %></h3>
+<h3><%= @quotation.code %> 
+<% if @quotation.open? %>
+	<%= link_to 'Edit', edit_quotation_path(@quotation), class: 'pull-right btn btn-primary' %>
+<% else %>
+	<%= link_to 'Re-open', quotation_reopen_path(@quotation), method: :put, id: @quotation.id, 
+		class: 'pull-right btn btn-warning',data: { confirm: 'Are you sure?'} %>
+<% end %></h3>
 
 <table class='table table-condensed' id="sq-header-table">
   <tr>
@@ -46,8 +52,8 @@
   <tr>
     <td>Notes</td>
     <td><%= simple_format(@quotation.notes) %></td>
-	<td></td>
-	<td></td>
+	<td>Status</td>
+	<td><%= @quotation.current_state %></td>
   </tr>
 </table>
 <h3>Detail</h3>
@@ -69,14 +75,17 @@
 			<td class="text-right"><%= number_to_currency(line.unit_price) %></td>
 			<td class="text-right"><%= number_to_currency(line.total) %></td>
 			<td class="text-right">
-			<% if allow? :quotation_line, :edit %>
+			<% if @quotation.open? %>
+			<% if allow? :quotation_lines, :edit %>
 				<%= link_to 'Edit', edit_quotation_quotation_line_path(@quotation, line) %> |
 				<%= link_to 'Remove', [@quotation, line], method: :delete, data: { confirm: 'Are you sure?' } %>
+			<% end %>
 			<% end %>
 			</td>
 		</tr>
 	<% end %>
 </table>
+<% if @quotation.open? %>
 <div class="form-actions">
 	Add line:
 	<%= form_for @quotation, class: 'form-inline' do |q| %>
@@ -100,10 +109,16 @@
 		<%= file_field_tag :file %>
 		<%= hidden_field_tag :id, @quotation.id %>
 		<%= submit_tag "Import",class: "btn btn-primary" %>
-	<% end %>
+	
+		</div>
+		<div class="span3">
+				<%= link_to "Issue Quotation", quotation_issue_path(@quotation), method: :put, id: @quotation.id, 
+				data: { confirm: 'Are you sure? This will prevent further changes' }, class: "btn btn-warning" %>
+			<% end%>
 		</div>
 	</div>
 </div> 
+<% end %>
 <%= link_to 'Customer', company_path(@quotation.customer_id) %> |
 <%= link_to 'Project', project_path(@quotation.project_id) %> | 
 <%= link_to "Printable Quote (PDF)", quotation_path(@quotation, format: "pdf") %>

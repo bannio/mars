@@ -34,7 +34,6 @@ class QuotationsController < ApplicationController
   def new
     @quotation = Quotation.new
     @quotation.code = Quotation.last ? Quotation.last.code.next : 'SQ0001'
-    @quotation.issue_date = Date.today
     @customer = Company.find(params[:customer_id])
     @quotation.customer_id = @customer.id
     @quotation.project_id = params[:project_id]
@@ -59,6 +58,7 @@ class QuotationsController < ApplicationController
 
     respond_to do |format|
       if @quotation.save
+        @quotation.events.create!(state: 'open', user_id: current_user.id)
         format.html { redirect_to @quotation, notice: 'Quotation was successfully created.' }
         format.json { render json: @quotation, status: :created, location: @quotation }
       else
@@ -83,9 +83,42 @@ class QuotationsController < ApplicationController
       end
     end
   end
+  
+  def issue
+    @quotation = Quotation.find(params[:quotation_id])
+   
+    respond_to do |format|
+      if @quotation.issue(current_user) 
+        @quotation.update_attributes(issue_date: Date.today)
+        # redirect to an email action
+        format.html { redirect_to @quotation, flash: {success: 'Quotation status changed to issued'} }
+      else
+        format.html { redirect_to @quotation, flash: {error: @quotation.errors.full_messages.join(' ')} }
+      end
+    end
+  end
+  
+  def email
+    # create new instance of @quotation.emails and render view to complete details
+    # Form_for @quotation, fields_for :emails, @quotation.emails.new do |f|
+    # form offers PDF preview by inline method so back button returns to form
+    # Cancel button leaves them to just print and fax. Returns to issued quotation
+    # Submit button creates email record and initiates (background?) mailer
+  end
+  
+  def reopen
+    @quotation = Quotation.find(params[:quotation_id])
+   
+    respond_to do |format|
+      if @quotation.reopen(current_user) 
+        @quotation.update_attributes(issue_date: Date.today)
+        format.html { redirect_to @quotation, flash: {success: 'Quotation status changed to open'} }
+      else
+        format.html { redirect_to @quotation, flash: {error: @quotation.errors.full_messages.join(' ')} }
+      end
+    end
+  end
 
-  # DELETE /quotations/1
-  # DELETE /quotations/1.json
   def destroy
     @quotation = current_resource
     @quotation.destroy

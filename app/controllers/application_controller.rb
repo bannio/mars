@@ -11,12 +11,6 @@ class ApplicationController < ActionController::Base
 
 private
 
-  # This is probably provided by devise - TODO: check this.
-  # def current_user
-  #   @current_user ||= User.find(session[:user_id]) if session[:user_id]
-  # end
-  # helper_method :current_user
-
   def current_permission
     @current_permission ||= Permissions.permission_for(current_user)
   end

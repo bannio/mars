@@ -1,8 +1,8 @@
-<table class='table table-condensed'>
-  <tr>
+<table class='table table-condensed address-table'>
+  <tr class = 'grey-header'>
   	<th>Addresses</th><td></td><td></td><td></td>
 	<% if allow? :addresses, :new %>
-		<td><%= link_to 'New Address', new_company_address_path(@company), id: 'new-address' %></td>
+		<td class='text-right'><%= link_to 'New Address', new_company_address_path(@company), id: 'new-address' %></td>
 	<% else %>
 		<td></td>
 	<% end %>
@@ -14,7 +14,7 @@
 		<td></td>
 		<td></td>
 		<% if allow? :addresses, :edit %>
-			<td><%= link_to 'Edit', edit_company_address_path(@company, addr) %> 
+			<td class='text-right'><%= link_to 'Edit', edit_company_address_path(@company, addr) %> 
 			| <%= link_to 'Remove', [@company, addr], method: :delete, data: { confirm: 'Are you sure?' }%></td>
 		<% else %>
 			<td></td>
