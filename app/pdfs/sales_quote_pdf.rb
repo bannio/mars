@@ -1,10 +1,7 @@
 class SalesQuotePdf < Prawn::Document
-  def initialize(quotation, view)
+  def initialize(quotation)
     super(bottom_margin: 50)
     @quotation = quotation
-    @view = view
-    
-    # start_new_page(bottom_margin: 50)
     
     define_grid(columns: 3, rows: 7, gutter: 0)
     #grid.show_all
@@ -17,9 +14,7 @@ class SalesQuotePdf < Prawn::Document
     grid([0,0],[0,1]).bounding_box do
       sales_quote_heading
     end
-    # grid([1,2],[2,2]).bounding_box do
-    #       our_address
-    #     end
+
     grid([1,0],[1,1]).bounding_box do
       address_box
     end
@@ -128,7 +123,7 @@ class SalesQuotePdf < Prawn::Document
     end
     
     def price(num)
-      @view.number_to_currency(num)
+      helpers.number_to_currency(num)
     end
     
     def our_address
@@ -156,5 +151,9 @@ class SalesQuotePdf < Prawn::Document
       canvas do
         number_pages string, options
       end
+    end
+    
+    def helpers
+      ActionController::Base.helpers
     end
 end

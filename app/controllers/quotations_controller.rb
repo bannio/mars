@@ -21,7 +21,7 @@ class QuotationsController < ApplicationController
     respond_to do |format|
       format.html
       format.pdf do
-        pdf = SalesQuotePdf.new(@quotation, view_context)
+        pdf = SalesQuotePdf.new(@quotation)
         send_data pdf.render, filename: "#{@quotation.code}.pdf",
                               type: "application/pdf",
                               disposition: "inline"
@@ -104,6 +104,9 @@ class QuotationsController < ApplicationController
     # form offers PDF preview by inline method so back button returns to form
     # Cancel button leaves them to just print and fax. Returns to issued quotation
     # Submit button creates email record and initiates (background?) mailer
+    
+    @user = current_user
+    @quotation = Quotation.find(params[:quotation_id])
   end
   
   def reopen

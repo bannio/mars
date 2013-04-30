@@ -15,8 +15,10 @@ Mars::Application.routes.draw do
   resources :quotations do
     put :issue
     put :reopen
+    get :email
     collection {post :import }
     resources :quotation_lines
+    resources :emails
   end
 
   # devise_for :users , :controllers => {:registrations => "users/registrations", :passwords => "users/passwords"}

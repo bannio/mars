@@ -11,6 +11,8 @@ class Quotation < ActiveRecord::Base
   has_many  :quotation_lines, dependent: :destroy
   accepts_nested_attributes_for :quotation_lines
   has_many :events, as: :eventable
+  has_many :emails, as: :emailable
+  accepts_nested_attributes_for :emails
   
   validates :customer_id, :supplier_id, :project_id, :name, presence: true
   
@@ -45,7 +47,7 @@ class Quotation < ActiveRecord::Base
   end
   
   def issue(user)
-    errors.add(:base, "Only open quotaions may be issued") if !open? 
+    errors.add(:base, "Only open quotations may be issued") if !open? 
     errors.add(:base, "There are no lines on this quotation") if quotation_lines.empty?
     if errors.size == 0
       events.create!(state: "issued", user_id: user.id)

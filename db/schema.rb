@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130426102942) do
+ActiveRecord::Schema.define(:version => 20130429175252) do
 
   create_table "addresses", :force => true do |t|
     t.integer  "company_id"
@@ -45,6 +45,18 @@ ActiveRecord::Schema.define(:version => 20130426102942) do
 
   add_index "contacts", ["address_id"], :name => "index_contacts_on_address_id"
   add_index "contacts", ["company_id"], :name => "index_contacts_on_company_id"
+
+  create_table "emails", :force => true do |t|
+    t.string   "to"
+    t.string   "from"
+    t.string   "subject"
+    t.text     "body"
+    t.string   "attachment"
+    t.integer  "emailable_id"
+    t.string   "emailable_type"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
 
   create_table "events", :force => true do |t|
     t.string   "state"

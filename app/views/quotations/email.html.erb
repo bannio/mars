@@ -1,0 +1,5 @@
+<h1><%= "Email quotation #{@quotation.code}" %></h1>
+
+<%= render 'email_form' %>
+
+<%= link_to 'Customer', company_path(@quotation.customer_id) %>

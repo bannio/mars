@@ -1,0 +1,19 @@
+<%= simple_form_for(@quotation, :html => { :class => 'form-horizontal'}) do |q| %>
+  <%= q.error_notification %>
+
+  <div class="form-inputs">
+	<div class="row">
+		<%= q.fields_for :emails, @quotation.emails.new do |f| %>
+			<%= f.input :to %>
+			<%= f.hidden_field :from, value: @user.email %>
+			<%= f.input :subject %>
+			<%= f.input :body %>
+			<%= f.hidden_field :attachment, value: "#{@quotation.code}.pdf" %>
+			<% end %>
+	</div>
+  </div>
+
+  <div class="form-actions">
+    <%= q.button :submit %>
+  </div>
+<% end %>
