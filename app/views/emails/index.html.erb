@@ -1,0 +1,19 @@
+<h1 id="emails-index-page">Emails</h1>
+<table class="table">
+	<tr>
+		<th>Type</th>
+		<th>From</th>
+		<th>To</th>
+		<th>Attachment</th>
+		<th>Date</th>
+	</tr>
+	<% @emails.each do |email| %>
+		<tr>
+			<td><%= email.emailable_type %></td>
+			<td><%= email.from %></td>
+			<td><%= email.to %></td>
+			<td><%= File.basename(email.attachment) %></td>
+			<td><%= email.created_at.strftime('%F') %></td>
+		</tr>
+	<% end %>
+</table>

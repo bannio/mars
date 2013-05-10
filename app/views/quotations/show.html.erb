@@ -1,4 +1,4 @@
-<h1>Sales Quotation for <%= @quotation.customer.name %></h1>
+<h1 id='quotation-show-page'>Sales Quotation for <%= @quotation.customer.name %></h1>
 <% @title = "MARS - show #{@quotation.name}" %>
 <h3><%= @quotation.code %> 
 <% if @quotation.open? %>
@@ -6,6 +6,8 @@
 <% else %>
 	<%= link_to 'Re-open', quotation_reopen_path(@quotation), method: :put, id: @quotation.id, 
 		class: 'pull-right btn btn-warning',data: { confirm: 'Are you sure?'} %>
+	<%= link_to 'Email quotation', new_email_path(type: 'Quotation', id: @quotation.id),
+		class: 'pull-right btn btn-primary' %>
 <% end %></h3>
 
 <table class='table table-condensed' id="sq-header-table">

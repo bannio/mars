@@ -16,6 +16,7 @@ class QuotationsController < ApplicationController
 
   def show
     @quotation = current_resource
+    flash[:notice] = params[:warning] if params[:warning]
     # @line = @quotation.quotation_lines.new
     
     respond_to do |format|
@@ -34,8 +35,8 @@ class QuotationsController < ApplicationController
   def new
     @quotation = Quotation.new
     @quotation.code = Quotation.last ? Quotation.last.code.next : 'SQ0001'
-    @customer = Company.find(params[:customer_id])
-    @quotation.customer_id = @customer.id
+    @quotation.customer = Company.find(params[:customer_id])
+    # @quotation.customer_id = @customer.id
     @quotation.project_id = params[:project_id]
     @quotation.supplier_id = 2                          # hard coded! To be changed.
 
@@ -90,14 +91,17 @@ class QuotationsController < ApplicationController
     respond_to do |format|
       if @quotation.issue(current_user) 
         @quotation.update_attributes(issue_date: Date.today)
-        # redirect to an email action
-        format.html { redirect_to @quotation, flash: {success: 'Quotation status changed to issued'} }
+        @quotation.create_pdf
+        format.html { redirect_to new_email_path params: {type: 'Quotation',
+                                                          id: @quotation.id} , 
+                                flash: {success: 'Quotation status changed to issued'} }
       else
         format.html { redirect_to @quotation, flash: {error: @quotation.errors.full_messages.join(' ')} }
       end
     end
   end
   
+<<<<<<< HEAD
   def email
     # create new instance of @quotation.emails and render view to complete details
     # Form_for @quotation, fields_for :emails, @quotation.emails.new do |f|
@@ -109,6 +113,8 @@ class QuotationsController < ApplicationController
     @quotation = Quotation.find(params[:quotation_id])
   end
   
+=======
+>>>>>>> email
   def reopen
     @quotation = Quotation.find(params[:quotation_id])
    

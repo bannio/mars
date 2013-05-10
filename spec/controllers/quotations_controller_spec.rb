@@ -9,7 +9,8 @@ describe QuotationsController do
     { name: "MyQuoteString",
       customer_id: 1,
       project_id: 1,
-      supplier_id: 1
+      supplier_id: 1,
+      contact_id: 1
        }
   end
 

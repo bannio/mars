@@ -6,14 +6,14 @@
 		<div class="span6">
 		<%= f.association :supplier %>
 	    <%= f.hidden_field :customer_id %>
-	    <%= f.association :project, collection: @customer.projects %>
+	    <%= f.association :project, collection: @quotation.customer.projects %>
 		<%= f.hidden_field :code, value: @quotation.code %>
 	    <%= f.input :name, label: 'Title' %>
-		<%= f.association :contact, collection: @customer.contacts %>
+		<%= f.association :contact, collection: @quotation.customer.contacts %>
 		</div>
 		<div class="span6">
-	    <%= f.association :address, collection: @customer.addresses, label: 'Contact address' %>
-		<%= f.association :delivery_address, collection: @customer.addresses %>
+	    <%= f.association :address, collection: @quotation.customer.addresses, label: 'Contact address' %>
+		<%= f.association :delivery_address, collection: @quotation.customer.addresses %>
 		<div class="control-group string optional"><label class="string optional control-label">Date Issued </label>
 		<div class="controls string optional"><label class="string optional control-label">
 		<%= @quotation.issue_date %></label> </div></div>
@@ -32,5 +32,6 @@
 
   <div class="form-actions">
     <%= f.button :submit %>
+    <%= link_to 'Cancel', :back, class: 'btn btn-warning'  %>
   </div>
 <% end %>

@@ -12,6 +12,8 @@ class Contact < ActiveRecord::Base
                     uniqueness: { case_sensitive: false }, 
                     email_format: {message: 'format looks invalid'}
                     
+  scope :with_email, where('email like :e', e: "%@%" )
+                    
 private
 
   def self.search(search)

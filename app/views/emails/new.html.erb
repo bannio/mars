@@ -1,0 +1,5 @@
+<h1 id='new_email_page'><%= "Email #{@email.emailable_type}" %></h1>
+
+<%= render 'form' %>
+
+<%= link_to 'Customer', company_path(@email.emailable.customer_id) %>

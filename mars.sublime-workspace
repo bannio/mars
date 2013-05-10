@@ -1,0 +1,464 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"h",
+				"h1	Tag"
+			],
+			[
+				"emailable",
+				"emailable_type"
+			],
+			[
+				"con",
+				"contact_id"
+			],
+			[
+				"cla",
+				"cla	ClassName = Struct .. do .. end"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"selected_items":
+		[
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"lint",
+				"SublimeLinter: Disable Linting"
+			],
+			[
+				"key",
+				"Preferences: Key Bindings - Default"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"syntcuc",
+				"Set Syntax: Cucumber Steps"
+			],
+			[
+				"syngh",
+				"Set Syntax: Gherkin"
+			],
+			[
+				"syncuc",
+				"Set Syntax: Cucumber Steps"
+			],
+			[
+				"pacinsta",
+				"Package Control: Install Package"
+			],
+			[
+				"syntax ra",
+				"Set Syntax: Ruby on Rails"
+			]
+		],
+		"width": 553.0
+	},
+	"console":
+	{
+		"height": 139.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/owen/Projects/mars/features/email_quotation.feature",
+		"/Users/owen/Projects/mars/spec/controllers/emails_controller_spec.rb",
+		"/Users/owen/Projects/mars/app/views/companies/index.html.erb",
+		"/Users/owen/Projects/mars/app/controllers/emails_controller.rb",
+		"/Users/owen/Projects/mars/app/models/email.rb",
+		"/Users/owen/Projects/mars/app/mailers/mars_mailer.rb",
+		"/Users/owen/Projects/mars/app/views/emails/index.html.erb",
+		"/Users/owen/Projects/datasheets/.gitignore",
+		"/Users/owen/Projects/datasheets/README.md",
+		"/Users/owen/Projects/mars/app/views/companies/_companies.html.erb",
+		"/Users/owen/Projects/mars/app/views/emails/_form.html.erb",
+		"/Users/owen/Projects/mars/spec/controllers/addresses_controller_spec.rb",
+		"/Users/owen/Projects/mars/app/controllers/addresses_controller.rb",
+		"/Users/owen/Projects/mars/app/controllers/companies_controller.rb",
+		"/Users/owen/Projects/mars/app/models/permissions/user_permission.rb",
+		"/Users/owen/Projects/mars/app/models/quotation.rb",
+		"/Users/owen/Projects/mars/app/pdfs/sales_quote_pdf.rb",
+		"/Users/owen/Projects/mars/app/controllers/quotations_controller.rb",
+		"/Users/owen/Projects/mars/features/step_definitions/email_steps.rb",
+		"/Users/owen/Projects/mars/features/step_definitions/version_steps.rb",
+		"/Users/owen/Projects/mars/features/version.feature",
+		"/Users/owen/Projects/mars/features/step_definitions/company_steps.rb",
+		"/Users/owen/Projects/mars/features/step_definitions/quotation_steps.rb",
+		"/Users/owen/Projects/mars/features/step_definitions/search_steps.rb",
+		"/Users/owen/Projects/mars/features/step_definitions/contact_steps.rb",
+		"/Users/owen/Projects/mars/features/step_definitions/general_steps.rb",
+		"/Users/owen/Projects/mars/features/step_definitions/address_steps.rb",
+		"/Users/owen/Projects/mars/spec/mailers/mars_mailer_spec.rb",
+		"/Users/owen/Projects/mars/db/schema.rb",
+		"/Users/owen/Projects/mars/spec/factories/addresses.rb",
+		"/Users/owen/Projects/mars/spec/factories/quotations.rb",
+		"/Users/owen/Projects/mars/spec/factories/companies.rb",
+		"/Users/owen/Projects/mars/app/views/emails/new.html.erb",
+		"/Users/owen/Projects/mars/app/models/contact.rb",
+		"/Users/owen/Projects/mars/mars.sublime-project",
+		"/Users/owen/Projects/mars/mars.sublime-workspace",
+		"/Users/owen/Library/Application Support/Sublime Text 2/Packages/User/Preferences.sublime-settings",
+		"/Users/owen/Library/Application Support/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
+		"/Users/owen/Library/Application Support/Sublime Text 2/Packages/Default/Default (OSX).sublime-keymap",
+		"/Users/owen/Projects/mars/features/quotation.feature",
+		"/Users/owen/Projects/mars/app/views/quotations/new.html.erb",
+		"/Users/owen/Projects/mars/app/views/projects/_form.html.erb",
+		"/Users/owen/Projects/flix/app/controllers/movies_controller.rb",
+		"/Users/owen/Projects/flix/app/views/movies/index.html.erb",
+		"/Users/owen/Projects/flix/app/helpers/movies_helper.rb",
+		"/Users/owen/Projects/flix/app/models/movie.rb",
+		"/Users/owen/Projects/flix/config/initializers/date_formats.rb",
+		"/Users/owen/Projects/flix/app/models/concerns/.keep",
+		"/Users/owen/Projects/flix/db/schema.rb",
+		"/Users/owen/Projects/flix/db/migrate/20130429081358_add_columns_to_movies.rb",
+		"/Users/owen/Projects/flix/.gitignore",
+		"/Users/owen/Projects/flix/config/routes.rb"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"spec",
+			"document",
+			"customer",
+			"quotation",
+			"Quotation",
+			"quotation",
+			"Quotation",
+			"quotation"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		},
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 34.0
+	},
+	"input":
+	{
+		"height": 33.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			0.5,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"replace":
+	{
+		"height": 0.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"contema",
+				"app/controllers/emails_controller.rb"
+			],
+			[
+				"companies",
+				"app/views/companies/_companies.html.erb"
+			],
+			[
+				"viewcompind",
+				"app/views/companies/index.html.erb"
+			],
+			[
+				"mars",
+				"app/mailers/mars_mailer.rb"
+			],
+			[
+				"email",
+				"app/models/email.rb"
+			],
+			[
+				"speceme",
+				"spec/controllers/emails_controller_spec.rb"
+			],
+			[
+				"featu",
+				"features/email_quotation.feature"
+			],
+			[
+				"vieemai",
+				"app/views/emails/_form.html.erb"
+			],
+			[
+				"modepermi",
+				"app/models/permissions/user_permission.rb"
+			],
+			[
+				"contcomp",
+				"app/controllers/companies_controller.rb"
+			],
+			[
+				"contadd",
+				"app/controllers/addresses_controller.rb"
+			],
+			[
+				"contspec",
+				"spec/controllers/addresses_controller_spec.rb"
+			],
+			[
+				"emailcontspe",
+				"spec/controllers/emails_controller_spec.rb"
+			],
+			[
+				"featur",
+				"features/email_quotation.feature"
+			],
+			[
+				"versi",
+				"features/version.feature"
+			],
+			[
+				"vers",
+				"features/step_definitions/version_steps.rb"
+			],
+			[
+				"versistep",
+				"features/step_definitions/version_steps.rb"
+			],
+			[
+				"step",
+				"features/step_definitions/email_steps.rb"
+			],
+			[
+				"addrste",
+				"features/step_definitions/address_steps.rb"
+			],
+			[
+				"emailquotfeat",
+				"features/email_quotation.feature"
+			],
+			[
+				"modeemail",
+				"app/models/email.rb"
+			],
+			[
+				"modelquot",
+				"app/models/quotation.rb"
+			],
+			[
+				"contemai",
+				"app/controllers/emails_controller.rb"
+			],
+			[
+				"salesqu",
+				"app/pdfs/sales_quote_pdf.rb"
+			],
+			[
+				"viewemaform",
+				"app/views/emails/_form.html.erb"
+			],
+			[
+				"contemail",
+				"app/controllers/emails_controller.rb"
+			],
+			[
+				"contquot",
+				"app/controllers/quotations_controller.rb"
+			],
+			[
+				"emailform",
+				"app/views/emails/_form.html.erb"
+			],
+			[
+				"schem",
+				"db/schema.rb"
+			],
+			[
+				"quo",
+				"app/models/quotation.rb"
+			],
+			[
+				"factorquot",
+				"spec/factories/quotations.rb"
+			],
+			[
+				"factcomp",
+				"spec/factories/companies.rb"
+			],
+			[
+				"pdf",
+				"app/pdfs/sales_quote_pdf.rb"
+			],
+			[
+				"factor",
+				"spec/factories/addresses.rb"
+			],
+			[
+				"marsmail",
+				"app/mailers/mars_mailer.rb"
+			],
+			[
+				"marsmailspe",
+				"spec/mailers/mars_mailer_spec.rb"
+			],
+			[
+				"emailnew",
+				"app/views/emails/new.html.erb"
+			],
+			[
+				"contact",
+				"app/models/contact.rb"
+			],
+			[
+				"views/emai",
+				"app/views/emails/_form.html.erb"
+			],
+			[
+				"emailcont",
+				"app/controllers/emails_controller.rb"
+			],
+			[
+				"db/",
+				"db/schema.rb"
+			],
+			[
+				"quot",
+				"app/controllers/quotations_controller.rb"
+			],
+			[
+				"versio",
+				"features/version.feature"
+			],
+			[
+				"quotat",
+				"spec/factories/quotations.rb"
+			],
+			[
+				"modelq",
+				"app/models/quotation.rb"
+			],
+			[
+				"quota",
+				"app/models/quotation.rb"
+			],
+			[
+				"quotatcont",
+				"app/controllers/quotations_controller.rb"
+			],
+			[
+				"vieemanew",
+				"app/views/emails/new.html.erb"
+			],
+			[
+				"emailst",
+				"features/step_definitions/email_steps.rb"
+			],
+			[
+				"quotste",
+				"features/step_definitions/quotation_steps.rb"
+			],
+			[
+				"_form",
+				"app/views/quotations/_form.html.erb"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": false,
+	"side_bar_width": 225.0,
+	"status_bar_visible": true
+}

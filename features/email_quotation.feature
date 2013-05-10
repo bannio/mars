@@ -9,12 +9,18 @@ Feature: Email quotations (and other documents)
 	      | name       |
 	      | A Company  |
 	      | Elderberry |
+	    And I have the following addresses
+	      | company | name | body | post_code |
+	      | Elderberry | primary | The Watershed | SO1 23 |
 	    And I have the following projects
 	      | code | name       | company   |
 	      | P001 | My project | A Company |
+	    And I have the following contacts
+	      | name | email | company |
+	      | Fred | fred@example.com | A Company |
 		And I have the following quotations
-		  | code | name | customer | supplier | project |
-		  | SQ001 | Test SQ | A Company | Elderberry | P001 |
+		  | code | name | customer | supplier | project | contact |
+		  | SQ001 | Test SQ | A Company | Elderberry | P001 | Fred |
 		And the quotation has the following lines
 		  | code | name | description | quantity | unit_price |
 		  | SQ001 | chair | office chair | 10 | 220.50 |
@@ -24,3 +30,17 @@ Feature: Email quotations (and other documents)
 	Scenario: Issue a Sales Quotation takes me to an email page
 		When I click "Issue Quotation"
 		Then I should be on the email page
+
+	Scenario: I can issue a Sales Quotation without sending by email
+		When I click "Issue Quotation"
+		Then I should see "Issue without Email"
+		And I click "Issue without Email"
+		Then I should be on the quotation show page
+		And I should see "Email not sent but quotation issued" 
+
+	Scenario: I can send an email
+		When I click "Issue Quotation"
+		And I complete the email fields
+		And I click button "Create Email"
+		Then I should be on the quotation show page
+		And I should see "Email was successfully created." 

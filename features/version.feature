@@ -9,20 +9,28 @@ Feature: Version Control
 	      | name       |
 	      | A Company  |
 	      | Elderberry |
+		And I have the following contacts
+		  | company   | name | email |
+		  | A Company | Fred | fred@example.com |
+		And I have the following addresses
+		  | company | name | body | post_code |
+		  | Elderberry | primary | The Watershed | SO20 8EW |
+		  | A Company  | primary | The factory   | AA12 3BB |
 	    And I have the following projects
 	      | code | name       | company   |
 	      | P001 | My project | A Company |
 		And I have the following quotations
-		  | code | name | customer | supplier | project |
-		  | SQ001 | Test SQ | A Company | Elderberry | P001 |
+		  | code | name | customer | supplier | project | contact | 
+		  | SQ001 | Test SQ | A Company | Elderberry | P001 | Fred | 
 		And I am logged in as a user with a role "sales_quote"
 		And I am on the show page for quotation SQ001
 	
-	Scenario: change sales quotation status from open to issued
+	Scenario: Issue quotation with no email
 		Given the status is "open"
 		And I add a line to the quotation
 		When I click "Issue Quotation"
-		Then I should see "Quotation status changed to issued"
+		And I click "Cancel"
+		Then I should see "Email not sent"
 		And I should see "Status issued"
 		And I should not see "Issue Quotation"
 		And I should see "Re-open"
@@ -43,3 +51,24 @@ Feature: Version Control
 		And I should see "Status open"
 		And I should see "Issue Quotation"
 		And I should not see "Re-open"
+		
+	Scenario: Cannot issue a quotation without a contact email
+		Given the status is "open"
+		And Fred has no email
+		And I add a line to the quotation
+		When I click "Issue Quotation"
+		Then I should see "There must be a contact with an email address to issue to"
+		And I should not see "Status issued"
+		And I should see "Issue Quotation"
+		And I should not see "Re-open"
+	
+	Scenario: Issue quotation with email
+		Given the status is "open"
+		And I add a line to the quotation
+		When I click "Issue Quotation"
+		And I complete the email fields
+		And I click button "Create Email"
+		Then I should see "Email was successfully created"
+		And I should see "Status issued"
+		And I should not see "Issue Quotation"
+		And I should see "Re-open"

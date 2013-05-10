@@ -14,7 +14,7 @@ class Quotation < ActiveRecord::Base
   has_many :emails, as: :emailable
   accepts_nested_attributes_for :emails
   
-  validates :customer_id, :supplier_id, :project_id, :name, presence: true
+  validates :customer_id, :supplier_id, :project_id, :name, :contact_id, presence: true
   
   STATES = %w[open issued cancelled ordered]
   delegate :open?, :issued?, :cancelled?, :ordered?, to: :current_state
@@ -47,12 +47,21 @@ class Quotation < ActiveRecord::Base
   end
   
   def issue(user)
-    errors.add(:base, "Only open quotations may be issued") if !open? 
-    errors.add(:base, "There are no lines on this quotation") if quotation_lines.empty?
+    errors.add(:base, "Only open quotations may be issued.") if !open? 
+    errors.add(:base, "There are no lines on this quotation.") if quotation_lines.empty?
+    #errors.add(:base, "There must be a contact with an email address to issue to.") if no_email? 
     if errors.size == 0
       events.create!(state: "issued", user_id: user.id)
     else
       false
+    end
+  end
+  
+  def no_email?
+    if Contact.find(contact_id) && !Contact.find(contact_id).email.empty?
+      false
+    else 
+      true
     end
   end
   
@@ -63,5 +72,11 @@ class Quotation < ActiveRecord::Base
   def convert
     # if issued then create a sales order and if saved successfully then create event
     events.create!(state: "ordered", user_id: current_user.id) if issued?
+  end
+
+  def create_pdf
+    output_path = File.join(Rails.root, 'data', 'quotation')
+    filename = "#{self.code}.pdf"
+    SalesQuotePdf.new(self).render_file(File.join(output_path, filename))
   end
 end

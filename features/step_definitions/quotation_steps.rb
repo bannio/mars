@@ -11,6 +11,10 @@ When(/^I select supplier "(.*?)"$/) do |supplier|
   select( supplier, from: 'Supplier' )
 end
 
+When(/^I select contact "(.*?)"$/) do |contact|
+  select( contact, from: 'quotation[contact_id]' )
+end
+
 When(/^I click button "(.*?)"$/) do |target|
   click_button "#{target}"
 end
@@ -48,4 +52,8 @@ end
 
 Then(/^I should see a successfully imported message$/) do
   page.should have_content('successfully imported')
+end
+
+Then(/^I should be on the quotation show page$/) do
+  page.should have_selector('#quotation-show-page')
 end

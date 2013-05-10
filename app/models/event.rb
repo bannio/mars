@@ -3,16 +3,18 @@ class Event < ActiveRecord::Base
   belongs_to :eventable, polymorphic: true
  
   
-  validates_inclusion_of :state, in: Quotation::STATES
+   validates_inclusion_of :state, in: Quotation::STATES, if: :quotation?
   
-  # def self.with_last_state(state)
-  #   order("id desc").group(eventable_id).having(state: state)
-  # end
+
   
   def self.with_last_state(state)
     where("events.id in (SELECT MAX(events.id) FROM events GROUP BY eventable_id) AND state = '#{state}'")
   end
   
   private
+
+  def quotation?
+    eventable_type == 'Quotation'
+  end
   
 end

@@ -9,5 +9,5 @@ Given(/^the quotation has the following lines$/) do |table|
 end
 
 Then(/^I should be on the email page$/) do
-  pending # express the regexp above with the code you wish you had
+  page.should have_selector('#new_email_page')
 end

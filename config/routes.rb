@@ -11,6 +11,7 @@ Mars::Application.routes.draw do
     resources :addresses
   end
   resources :projects
+  resources :emails
   
   resources :quotations do
     put :issue

@@ -9,6 +9,8 @@ module Permissions
       allow :quotations, [:index, :show]
       allow :quotation_lines, [:index, :show]
       allow 'users/registrations', [:edit, :update]
+      allow :emails, [:new, :create, :index]
+      allow_param :email, [:attachment, :body, :emailable_id, :emailable_type, :from, :subject, :to]
       if user.has_role?('company')
         allow :companies, [:new, :create, :edit, :update, :destroy] 
         allow_param :company, [:name, :reference]

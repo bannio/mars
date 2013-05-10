@@ -37,10 +37,14 @@ class SalesQuotePdf < Prawn::Document
   end
   
   def address_box
+    if @quotation.address
     text_box "#{@quotation.customer.name}
               #{@quotation.address.body}
               #{@quotation.address.post_code}",
               size: 12 
+    else
+      text_box "MISSING AN ADDRESS!"
+    end
   end
   
   def sales_quote_heading

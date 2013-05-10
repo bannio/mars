@@ -1,0 +1,23 @@
+<%= simple_form_for @email, :html => { :class => 'form-horizontal'} do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+	<div class="row">
+			<%= f.input :to,
+						collection: @email.emailable.customer.contacts.with_email,
+						value_method: :email %>
+			<%= f.hidden_field :from, value: @user.email %>
+			<%= f.input :subject, input_html: {value: "#{@email.emailable_type} - #{@email.emailable.code}"} %>
+			<%= f.input :body, input_html: {value: "Please find #{@email.emailable_type} - #{@email.emailable.code} attached."}%>
+			<%= f.hidden_field :attachment, value: format_attachment(@email) %>
+			<%= f.hidden_field :emailable_type, value: @email.emailable_type %>
+			<%= f.hidden_field :emailable_id, value: @email.emailable.id %>
+	</div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+	<%= link_to 'Issue without Email', quotation_path(@email.emailable_id, warning: 'Email not sent but quotation issued'), 
+		class: 'btn btn-warning' %>
+  </div>
+<% end %>
