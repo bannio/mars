@@ -101,20 +101,6 @@ class QuotationsController < ApplicationController
     end
   end
   
-<<<<<<< HEAD
-  def email
-    # create new instance of @quotation.emails and render view to complete details
-    # Form_for @quotation, fields_for :emails, @quotation.emails.new do |f|
-    # form offers PDF preview by inline method so back button returns to form
-    # Cancel button leaves them to just print and fax. Returns to issued quotation
-    # Submit button creates email record and initiates (background?) mailer
-    
-    @user = current_user
-    @quotation = Quotation.find(params[:quotation_id])
-  end
-  
-=======
->>>>>>> email
   def reopen
     @quotation = Quotation.find(params[:quotation_id])
    
