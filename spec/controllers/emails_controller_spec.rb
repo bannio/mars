@@ -7,7 +7,7 @@ describe EmailsController do
 			to:     	'to@example.com', 
 			subject: 	'My Email',
 			body:    	'Email text here',
-			attachment: 'SQ001.pdf',
+			attachment: File.join(Rails.root, 'spec/fixtures/mars_mailer/SQ0018.pdf'),
 			emailable_type: 'Quotation',
 			emailable_id: 1
 		}

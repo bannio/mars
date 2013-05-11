@@ -29,7 +29,7 @@ Feature: Version Control
 		Given the status is "open"
 		And I add a line to the quotation
 		When I click "Issue Quotation"
-		And I click "Cancel"
+		And I click "Issue without Email"
 		Then I should see "Email not sent"
 		And I should see "Status issued"
 		And I should not see "Issue Quotation"
@@ -52,15 +52,14 @@ Feature: Version Control
 		And I should see "Issue Quotation"
 		And I should not see "Re-open"
 		
-	Scenario: Cannot issue a quotation without a contact email
+	Scenario: Can issue a quotation without a contact email
 		Given the status is "open"
 		And Fred has no email
 		And I add a line to the quotation
 		When I click "Issue Quotation"
-		Then I should see "There must be a contact with an email address to issue to"
-		And I should not see "Status issued"
-		And I should see "Issue Quotation"
-		And I should not see "Re-open"
+		And I click "Issue without Email"
+		Then I should not see "There must be a contact with an email address to issue to"
+		And I should see "Status issued"
 	
 	Scenario: Issue quotation with email
 		Given the status is "open"
