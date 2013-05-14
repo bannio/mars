@@ -41,6 +41,7 @@ describe QuotationLinesController do
   before do
     user = double('user')
     request.env['warden'].stub :authenticate! => user
+    request.env['HTTP_REFERER'] = '/'
     controller.stub :current_user => user
     user.stub(:has_role?) do |role|
       if role == 'sales_quote'
@@ -53,26 +54,11 @@ describe QuotationLinesController do
     controller.stub(:session).and_return({return_to: quotations_path})  # for redirects to return_to path
   end
 
-  describe "GET index" do
-    it "assigns all quotation_lines as @quotation_lines" do
-      quotation_line = QuotationLine.create! valid_attributes
-      get :index, {}, valid_session
-      assigns(:quotation_lines).should eq([quotation_line])
-    end
-  end
-
   describe "GET show" do
     it "assigns the requested quotation_line as @quotation_line" do
       quotation_line = QuotationLine.create! valid_attributes
       get :show, {quotation_id: @quotation, quotation: @quotation.id, :id => quotation_line.to_param}, valid_session
       assigns(:quotation_line).should eq(quotation_line)
-    end
-  end
-
-  describe "GET new" do
-    it "assigns a new quotation_line as @quotation_line" do
-      get :new, {quotation_id: @quotation }, valid_session
-      assigns(:quotation_line).should be_a_new(QuotationLine)
     end
   end
 
@@ -84,43 +70,6 @@ describe QuotationLinesController do
     end
   end
 
-  describe "POST create" do
-    describe "with valid params" do
-      it "creates a new QuotationLine" do
-        expect {
-          post :create, {quotation_id: @quotation, :quotation_line => valid_attributes}, valid_session
-        }.to change(QuotationLine, :count).by(1)
-      end
-
-      it "assigns a newly created quotation_line as @quotation_line" do
-        post :create, {quotation_id: @quotation, :quotation_line => valid_attributes}, valid_session
-        assigns(:quotation_line).should be_a(QuotationLine)
-        assigns(:quotation_line).should be_persisted
-      end
-
-      it "redirects to the calling page" do
-        post :create, {quotation_id: @quotation, :quotation_line => valid_attributes}, valid_session
-        response.should redirect_to(quotations_path)
-      end
-    end
-
-    describe "with invalid params" do
-      it "assigns a newly created but unsaved quotation_line as @quotation_line" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        QuotationLine.any_instance.stub(:save).and_return(false)
-        post :create, {quotation_id: @quotation, :quotation_line => { "name" => "invalid value" }}, valid_session
-        assigns(:quotation_line).should be_a_new(QuotationLine)
-      end
-
-      it "re-renders the 'new' template" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        QuotationLine.any_instance.stub(:save).and_return(false)
-        post :create, {quotation_id: @quotation, :quotation_line => { "name" => "invalid value" }}, valid_session
-        response.should render_template("new")
-      end
-    end
-  end
-
   describe "PUT update" do
     describe "with valid params" do
       it "updates the requested quotation_line" do
@@ -129,7 +78,7 @@ describe QuotationLinesController do
         # specifies that the QuotationLine created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        QuotationLine.any_instance.should_receive(:update_attributes).with({ "name" => "MyString","total"=> 9.99 })
+        QuotationLine.any_instance.should_receive(:update_attributes).with({ "name" => "MyString" })
         put :update, {quotation_id: @quotation, :id => quotation_line.to_param, :quotation_line => { "name" => "MyString" }}, valid_session
       end
 
@@ -166,9 +115,9 @@ describe QuotationLinesController do
   end
 
   describe "DELETE destroy" do
-    before do
-      controller.request.stub(:referer).and_return quotation_lines_index_url
-    end
+    # before do
+    #   controller.request.stub(:referer).and_return quotation_lines_index_url
+    # end
     it "destroys the requested quotation_line" do
       quotation_line = QuotationLine.create! valid_attributes
       expect {
@@ -176,10 +125,10 @@ describe QuotationLinesController do
       }.to change(QuotationLine, :count).by(-1)
     end
 
-    it "redirects to the quotation_lines list" do
+    it "redirects to the referer" do
       quotation_line = QuotationLine.create! valid_attributes
       delete :destroy, {quotation_id: @quotation, id: quotation_line.to_param}, valid_session
-      response.should redirect_to(quotation_lines_index_url)
+      response.should redirect_to(root_url)
     end
   end
 

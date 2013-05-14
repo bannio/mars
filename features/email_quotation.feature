@@ -36,7 +36,6 @@ Feature: Email quotations (and other documents)
 		Then I should see "Issue without Email"
 		And I click "Issue without Email"
 		Then I should be on the quotation show page
-		And I should see "Email not sent but quotation issued" 
 
 	Scenario: I can send an email
 		When I click "Issue Quotation"

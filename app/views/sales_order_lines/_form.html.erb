@@ -1,8 +1,8 @@
-<%= simple_form_for @quotation_line, :html => { :class => 'form-horizontal'} do |f| %>
+<%= simple_form_for @sales_order_line, :html => { :class => 'form-horizontal'} do |f| %>
   <%= f.error_notification %>
 
   <div class="form-inputs">
-	<%= f.hidden_field :quotation_id, value: @quotation_line.quotation_id %>
+	<%= f.hidden_field :sales_order_id, value: @sales_order_line.sales_order_id %>
     <%= f.input :name %>
     <%= f.input :description, input_html: {rows: 4, class: 'span8'} %>
     <%= f.input :quantity %>

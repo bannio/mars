@@ -11,7 +11,11 @@ When(/^I select supplier "(.*?)"$/) do |supplier|
   select( supplier, from: 'Supplier' )
 end
 
-When(/^I select contact "(.*?)"$/) do |contact|
+When(/^I select sales_order contact "(.*?)"$/) do |contact|
+  select( contact, from: 'sales_order[contact_id]' )
+end
+
+When(/^I select quotation contact "(.*?)"$/) do |contact|
   select( contact, from: 'quotation[contact_id]' )
 end
 
@@ -38,6 +42,7 @@ Then(/^when I enter the following detail$/) do |table|
   end
 end
 
+
 Then(/^I should see (.\d,?\d*\.\d{2}) in the header table$/) do |value|
   within("table#sq-header-table"){page.should have_content(value)}
 end
@@ -56,4 +61,5 @@ end
 
 Then(/^I should be on the quotation show page$/) do
   page.should have_selector('#quotation-show-page')
+  # expect(current_path).to eq(quotation_path)  <- this won't work without a quotation id
 end

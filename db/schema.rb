@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130429175252) do
+ActiveRecord::Schema.define(:version => 20130511173657) do
 
   create_table "addresses", :force => true do |t|
     t.integer  "company_id"
@@ -101,7 +101,6 @@ ActiveRecord::Schema.define(:version => 20130429175252) do
     t.integer  "supplier_id"
     t.integer  "contact_id"
     t.date     "issue_date"
-    t.string   "status"
     t.text     "notes"
     t.integer  "address_id"
     t.datetime "created_at",          :null => false
@@ -109,6 +108,33 @@ ActiveRecord::Schema.define(:version => 20130429175252) do
     t.string   "code"
     t.text     "description"
     t.integer  "delivery_address_id"
+  end
+
+  create_table "sales_order_lines", :force => true do |t|
+    t.integer  "sales_order_id"
+    t.string   "name"
+    t.text     "description"
+    t.integer  "quantity"
+    t.decimal  "unit_price",     :precision => 10, :scale => 2
+    t.decimal  "total",          :precision => 10, :scale => 2
+    t.datetime "created_at",                                    :null => false
+    t.datetime "updated_at",                                    :null => false
+  end
+
+  create_table "sales_orders", :force => true do |t|
+    t.string   "name"
+    t.integer  "project_id"
+    t.integer  "customer_id"
+    t.integer  "supplier_id"
+    t.integer  "contact_id"
+    t.date     "issue_date"
+    t.text     "notes"
+    t.integer  "address_id"
+    t.string   "code"
+    t.text     "description"
+    t.integer  "delivery_address_id"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
   end
 
   create_table "users", :force => true do |t|

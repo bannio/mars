@@ -9,5 +9,6 @@ Given(/^the quotation has the following lines$/) do |table|
 end
 
 Then(/^I should be on the email page$/) do
-  page.should have_selector('#new_email_page')
+  # page.should have_selector('#new_email_page')
+  expect(current_path).to eq(new_email_path)
 end

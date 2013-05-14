@@ -21,7 +21,7 @@ Feature: In order to sell to companies I need to be able to issue sales quotatio
 		When I select supplier "Elderberry"
 		And I select project "My project"
 		And I fill in "Title" with "Test Quote"
-		And I select contact "Fred"
+		And I select quotation contact "Fred"
 		And I click button "Create Quotation"
 		Then I should see a successfully created message
 		And I should be on the "Sales Quotation for" page
@@ -31,7 +31,7 @@ Feature: In order to sell to companies I need to be able to issue sales quotatio
 		And I select supplier "Elderberry"
 		And I select project "My project"
 		And I fill in "Title" with "Test Quote"
-		And I select contact "Fred"
+		And I select quotation contact "Fred"
 		And I click button "Create Quotation"
 		Then I should be on the "Sales Quotation for" page
 		And when I enter the following detail
@@ -47,7 +47,7 @@ Feature: In order to sell to companies I need to be able to issue sales quotatio
 		And I select supplier "Elderberry"
 		And I select project "My project"
 		And I fill in "Title" with "Test Quote"
-		And I select contact "Fred"
+		And I select quotation contact "Fred"
 		And I click button "Create Quotation"
 		Then I should be on the "Sales Quotation for" page
 		When I select the file "spec/fixtures/testquotelines.csv"

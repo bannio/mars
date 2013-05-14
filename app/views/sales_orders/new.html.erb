@@ -1,0 +1,5 @@
+<h1><%= "New sales order #{@sales_order.code}" %></h1>
+
+<%= render 'form' %>
+
+<%= link_to 'Customer', company_path(@sales_order.customer) %>

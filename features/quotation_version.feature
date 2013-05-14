@@ -30,7 +30,6 @@ Feature: Version Control
 		And I add a line to the quotation
 		When I click "Issue Quotation"
 		And I click "Issue without Email"
-		Then I should see "Email not sent"
 		And I should see "Status issued"
 		And I should not see "Issue Quotation"
 		And I should see "Re-open"
@@ -67,7 +66,6 @@ Feature: Version Control
 		When I click "Issue Quotation"
 		And I complete the email fields
 		And I click button "Create Email"
-		Then I should see "Email was successfully created"
-		And I should see "Status issued"
+		Then I should see "Status issued"
 		And I should not see "Issue Quotation"
 		And I should see "Re-open"

@@ -7,12 +7,12 @@
 		<td></td>
 	<% end %>
   </tr>
-	<% @project.company.requested_quotations.each do |quote| %>
+	<% @project.quotations.each do |quote| %>
 	  <tr>
 		<td><%= quote.code %></td>
 	    <td><%= quote.name %></td>
 		<td><%= number_to_currency(quote.total) %></td>
-		<td><%= quote.status %></td>
+		<td><%= quote.current_state %></td>
 	    <td><%= link_to 'Show', [quote] %>
 		<% if allow? :quotations, :edit %>
 	    	| <%= link_to 'Edit', edit_quotation_path(quote) %> |

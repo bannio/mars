@@ -1,0 +1,19 @@
+<table class='table table-condensed'>
+  <tr class = 'grey-header'>
+    <th>Sales Orders</th><th></th><th></th><th></th>
+	<% if allow? :sales_orders, :new %>
+		<td class='text-right'><%= link_to 'New Sales Order', new_sales_order_path(customer_id: @company.id), id: 'new-sales-order' %></td>
+	<% else %>
+		<td></td>
+	<% end %>
+  </tr>
+	<% @company.requested_sales_orders.order("id DESC").each do |sales_order| %>
+	  <tr>
+		<td><%= sales_order.code %></td>
+	    <td><%= sales_order.name %></td>
+		<td><%= number_to_currency(sales_order.total) %></td>
+		<td><%= sales_order.current_state %></td>
+	    <td class='text-right'><%= link_to 'Show', [sales_order] %></td>
+	  </tr>
+  <% end %>
+</table>

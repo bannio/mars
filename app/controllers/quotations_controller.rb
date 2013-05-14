@@ -1,7 +1,8 @@
 class QuotationsController < ApplicationController
 
+  before_filter :find_quotation, only: [:show, :edit, :update, :destroy, :issue, :import, :reopen, :convert]
+
   def import
-    @quotation = current_resource
     @quotation.import(params[:file])
     redirect_to :back, flash: {success: 'Lines were successfully imported'}
   end
@@ -15,7 +16,6 @@ class QuotationsController < ApplicationController
   end
 
   def show
-    @quotation = current_resource
     flash[:notice] = params[:warning] if params[:warning]
     # @line = @quotation.quotation_lines.new
     
@@ -30,8 +30,6 @@ class QuotationsController < ApplicationController
     end
   end
 
-  # GET /quotations/new
-  # GET /quotations/new.json
   def new
     @quotation = Quotation.new
     @quotation.code = Quotation.last ? Quotation.last.code.next : 'SQ0001'
@@ -46,14 +44,10 @@ class QuotationsController < ApplicationController
     end
   end
 
-  # GET /quotations/1/edit
   def edit
-    @quotation = current_resource
     @customer = Company.find(@quotation.customer_id)
   end
 
-  # POST /quotations
-  # POST /quotations.json
   def create
     @quotation = Quotation.new(params[:quotation])
 
@@ -72,8 +66,6 @@ class QuotationsController < ApplicationController
   # PATCH/PUT /quotations/1
   # PATCH/PUT /quotations/1.json
   def update
-    @quotation = current_resource
-
     respond_to do |format|
       if @quotation.update_attributes(params[:quotation])
         format.html { redirect_to @quotation, notice: 'Quotation was successfully updated.' }
@@ -86,8 +78,6 @@ class QuotationsController < ApplicationController
   end
   
   def issue
-    @quotation = Quotation.find(params[:quotation_id])
-   
     respond_to do |format|
       if @quotation.issue(current_user) 
         @quotation.update_attributes(issue_date: Date.today)
@@ -102,11 +92,9 @@ class QuotationsController < ApplicationController
   end
   
   def reopen
-    @quotation = Quotation.find(params[:quotation_id])
-   
     respond_to do |format|
       if @quotation.reopen(current_user) 
-        @quotation.update_attributes(issue_date: Date.today)
+        # @quotation.update_attributes(issue_date: Date.today)
         format.html { redirect_to @quotation, flash: {success: 'Quotation status changed to open'} }
       else
         format.html { redirect_to @quotation, flash: {error: @quotation.errors.full_messages.join(' ')} }
@@ -114,8 +102,19 @@ class QuotationsController < ApplicationController
     end
   end
 
+  def convert
+    respond_to do |format|
+      # create a new sales order based on the quotation and change status of quotation to 'ordered'
+      if @quotation.convert(current_user)
+        @quotation.clone_as_sales_order
+        format.html { redirect_to @quotation.customer, flash: {success: 'New Sales Order created'}}
+      else
+        format.html { redirect_to @quotation, flash: {error: @quotation.errors.full_messages.join(' ')} }
+      end
+    end
+  end
+
   def destroy
-    @quotation = current_resource
     @quotation.destroy
 
     respond_to do |format|
@@ -126,7 +125,8 @@ class QuotationsController < ApplicationController
 
   private
 
-  def current_resource
-    @current_resource ||= Quotation.find(params[:id]) if params[:id]
+  def find_quotation
+    @quotation = Quotation.find(params[:id]) if params[:id]
   end
+
 end

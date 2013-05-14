@@ -45,6 +45,10 @@ class Quotation < ActiveRecord::Base
       false
     end
   end
+
+  def self.next_code
+    last.code.gsub(/R\d+$/, '').next
+  end
   
   def issue(user)
     errors.add(:base, "Only open quotations may be issued.") if !open? 
@@ -65,13 +69,25 @@ class Quotation < ActiveRecord::Base
     end
   end
   
-  def cancel
-    events.create!(state: "cancelled", user_id: current_user.id) if open?
+  def cancel(user)
+    events.create!(state: "cancelled", user_id: user.id) if open?
   end
   
-  def convert
+  def convert(user)
     # if issued then create a sales order and if saved successfully then create event
-    events.create!(state: "ordered", user_id: current_user.id) if issued?
+    events.create!(state: "ordered", user_id: user.id) if issued?
+  end
+
+  def clone_as_sales_order
+    sales_order = SalesOrder.new(self.attributes)
+    sales_order.code = SalesOrder.next_code
+    self.quotation_lines.each do |line|
+      sales_order.sales_order_lines.build(name: line.name,
+                                          description: line.description,
+                                          quantity: line.quantity,
+                                          unit_price: line.unit_price)
+    end
+    sales_order.save
   end
 
   def create_pdf

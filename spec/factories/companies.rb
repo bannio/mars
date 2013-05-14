@@ -3,5 +3,13 @@
 FactoryGirl.define do
   factory :company do
     name "MyCompany"
+
+    factory :customer do
+	  end
+
+	  factory :supplier do
+	  end
   end
 end
+
+

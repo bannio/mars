@@ -3,9 +3,9 @@
 <h3><%= @quotation.code %> 
 <% if @quotation.open? %>
 	<%= link_to 'Edit', edit_quotation_path(@quotation), class: 'pull-right btn btn-primary' %>
-<% else %>
-	<%= link_to 'Re-open', quotation_reopen_path(@quotation), method: :put, id: @quotation.id, 
-		class: 'pull-right btn btn-warning',data: { confirm: 'Are you sure?'} %>
+<% elsif @quotation.issued? %>
+	<%= link_to 'Re-open', reopen_quotation_path(@quotation), method: :put, 
+		class: 'pull-right btn btn-warning',data: { confirm: 'Are you sure?'} %> 
 	<%= link_to 'Email quotation', new_email_path(type: 'Quotation', id: @quotation.id),
 		class: 'pull-right btn btn-primary' %>
 <% end %></h3>
@@ -79,26 +79,24 @@
 			<td class="text-right">
 			<% if @quotation.open? %>
 			<% if allow? :quotation_lines, :edit %>
-				<%= link_to 'Edit', edit_quotation_quotation_line_path(@quotation, line) %> |
-				<%= link_to 'Remove', [@quotation, line], method: :delete, data: { confirm: 'Are you sure?' } %>
+				<%= link_to 'Edit', edit_quotation_line_path(line) %> |
+				<%= link_to 'Remove', quotation_line_path(line), method: :delete, data: { confirm: 'Are you sure?' } %>
 			<% end %>
 			<% end %>
 			</td>
 		</tr>
 	<% end %>
 </table>
+<% if @quotation.issued? %>
+	<%= link_to 'Make Order', convert_quotation_path(@quotation), method: :post,
+				class: 'pull-right btn btn-primary',data: { confirm: 'Are you sure?'} %>
+<% end %>
 <% if @quotation.open? %>
 <div class="form-actions">
 	Add line:
-	<%= form_for @quotation, class: 'form-inline' do |q| %>
-		<%= q.fields_for :quotation_lines, @quotation.quotation_lines.new do |f| %>
-		<fieldset id="new-line-form">
-			<%= f.text_field :name, placeholder: 'item' ,class: 'span2'%>
-			<%= f.text_area :description, placeholder: 'specification',class: 'span5',rows: 1 %>
-			<%= f.text_field :quantity, placeholder: 'quantity',class: 'span2' %>
-			<%= f.text_field :unit_price, placeholder: 'unit price',class: 'span2' %>
-			<%= f.submit 'Add', class: 'btn btn-primary pull-right' %>
-		</fieldset>
+	<%= form_for @quotation, class: 'form-inline' do |f| %>
+		<%= f.fields_for :quotation_lines, @quotation.quotation_lines.new do |builder| %>
+		<%= render 'shared/lines', f: builder %>
 		<% end %>
 	<% end %>
 
@@ -114,7 +112,7 @@
 	
 		</div>
 		<div class="span3">
-				<%= link_to "Issue Quotation", quotation_issue_path(@quotation), method: :put, id: @quotation.id, 
+				<%= link_to "Issue Quotation", issue_quotation_path(@quotation), method: :put, #id: @quotation.id, 
 				data: { confirm: 'Are you sure? This will prevent further changes' }, class: "btn btn-warning" %>
 			<% end%>
 		</div>

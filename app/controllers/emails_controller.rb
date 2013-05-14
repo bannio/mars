@@ -16,7 +16,7 @@ class EmailsController < ApplicationController
     
     respond_to do |format|
       if @email.save
-        format.html { redirect_to @email.emailable, notice: 'Email was successfully created.' }
+        format.html { redirect_to @email.emailable, flash: { success: 'Email was successfully created.'} }
       else
         @user = current_user
         format.html { render action: "new" }
