@@ -10,6 +10,8 @@ class Company < ActiveRecord::Base
   
   validates_presence_of :name
   before_destroy :check_for_contacts, :check_for_addresses
+
+  scope :owned, where(name: ENV["OUR_COMPANY_NAMES"].split(/,/))
   
 private
 

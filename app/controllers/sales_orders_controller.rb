@@ -61,8 +61,7 @@ class SalesOrdersController < ApplicationController
       if @sales_order.issue(current_user)
         @sales_order.update_attributes(issue_date: Date.today)
         @sales_order.create_pdf
-        format.html { redirect_to new_email_path params: {type: 'SalesOrder', id: @sales_order.id},
-                        flash: {success: 'Quotation status changed to issued'}}
+        format.html { redirect_to new_email_path params: {type: 'SalesOrder', id: @sales_order.id}}
       else
         format.html {redirect_to @sales_order, flash: {error: @sales_order.errors.full_messages.join(' ')} }
       end

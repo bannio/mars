@@ -4,8 +4,10 @@ Feature: In order to sell to companies I need to be able to issue sales orders.
 	Background:
 		Given I have the following companies
 			|name|
-			|Z Company|
 			|Elderberry|
+			|Z Company|
+		And "Elderberry" has an address
+
 		And I have the following projects
 			| code |name| company |
 			| P001 |My project |Z Company |
@@ -22,7 +24,8 @@ Feature: In order to sell to companies I need to be able to issue sales orders.
 		And I select project "My project"
 		And I fill in "Title" with "Test Quote"
 		And I select sales_order contact "Fred"
-		And I click button "Create Sales Order"
+
+		And I click button "Create Sales order"
 		Then I should see a successfully created message
 		And I should be on the "Sales Order for" page
 		
@@ -32,7 +35,7 @@ Feature: In order to sell to companies I need to be able to issue sales orders.
 		And I select project "My project"
 		And I fill in "Title" with "Test Quote"
 		And I select sales_order contact "Fred"
-		And I click button "Create Sales Order"
+		And I click button "Create Sales order"
 		Then I should be on the "Sales Order for" page
 		And when I enter the following sales line detail
 			|name|description|quantity|unit_price|

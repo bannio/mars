@@ -92,32 +92,29 @@
 				class: 'pull-right btn btn-primary',data: { confirm: 'Are you sure?'} %>
 <% end %>
 <% if @quotation.open? %>
-<div class="form-actions">
-	Add line:
-	<%= form_for @quotation, class: 'form-inline' do |f| %>
-		<%= f.fields_for :quotation_lines, @quotation.quotation_lines.new do |builder| %>
-		<%= render 'shared/lines', f: builder %>
+	<div class="form-actions">
+		Add line:
+		<%= form_for @quotation, class: 'form-inline' do |f| %>
+			<%= f.fields_for :quotation_lines, @quotation.quotation_lines.new do |builder| %>
+			<%= render 'shared/lines', f: builder %>
+			<% end %>
 		<% end %>
-	<% end %>
-
-	<div class='row'>
-		<div class='span3'>
-			or select CSV file to upload:
-		</div>
-		<div class='span6'>
-	<%= form_tag import_quotations_path, multipart: true do %>
-		<%= file_field_tag :file %>
-		<%= hidden_field_tag :id, @quotation.id %>
-		<%= submit_tag "Import",class: "btn btn-primary" %>
-	
-		</div>
-		<div class="span3">
-				<%= link_to "Issue Quotation", issue_quotation_path(@quotation), method: :put, #id: @quotation.id, 
-				data: { confirm: 'Are you sure? This will prevent further changes' }, class: "btn btn-warning" %>
-			<% end%>
+		<div class='row'>
+			<div class='span3'>
+				or select CSV file to upload:
+			</div>
+			<div class='span6'>
+				<%= form_tag import_quotations_path, multipart: true do %>
+				<%= file_field_tag :file %>
+				<%= hidden_field_tag :id, @quotation.id %>
+				<%= submit_tag "Import",class: "btn btn-primary" %>
+				<% end%>
+			</div>
 		</div>
 	</div>
-</div> 
+					<%= link_to "Issue Quotation", issue_quotation_path(@quotation), method: :put, #id: @quotation.id, 
+					data: { confirm: 'Are you sure? This will prevent further changes' }, class: "btn btn-warning" %> 
+					<br />
 <% end %>
 <%= link_to 'Customer', company_path(@quotation.customer_id) %> |
 <%= link_to 'Project', project_path(@quotation.project_id) %> | 

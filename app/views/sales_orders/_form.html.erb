@@ -4,7 +4,7 @@
   <div class="form-inputs">
 	<div class="row">
 		<div class="span6">
-		<%= f.association :supplier %>
+		<%= f.association :supplier, collection: Company.owned %>
 	    <%= f.hidden_field :customer_id %>
 	    <%= f.association :project, collection: @sales_order.customer.projects %>
 		<%= f.hidden_field :code, value: @sales_order.code %>
@@ -31,7 +31,7 @@
   </div>
 
   <div class="form-actions">
-    <%= f.button :submit, value: 'Create Sales Order' %>
+    <%= f.button :submit %>
     <%= link_to 'Cancel', :back, class: 'btn btn-warning'  %>
   </div>
 <% end %>

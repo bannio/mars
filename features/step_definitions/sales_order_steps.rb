@@ -37,3 +37,7 @@ Given(/^I have an issued sales order "(.*?)" and visit that page$/) do |code|
                           state: 'issued')
   visit sales_order_path(sales_order)
 end
+
+And (/^"(.*?)" has an address$/) do |name|
+  address = FactoryGirl.create(:address, company_id: Company.find_by_name(name).id)
+end
