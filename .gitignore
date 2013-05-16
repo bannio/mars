@@ -25,3 +25,5 @@
 
 # Ignore private data
 /db/seeds.rb
+mars.sublime-project
+mars.sublime-workspace
