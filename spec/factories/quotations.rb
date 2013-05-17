@@ -3,14 +3,16 @@
 FactoryGirl.define do
   factory :quotation do
     name "MyString"
-    project_id 1
-    customer_id 1
-    supplier_id 1
-    contact_id 1
+    association :project
+    association :customer
+    association :supplier
+    association :contact
     issue_date "2013-04-14"
     notes "MyText"
     address_id 1
     delivery_address_id 1
     description "more text"
+    status "open"
+    total 0.0
   end
 end

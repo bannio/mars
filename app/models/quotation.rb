@@ -13,6 +13,8 @@ class Quotation < ActiveRecord::Base
   has_many :events, as: :eventable
   has_many :emails, as: :emailable
   accepts_nested_attributes_for :emails
+
+  scope :current, where(status: ['open','issued'])
   
   validates :customer_id, :supplier_id, :project_id, :name, :contact_id, presence: true
   
@@ -95,5 +97,17 @@ class Quotation < ActiveRecord::Base
     output_path = File.join(ENV["MARS_DATA"], 'quotation')
     filename = "#{self.code}.pdf"
     SalesQuotePdf.new(self).render_file(File.join(output_path, filename))
+  end
+
+  private
+
+  def self.search(search)
+    if search.present?
+      # order("code DESC").where('quotations.name ilike :q', q: "%#{search}%")
+      where('quotations.name ilike :q', q: "%#{search}%")
+    else
+      # order("code DESC").scoped
+      scoped
+    end
   end
 end

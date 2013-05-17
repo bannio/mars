@@ -1,3 +1,5 @@
+
+
 FactoryGirl.define do
   factory :sales_order do
   	sequence(:code) { |n| "SOtest00#{n}"}
@@ -11,5 +13,7 @@ FactoryGirl.define do
     association :address
     delivery_address_id 1
     description "more text"
+    status "open"
+    total 0.0
   end
 end

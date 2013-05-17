@@ -1,26 +1,33 @@
 <h1>Quotations</h1>
 
+<%= form_tag quotations_path, method: 'get', class: "navbar-search pull-left", id: "quotations_search" do %>
+    <%= hidden_field_tag :direction, params[:direction] %>
+    <%= hidden_field_tag :sort, params[:sort] %>
+    <%= text_field_tag :search, params[:search], class: "search-query", placeholder: 'Search' %>
+    <%= submit_tag "Search", name: nil, class: "hidden" %>
+<% end %>
+
+<br><br>
+
 <table class='table table-condensed'>
   <tr>
-    <th>Code</th>
-	<th>Name</th>
-    <th>Project</th>
-    <th>Customer</th>
-    <th>Supplier</th>
-    <th>Issue date</th>
-    <th>Total</th>
-    <th>Status</th>
+    <th><%= sortable "quotations.code","Code" %> <%= arrow "quotations.code" %></th>
+	  <th><%= sortable "quotations.name","Title" %> <%= arrow "quotations.name" %></th>
+    <th><%= sortable "projects.code","Project" %> <%= arrow "projects.code" %></th>
+    <th><%= sortable "companies.name","Customer" %> <%= arrow "companies.name" %></th>
+    <th><%= sortable "issue_date","Issue Date" %> <%= arrow "issue_date" %></th>
+    <th><%= sortable "total","Total" %> <%= arrow "total" %></th>
+    <th><%= sortable "status","Status" %> <%= arrow "status" %></th>
   </tr>
 
 <% @quotations.each do |quotation| %>
   <tr>
     <td><%= link_to quotation.code, quotation %></td>
-	<td><%= quotation.name %></td>
+	  <td><%= quotation.name %></td>
     <td><%= quotation.project.code %></td>
     <td><%= quotation.customer.name %></td>
-    <td><%= quotation.supplier.name %></td>
     <td><%= quotation.issue_date %></td>
-    <td><%= quotation.total %></td>
+    <td><%= number_to_currency(quotation.total) %></td>
     <td><%= quotation.current_state %></td>
   </tr>
 <% end %>

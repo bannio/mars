@@ -42,6 +42,19 @@ Then(/^when I enter the following detail$/) do |table|
   end
 end
 
+Given(/^I have the following quotations to index$/) do |table|
+  table.hashes.each do |r|
+    customer = FactoryGirl.create(:customer, name: r[:customer])
+    project = FactoryGirl.create(:project, code: r[:project], company_id: customer.id)
+    quotation = FactoryGirl.create(:quotation, code: r[:code], 
+                                    customer: customer, issue_date: r[:issue_date],
+                                    name: r[:name], project: project,
+                                    status: r[:status])
+    quotation_lines = FactoryGirl.create(:quotation_line, quotation_id: quotation.id,
+                                    unit_price: r[:total])
+  end
+end
+
 
 Then(/^I should see (.\d,?\d*\.\d{2}) in the header table$/) do |value|
   within("table#sq-header-table"){page.should have_content(value)}

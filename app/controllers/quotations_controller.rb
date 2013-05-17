@@ -1,6 +1,7 @@
 class QuotationsController < ApplicationController
 
   before_filter :find_quotation, only: [:show, :edit, :update, :destroy, :issue, :import, :reopen, :convert]
+  helper_method :sort_column, :sort_direction
 
   def import
     @quotation.import(params[:file])
@@ -8,7 +9,8 @@ class QuotationsController < ApplicationController
   end
   
   def index
-    @quotations = Quotation.all
+    @quotations = Quotation.current.joins(:project, :customer).order(sort_column + " " + sort_direction)
+    @quotations = @quotations.search(params[:search])
 
     respond_to do |format|
       format.html 
@@ -128,5 +130,13 @@ class QuotationsController < ApplicationController
   def find_quotation
     @quotation = Quotation.find(params[:id]) if params[:id]
   end
+
+  def sort_column
+     %w[quotations.code quotations.name projects.code companies.name issue_date total status].include?(params[:sort]) ? params[:sort] : "quotations.code"
+   end
+
+   def sort_direction
+     %w[asc desc].include?(params[:direction]) ? params[:direction] : "desc"
+   end
 
 end
