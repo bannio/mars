@@ -84,7 +84,7 @@ class SalesOrder < ActiveRecord::Base
   end
 
   def create_pdf
-    output_path = File.join(Rails.root, 'data', 'salesorder')
+    output_path = File.join(ENV["MARS_DATA"], 'salesorder')
     filename = "#{self.code}.pdf"
     SalesOrderPdf.new(self).render_file(File.join(output_path, filename))
   end

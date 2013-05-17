@@ -14,7 +14,7 @@ describe ContactsController do
   # in order to pass any filters (e.g. authentication) defined in
   # ContactesController. Be sure to keep this updated too.
   def valid_session
-    {"warden.user.user.key" => session["warden.user.user.key"]}.merge(return_to: contacts_index_path)
+    {"warden.user.user.key" => session["warden.user.user.key"]}.merge(return_to: contacts_path)
   end
 
   before do
@@ -31,7 +31,7 @@ describe ContactsController do
         params[:company] = @company
   end
 
-  describe "GET index" do
+  describe "GET" do
     it "assigns all contacts as @contacts" do
       contact = Contact.create! valid_attributes
       get :index, {}, valid_session
@@ -78,7 +78,7 @@ describe ContactsController do
 
         it "redirects to the calling page on create" do
           post :create, {company_id: @company, :contact => valid_attributes}, valid_session
-          response.should redirect_to(contacts_index_path)
+          response.should redirect_to(contacts_path)
         end
       end
 
@@ -122,7 +122,7 @@ describe ContactsController do
           # session[:return_to] = contacts_url
           visit company_contacts_path(@company)
           put :update, {company_id: @company, :id => contact.to_param, :contact => valid_attributes}, valid_session
-          response.should redirect_to(contacts_index_path)
+          response.should redirect_to(contacts_path)
         end
       end
 
@@ -148,7 +148,7 @@ describe ContactsController do
     describe "DELETE destroy" do
       
       before do
-        controller.request.stub(:referer).and_return contacts_index_url
+        controller.request.stub(:referer).and_return contacts_url
       end
       
       it "destroys the requested contact" do
@@ -161,7 +161,7 @@ describe ContactsController do
       it "redirects to the calling page" do
         contact = Contact.create! valid_attributes
         delete :destroy, {company_id: @company, :id => contact.to_param}, valid_session
-        response.should redirect_to(contacts_index_url)
+        response.should redirect_to(contacts_url)
       end
     end
 

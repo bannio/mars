@@ -42,7 +42,7 @@ class Quotation < ActiveRecord::Base
     if errors.size == 0
     events.create!(state: "open", user_id: user.id)
     else
-      false
+      fa
     end
   end
 
@@ -92,7 +92,7 @@ class Quotation < ActiveRecord::Base
   end
 
   def create_pdf
-    output_path = File.join(Rails.root, 'data', 'quotation')
+    output_path = File.join(ENV["MARS_DATA"], 'quotation')
     filename = "#{self.code}.pdf"
     SalesQuotePdf.new(self).render_file(File.join(output_path, filename))
   end

@@ -4,7 +4,7 @@
 	<%= link_to 'New Contact via Companies', companies_path, class: "pull-right" %>
 <% end %>
 
-<%= form_tag contacts_index_path, method: 'get', class: "navbar-search pull-left", remote: true, id: "contacts_search" do %>
+<%= form_tag contacts_path, method: 'get', class: "navbar-search pull-left", remote: true, id: "contacts_search" do %>
 	<%= text_field_tag :search, params[:search], class: "search-query", placeholder: 'Search' %>
 	<%= submit_tag "Search", name: nil, class: "hidden" %>
 <% end %>
