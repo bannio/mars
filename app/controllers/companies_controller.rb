@@ -1,5 +1,5 @@
 class CompaniesController < ApplicationController
-
+  before_filter :find_company, except: [:new, :create, :index ]
   rescue_from ActiveRecord::RecordNotFound, with: :not_found_message
   
   def index
@@ -13,8 +13,6 @@ class CompaniesController < ApplicationController
   end
 
   def show
-    @company = current_resource
-
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @company }
@@ -31,7 +29,6 @@ class CompaniesController < ApplicationController
   end
 
   def edit
-    @company = current_resource
   end
 
   def create
@@ -49,8 +46,6 @@ class CompaniesController < ApplicationController
   end
 
   def update
-    @company = current_resource
-
     respond_to do |format|
       if @company.update_attributes(params[:company])
         format.html { redirect_to @company, flash: {success: 'Company was successfully updated.'} }
@@ -62,9 +57,7 @@ class CompaniesController < ApplicationController
     end
   end
 
-  def destroy
-    @company = current_resource 
-    
+  def destroy    
     respond_to do |format|
       if @company.destroy
         format.html { redirect_to companies_url, flash: {success: 'Company was successfully deleted.'} }
@@ -76,8 +69,8 @@ class CompaniesController < ApplicationController
 
   private
     
-    def current_resource
-      @current_resource ||= Company.find(params[:id]) if params[:id]
+    def find_company
+      @company ||= Company.find(params[:id]) if params[:id]
     end
     
     def not_found_message

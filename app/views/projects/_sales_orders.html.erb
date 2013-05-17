@@ -1,0 +1,19 @@
+<table class='table table-condensed'>
+  <tr class='grey-header'>
+    <th>Sales Orders</th><th></th><th></th><th></th> <th></th>
+  </tr>
+	<% @project.sales_orders.each do |sales_order| %>
+	  <tr>
+			<td><%= link_to sales_order.code, sales_order %></td>
+		  <td><%= sales_order.name %></td>
+			<td><%= number_to_currency(sales_order.total) %></td>
+			<td><%= sales_order.status %></td>
+			<% if allow? :sales_orders, :edit %>
+		    <td class="text-right"><%= link_to 'Edit', edit_sales_order_path(sales_order) %> |
+				<%= link_to 'Destroy', sales_order, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+			<% else %>
+				<td></td>
+			<% end %>
+	  </tr>
+  <% end %>
+</table>

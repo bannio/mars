@@ -41,3 +41,32 @@ end
 And (/^"(.*?)" has an address$/) do |name|
   address = FactoryGirl.create(:address, company_id: Company.find_by_name(name).id)
 end
+
+Given(/^I have the following sales orders to index$/) do |table|
+  table.hashes.each do |r|
+    customer = FactoryGirl.create(:customer, name: r[:customer])
+    project = FactoryGirl.create(:project, code: r[:project], company_id: customer.id)
+    sales_order = FactoryGirl.create(:sales_order, code: r[:code], 
+                                    customer: customer, issue_date: r[:issue_date],
+                                    name: r[:name], project: project)
+    sales_order_lines = FactoryGirl.create(:sales_order_line, sales_order_id: sales_order.id, 
+                                    unit_price: r[:total])
+    event = FactoryGirl.create(:event, eventable_type: 'SalesOrder',
+                          eventable_id: sales_order.id,
+                          state: r[:state])
+  end
+end
+
+Given(/^I visit "(.*?)"$/) do |path|
+  visit path
+end
+
+When(/^I fill_in search box with "(.*?)"$/) do |search|
+  fill_in('search', with: search)
+end
+
+And(/^I submit the "(.*?)" form$/) do |form_id|
+  element = find_by_id(form_id)
+    Capybara::RackTest::Form.new(page.driver, element.native).submit :name => nil
+end
+

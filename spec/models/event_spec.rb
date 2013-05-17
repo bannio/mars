@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe Event do
+  before :each do
+    @quotation = create(:quotation)
+  end
+
   it "is valid with a state of 'open'" do
   	event = Event.new(
   		eventable_id: 1,
@@ -20,7 +24,7 @@ describe Event do
 
   it "knows what the latest state is" do
  	event = Event.create(
-  		eventable_id: 1,
+  		eventable_id: @quotation.id,
   		eventable_type: 'Quotation',
   		state: 'cancelled',
   		user_id: 1)
@@ -29,7 +33,7 @@ describe Event do
 
 	it "knows what the latest state is" do
 		event = Event.create(
-			eventable_id: 1,
+			eventable_id: @quotation.id,
 			eventable_type: 'Quotation',
 			state: 'cancelled',
 			user_id: 1)

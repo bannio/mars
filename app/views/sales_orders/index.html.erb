@@ -1,0 +1,34 @@
+<h1>Sales Orders</h1>
+
+<%= form_tag sales_orders_path, method: 'get', class: "navbar-search pull-left", id: "sales_orders_search" do %>
+    <%= hidden_field_tag :direction, params[:direction] %>
+    <%= hidden_field_tag :sort, params[:sort] %>
+    <%= text_field_tag :search, params[:search], class: "search-query", placeholder: 'Search' %>
+    <%= submit_tag "Search", name: nil, class: "hidden" %>
+<% end %>
+
+<br><br>
+
+<table class='table table-condensed'>
+  <tr>
+    <th><%= sortable "sales_orders.code", "Code" %> <%= arrow "sales_orders.code" %></th>
+	<th><%= sortable "sales_orders.name", "Title" %> <%= arrow "sales_orders.name" %></th>
+    <th><%= sortable "projects.code", "Project" %> <%= arrow "projects.code"%></th>
+    <th><%= sortable "companies.name", "Customer" %> <%= arrow "companies.name"%></th>
+    <th><%= sortable "issue_date", "Issue date" %> <%= arrow "issue_date" %></th>
+    <th><%= sortable "total", "Total" %> <%= arrow "total" %></th>
+    <th><%= sortable "status", "Status" %> <%= arrow "status" %></th>
+  </tr>
+
+<% @sales_orders.each do |sales_order| %>
+  <tr>
+    <td><%= link_to sales_order.code, sales_order %></td>
+	<td><%= sales_order.name %></td>
+    <td><%= sales_order.project.code %></td>
+    <td><%= sales_order.customer.name %></td>
+    <td><%= sales_order.issue_date %></td>
+    <td><%= number_to_currency(sales_order.total) %></td>
+    <td><%= sales_order.status %></td>
+  </tr>
+<% end %>
+</table>

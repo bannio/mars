@@ -1,6 +1,8 @@
 class Event < ActiveRecord::Base
   # attr_accessible :eventable_id, :eventable_type, :state, :user_id
   belongs_to :eventable, polymorphic: true
+
+  after_save :update_eventable_status
  
   
    validates_inclusion_of :state, in: Quotation::STATES, if: :quotation?
@@ -15,6 +17,10 @@ class Event < ActiveRecord::Base
 
   def quotation?
     eventable_type == 'Quotation'
+  end
+
+  def update_eventable_status
+    eventable.update_attributes(status: state)
   end
   
 end

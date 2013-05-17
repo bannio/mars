@@ -3,7 +3,8 @@ Mars::Application.routes.draw do
   root :to => 'home#index'
   get "home/index"
   get "addresses/index"
-  get "contacts/index"
+  get "contacts/index" => "contacts#index", as: "contacts"
+  get "contacts/:id" => "contacts#show", as: "contact"
   get "quotation_lines/index"
   put "quotations/:id/issue" => "quotations#issue", as: "issue_quotation"
   put "quotations/:id/reopen" => "quotations#reopen", as: "reopen_quotation"

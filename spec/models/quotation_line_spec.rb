@@ -9,6 +9,7 @@ describe QuotationLine do
         unit_price:   2.0,  
         total:        nil
     }
+    @quotation = create(:quotation)
   end
   
   it "is valid with these attributes" do
@@ -22,27 +23,27 @@ describe QuotationLine do
   end
   
   it "calculates the total correctly" do
-    line = QuotationLine.new(@attr)
+    line = QuotationLine.new(@attr.merge(quotation_id: @quotation.id))
     line.save
     line.total.should == 4.0
   end
   
   it "replaces nil with zero in quantity" do
-    line = QuotationLine.new(@attr.merge(quantity: ''))
+    line = QuotationLine.new(@attr.merge(quantity: '', quotation_id: @quotation.id))
     line.should be_valid
     line.save
     line.quantity.should == 0
   end
   
   it "replaces nil with zero in price" do
-    line = QuotationLine.new(@attr.merge(unit_price: ''))
+    line = QuotationLine.new(@attr.merge(unit_price: '', quotation_id: @quotation.id))
     line.should be_valid
     line.save
     line.unit_price.should == 0
   end
   
   it "calculates the total correctly even with no inputs" do
-    line = QuotationLine.new(@attr.merge(unit_price: '', quantity: ''))
+    line = QuotationLine.new(@attr.merge(unit_price: '', quantity: '', quotation_id: @quotation.id))
     line.save
     line.total.should == 0
   end

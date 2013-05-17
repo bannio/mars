@@ -13,7 +13,7 @@
     <td>Title</td>
     <th><%= @sales_order.name %></th>
 	<td>Total</td>
-	<th class="text-right"><%= number_to_currency(@sales_order.total) %></th>
+	<th class="text-right"><%= number_to_currency(@sales_order.update_total) %></th>
   </tr>
   <tr>
     <td>Description</td>

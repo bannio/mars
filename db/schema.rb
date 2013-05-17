@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130511173657) do
+ActiveRecord::Schema.define(:version => 20130517113438) do
 
   create_table "addresses", :force => true do |t|
     t.integer  "company_id"
@@ -103,11 +103,13 @@ ActiveRecord::Schema.define(:version => 20130511173657) do
     t.date     "issue_date"
     t.text     "notes"
     t.integer  "address_id"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
+    t.datetime "created_at",                                                          :null => false
+    t.datetime "updated_at",                                                          :null => false
     t.string   "code"
     t.text     "description"
     t.integer  "delivery_address_id"
+    t.string   "status"
+    t.decimal  "total",               :precision => 10, :scale => 2, :default => 0.0
   end
 
   create_table "sales_order_lines", :force => true do |t|
@@ -133,8 +135,10 @@ ActiveRecord::Schema.define(:version => 20130511173657) do
     t.string   "code"
     t.text     "description"
     t.integer  "delivery_address_id"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
+    t.datetime "created_at",                                                          :null => false
+    t.datetime "updated_at",                                                          :null => false
+    t.string   "status"
+    t.decimal  "total",               :precision => 10, :scale => 2, :default => 0.0
   end
 
   create_table "users", :force => true do |t|

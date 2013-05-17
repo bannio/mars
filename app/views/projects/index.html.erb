@@ -1,7 +1,7 @@
 <h1 id="projects-index-page">Projects</h1>
 
 <% if allow? :projects, :new %>
-	<%= link_to 'New Project', new_project_path, class: "pull-right" %>
+	<%= link_to 'New Project', new_project_path, class: "btn btn-primary pull-right" %>
 <% end %>
 
 <%= form_tag projects_path, method: 'get', class: "navbar-search pull-left", remote: true, id: "projects_search" do %>

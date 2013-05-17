@@ -9,11 +9,11 @@
   </tr>
 	<% @company.requested_sales_orders.order("id DESC").each do |sales_order| %>
 	  <tr>
-		<td><%= sales_order.code %></td>
-	    <td><%= sales_order.name %></td>
+		<td><%= link_to sales_order.code, sales_order %></td>
+	  <td><%= sales_order.name %></td>
 		<td><%= number_to_currency(sales_order.total) %></td>
-		<td><%= sales_order.current_state %></td>
-	    <td class='text-right'><%= link_to 'Show', [sales_order] %></td>
+		<td><%= sales_order.status %></td>
+		<td></td>
 	  </tr>
   <% end %>
 </table>

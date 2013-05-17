@@ -19,7 +19,7 @@ class Quotation < ActiveRecord::Base
   STATES = %w[open issued cancelled ordered]
   delegate :open?, :issued?, :cancelled?, :ordered?, to: :current_state
   
-  def total
+  def update_total
     total = quotation_lines.sum(:total)
   end
   
@@ -81,6 +81,7 @@ class Quotation < ActiveRecord::Base
   def clone_as_sales_order
     sales_order = SalesOrder.new(self.attributes)
     sales_order.code = SalesOrder.next_code
+    sales_order.status = 'open'
     self.quotation_lines.each do |line|
       sales_order.sales_order_lines.build(name: line.name,
                                           description: line.description,

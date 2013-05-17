@@ -37,8 +37,8 @@ module Permissions
         allow :sales_orders, [:new, :create, :edit, :update, :destroy, 
                               :issue, :reopen, :cancel, :accept, :invoice, :paid]
         allow :sales_order_lines, [:new, :create, :edit, :update, :destroy]
-        allow_param :sales_order, [:code, :address_id, :delivery_address_id,
-          :description, :customer_id, :contact_id, :issue_date, :name, :notes, :project_id, :supplier_id,
+        allow_param :sales_order, [:code, :address_id, :delivery_address_id, :total,
+          :description, :customer_id, :contact_id, :issue_date, :name, :notes, :project_id, :supplier_id, :status,
           {sales_order_lines_attributes: [:sales_order_id, :description, :name, :quantity, :total, :unit_price]}]
         allow_param :sales_order_line, [:sales_order_id, :description, :name, :quantity, :total, :unit_price]
       end

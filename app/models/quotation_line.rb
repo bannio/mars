@@ -3,6 +3,7 @@ class QuotationLine < ActiveRecord::Base
   
   belongs_to :quotation
   before_save :update_total
+  after_save :update_quotation_total
   
   validates :name, presence: true
   
@@ -11,5 +12,9 @@ class QuotationLine < ActiveRecord::Base
     self.quantity ||= 0
     self.unit_price ||=0
     self.total = self.quantity * self.unit_price
+  end
+
+  def update_quotation_total
+    quotation.update_attributes(total: quotation.update_total)
   end
 end

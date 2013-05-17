@@ -15,15 +15,19 @@ class SalesOrder < ActiveRecord::Base
   
   validates :customer_id, :supplier_id, :project_id, :name, :contact_id, presence: true
 
-  STATES = %w[open issued revised cancelled accepted invoiced paid]
-  delegate :open?, :issued?, :revised?, :cancelled?, :accepted?, :invoiced?, to: :current_state
-  
-  def total
-    total = sales_order_lines.sum(:total)
-  end
+
+  STATES = %w[open issued cancelled accepted invoiced paid]
+  delegate :open?, :issued?, :cancelled?, :accepted?, :invoiced?, to: :current_state
+
+  scope :current, where(status: ['open','issued','accepted','invoiced'])
   
   def self.open_sales_orders
-    joins(:events).merge Event.with_last_state("open")
+    where(status: 'open')
+    # joins(:events).merge Event.with_last_state("open")
+  end
+
+  def update_total
+    total = sales_order_lines.sum(:total)
   end
   
   def current_state
@@ -83,6 +87,16 @@ class SalesOrder < ActiveRecord::Base
     output_path = File.join(Rails.root, 'data', 'salesorder')
     filename = "#{self.code}.pdf"
     SalesOrderPdf.new(self).render_file(File.join(output_path, filename))
+  end
+
+  private
+
+  def self.search(search)
+    if search.present?
+      order("code DESC").where('sales_orders.name ilike :q', q: "%#{search}%")
+    else
+      order("code DESC").scoped
+    end
   end
 
 end

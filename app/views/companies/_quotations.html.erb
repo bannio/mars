@@ -9,11 +9,11 @@
   </tr>
 	<% @company.requested_quotations.order("id DESC").each do |quote| %>
 	  <tr>
-		<td><%= quote.code %></td>
-	    <td><%= quote.name %></td>
+		<td><%= link_to quote.code, quote %></td>
+	  <td><%= quote.name %></td>
 		<td><%= number_to_currency(quote.total) %></td>
-		<td><%= quote.current_state %></td>
-	    <td class='text-right'><%= link_to 'Show', [quote] %></td>
+		<td><%= quote.status %></td>
+		<td></td>
 	  </tr>
   <% end %>
 </table>

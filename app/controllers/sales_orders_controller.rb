@@ -1,5 +1,6 @@
 class SalesOrdersController < ApplicationController
-	before_filter :find_sales_order, except: [:new, :create ]#[:show, :edit, :update, :destroy, :issue, :reopen]
+	before_filter :find_sales_order, except: [:new, :create, :index ]
+  helper_method :sort_column, :sort_direction
 
   def show
     flash[:notice] = params[:warning] if params[:warning]
@@ -15,11 +16,18 @@ class SalesOrdersController < ApplicationController
     end
   end
 
+  def index
+    # @sales_orders = SalesOrder.search(params[:search])
+    # @sales_orders = SalesOrder.includes(:project, :customer).order(sort_column + " " + sort_direction)
+    # @sales_orders = SalesOrder.joins(:project, :customer).search(params[:search]).order(sort_column + " " + sort_direction)
+    @sales_orders = SalesOrder.current.joins(:project, :customer).order(sort_column + " " + sort_direction)
+    @sales_orders = @sales_orders.search(params[:search])
+  end
+
 	def new
 	@sales_order = SalesOrder.new
     @sales_order.code = SalesOrder.next_code
     @sales_order.customer = Company.find(params[:customer_id])
-    # @sales_order.customer_id = @customer.id
     @sales_order.project_id = params[:project_id]
     @sales_order.supplier_id = 2                          # hard coded! To be changed.
 
@@ -69,10 +77,9 @@ class SalesOrdersController < ApplicationController
   end
 
   def reopen
-    # create event to 'revise' existing
-    # clone to a new copy with revision number
-    # create event to 'open' new record unless this is automatic?
-    # redirect to new sales order
+    # create event to 'open' 
+    # Add or increment the revision number
+    # redirect to sales order which now has a new number
     respond_to do |format|
       if @sales_order.reopen(current_user)
         @sales_order.update_code
@@ -127,4 +134,12 @@ class SalesOrdersController < ApplicationController
 	def find_sales_order
 		@sales_order = SalesOrder.find(params[:id]) if params[:id]
 	end
+
+  def sort_column
+     %w[sales_orders.code sales_orders.name projects.code companies.name issue_date total status].include?(params[:sort]) ? params[:sort] : "sales_orders.code"
+   end
+
+   def sort_direction
+     %w[asc desc].include?(params[:direction]) ? params[:direction] : "desc"
+   end
 end

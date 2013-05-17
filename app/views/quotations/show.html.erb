@@ -15,7 +15,7 @@
     <td>Title</td>
     <th><%= @quotation.name %></th>
 	<td>Total</td>
-	<th class="text-right"><%= number_to_currency(@quotation.total) %></th>
+	<th class="text-right"><%= number_to_currency(@quotation.update_total) %></th>
   </tr>
   <tr>
     <td>Description</td>
@@ -113,7 +113,7 @@
 		</div>
 	</div>
 					<%= link_to "Issue Quotation", issue_quotation_path(@quotation), method: :put, #id: @quotation.id, 
-					data: { confirm: 'Are you sure? This will prevent further changes' }, class: "btn btn-warning" %> 
+					data: { confirm: 'Are you sure? This will prevent further changes' }, class: "btn btn-warning" %>
 					<br />
 <% end %>
 <%= link_to 'Customer', company_path(@quotation.customer_id) %> |
