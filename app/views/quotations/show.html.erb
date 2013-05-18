@@ -87,7 +87,7 @@
 		</tr>
 	<% end %>
 </table>
-<% if @quotation.issued? %>
+<% if @quotation.issued? && (allow? :sales_orders, :create) %>
 	<%= link_to 'Make Order', convert_quotation_path(@quotation), method: :post,
 				class: 'pull-right btn btn-primary',data: { confirm: 'Are you sure?'} %>
 <% end %>

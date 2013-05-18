@@ -21,7 +21,7 @@ Feature: Project
 		And I should see a successfully created message
 
 	Scenario: Edit an existing project
-		Given I am on the "projects" page
+		Given I am on the "MyProject" project page
 		When I click "Edit"
 		Then I can change the project
 		And I should see a successfully updated message
@@ -29,7 +29,7 @@ Feature: Project
 	Scenario: I cannot edit a project when not authorised
 		Given I am not logged in
 		When I log in as a non-admin user
-		And I am on the "projects" page
+		And I am on the "MyProject" project page
 		Then I should not see "Edit"
 		And if I try by editing the url to "/projects/1/edit"
 		Then I should see "Not authorised"

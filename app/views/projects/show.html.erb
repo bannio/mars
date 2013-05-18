@@ -1,29 +1,72 @@
 <h1>Project <%= "for #{@project.company.name}"%></h1>
 <% @title = "MARS - show #{@project.name}"%>
-<h3><%= @project.code %> <%= link_to 'Edit', edit_project_path(@project), class: 'pull-right btn btn-primary' %></h3>
+<h3><%= @project.code %> 
+    <%= @project.name %>
+    <% if allow? :projects, :edit %>
+      <%= link_to 'Edit', edit_project_path(@project), class: 'pull-right btn btn-primary' %>
+    <% end %>
+</h3>
 <table class='table table-condensed'>
+  <tr class='grey-header'>
+    <th>Summary</th>
+    <td></td>
+    <td></td>
+    <th class="text-right">Quotes</th>
+    <th class="text-right">Sales</th>
+    <th class="text-right">Purchase</th>
+  </tr>
   <tr>
-    <td>Name</td>
-    <th><%= @project.name %></th>
-	<td>Start Date</td>
+    <td>Start Date</td>
     <td><%= @project.start_date %></td>
+    <td class="text-right">Open</td>
+    <td class="text-right"><%= number_to_currency(@project.quotes_total('open')) %></td>
+    <td class="text-right"><%= number_to_currency(@project.sales_total('open')) %></td>
+    <td class="text-right"></td>
+  </tr>
+  <tr>
+    <td>End date</td>
+    <td><%= @project.end_date %></td>
+    <td class="text-right">Issued</td>
+    <td class="text-right"><%= number_to_currency(@project.quotes_total('issued')) %></td>
+    <td class="text-right"><%= number_to_currency(@project.sales_total('issued')) %></td>
+    <td class="text-right"></td>
+  </tr>
+	<tr>
+    <td>Completion date</td>
+    <td><%= @project.completion_date %></td>
+    <td class="text-right">Accepted</td>
+    <td></td>
+    <td class="text-right"><%= number_to_currency(@project.sales_total('accepted')) %></td>
+    <td class="text-right"></td>
   </tr>
   <tr>
     <td>Status</td>
     <td><%= @project.status %></td>
-	<td>End Date</td>
-    <td><%= @project.end_date %></td>
+    <td class="text-right">Invoiced</td>
+    <td></td>
+    <td class="text-right"><%= number_to_currency(@project.sales_total('invoiced')) %></td>
+    <td class="text-right"></td>
   </tr>
   <tr>
-	<td>Value</td>
-    <td><%= number_to_currency(@project.value) %></td>
-	<td>Completion Date</td>
-    <td><%= @project.completion_date %></td>
+    <td>Value</td>
+    <td class="text-right"><%= number_to_currency(@project.value) %></td>
+    <td class="text-right">Paid</td>
+    <td></td>
+    <td class="text-right"><%= number_to_currency(@project.sales_total('paid')) %></td>
+    <td class="text-right"></td>
+  </tr>
+  <tr>
+    <th>Total Sales</th>
+    <th class="text-right"><%= number_to_currency(@project.quotes_total_total + @project.sales_total_total) %></th>
+    <th class="text-right">Total</th>
+    <th class="text-right"><%= number_to_currency(@project.quotes_total_total) %></th>
+    <th class="text-right"><%= number_to_currency(@project.sales_total_total) %></th>
+    <th class="text-right"></th>
   </tr>
 </table>
 <table class='table table-condensed'>
   <tr>
-    <td>Notes</td>
+    <th>Notes</th>
     <td><%= simple_format(@project.notes) %></td>
   </tr>
 </table>

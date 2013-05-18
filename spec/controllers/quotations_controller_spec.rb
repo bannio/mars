@@ -10,7 +10,8 @@ describe QuotationsController do
       customer_id: 1,
       project_id: 1,
       supplier_id: 1,
-      contact_id: 1
+      contact_id: 1,
+      status: 'open'
        }
   end
 
@@ -38,7 +39,7 @@ describe QuotationsController do
   end
 
   describe "GET index" do
-    it "assigns all quotations as @quotations" do
+    it "assigns all current quotations as @quotations" do
       quotation = Quotation.create! valid_attributes
       get :index, {}, valid_session
       assigns(:quotations).should eq([quotation])

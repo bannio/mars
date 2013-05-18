@@ -32,3 +32,38 @@ end
 Then(/^I should see the code "(.*?)"$/) do |code|
   find_field('Code').value.should == code
 end
+
+Given(/^I have the following project quotations$/) do |table|
+  table.hashes.each do |r|
+    customer = Company.find_by_name(r[:customer])
+    project = Project.find_by_code(r[:project])
+    quotation = FactoryGirl.create(:quotation, code: r[:code], 
+                                    customer: customer, issue_date: r[:issue_date],
+                                    name: r[:name], project: project,
+                                    status: r[:status])
+    quotation_lines = FactoryGirl.create(:quotation_line, quotation_id: quotation.id,
+                                    unit_price: r[:total])
+  end
+end
+
+Given(/^I have the following project sales orders$/) do |table|
+  table.hashes.each do |r|
+    customer = Company.find_by_name(r[:customer])
+    project = Project.find_by_code(r[:project])
+    sales_order = FactoryGirl.create(:sales_order, code: r[:code], 
+                                    customer: customer, issue_date: r[:issue_date],
+                                    name: r[:name], project: project,
+                                    status: r[:status])
+    sales_order_lines = FactoryGirl.create(:sales_order_line, sales_order_id: sales_order.id,
+                                    unit_price: r[:total])
+  end
+end
+
+And(/^I visit project "(.*?)"$/) do |project|
+  id = Project.find_by_code(project).id
+  visit project_path(id)
+end
+
+Given(/^I am on the "(.*?)" project page$/) do |name|
+  visit project_path(Project.find_by_name(name).id)
+end

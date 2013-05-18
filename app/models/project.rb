@@ -7,6 +7,22 @@ class Project < ActiveRecord::Base
   validates_presence_of :company_id, :code, :name
   validate :valid_dates
   before_destroy :check_for_children
+
+  def quotes_total(status)
+    quotations.where(status: status).sum(:total)
+  end
+
+  def sales_total(status)
+    sales_orders.where(status: status).sum(:total)
+  end
+
+  def quotes_total_total
+    quotations.current.sum(:total)
+  end
+
+  def sales_total_total
+    sales_orders.where("status != 'cancelled'").sum(:total)
+  end
   
   private
 
