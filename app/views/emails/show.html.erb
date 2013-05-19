@@ -1,0 +1,26 @@
+<h1> Email Detail </h1>
+<% @title = "MARS - show Email" %>
+<table class="table table-condensed">
+	<tr>
+		<td>From:</td>
+		<td><%= @email.from %></td>
+	</tr>
+	<tr>
+		<td>To:</td>
+		<td><%= @email.to %></td>
+	</tr>
+	<tr>
+		<td>Date:</td>
+		<td><%= @email.created_at.strftime('%F') %></td>
+	</tr>
+	<tr>
+		<td>Content:</td>
+		<td><%= simple_format(@email.body) %></td>
+	</tr>
+	<tr>
+		<td>Attachment:</td>
+		<td><%= link_to File.basename(@email.attachment), email_attachment_path(@email) %></td>
+	</tr>
+</table>
+
+<%= link_to "#{@email.emailable_type}",  @email.emailable %>

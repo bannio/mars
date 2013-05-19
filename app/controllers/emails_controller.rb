@@ -1,7 +1,12 @@
 class EmailsController < ApplicationController
 
+
   def index
-    @emails = Email.all
+    @emails = Email.search(params[:search])
+  end
+
+  def show
+    @email = Email.find(params[:id])
   end
   
   def new
@@ -9,6 +14,12 @@ class EmailsController < ApplicationController
     @email.emailable_type = params[:type]
     @email.emailable_id = params[:id]
     @user = current_user
+  end
+
+  def download_attachment
+    @email = Email.find(params[:id])
+    send_file @email.attachment,type: "application/pdf",
+                                disposition: "inline"
   end
   
   def create
@@ -24,4 +35,8 @@ class EmailsController < ApplicationController
       end
     end
   end
+
+  private
+
+
 end

@@ -17,6 +17,7 @@ describe ProjectsController do
         user = double('user')
         request.env['warden'].stub :authenticate! => user
         controller.stub :current_user => user
+        user.stub id: 1
         user.stub(:has_role?) do |role|
           if role == 'project'
             true

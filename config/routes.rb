@@ -6,8 +6,10 @@ Mars::Application.routes.draw do
   get "contacts/index" => "contacts#index", as: "contacts"
   get "contacts/:id" => "contacts#show", as: "contact"
   get "quotation_lines/index"
+  put "projects/:id/close" => "projects#close", as: "close_project"
   put "quotations/:id/issue" => "quotations#issue", as: "issue_quotation"
   put "quotations/:id/reopen" => "quotations#reopen", as: "reopen_quotation"
+  put "quotations/:id/cancel" => "quotations#cancel", as: "cancel_quotation"
   put "sales_orders/:id/issue" => "sales_orders#issue", as: "issue_sales_order"
   put "sales_orders/:id/reopen" => "sales_orders#reopen", as: "reopen_sales_order"
   put "sales_orders/:id/cancel" => "sales_orders#cancel", as: "cancel_sales_order"
@@ -15,6 +17,9 @@ Mars::Application.routes.draw do
   put "sales_orders/:id/invoice" => "sales_orders#invoice", as: "invoice_sales_order"
   put "sales_orders/:id/paid" => "sales_orders#paid", as: "paid_sales_order"
   post "quotations/:id/convert" => "quotations#convert", as: "convert_quotation"
+  get "quotations/:id/emails" => "quotations#list_emails", as: "quotation_emails"
+  get "sales_orders/:id/emails" => "sales_orders#list_emails", as: "sales_order_emails"
+  get "emails/:id/download_attachment" => "emails#download_attachment", as: "email_attachment"
   
   resources :companies do
     resources :contacts

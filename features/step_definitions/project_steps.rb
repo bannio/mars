@@ -5,6 +5,9 @@ end
 
 Given(/^the project "(.*?)" exists$/) do |project|
   @project = FactoryGirl.create(:project, name: project, company_id: @company.id)
+  @event = FactoryGirl.create(:event, eventable_type: 'Project',
+                                      eventable_id: @project.id,
+                                      state: 'open')
 end
 
 Then(/^I should be on the New Project page$/) do
@@ -25,7 +28,9 @@ end
 
 Given(/^I have the following projects$/) do |table|
   table.hashes.each do |r|
-    Project.create!(name: r[:name], code: r[:code], company_id: Company.find_by_name(r[:company]).id)
+    Project.create!(name: r[:name], code: r[:code], 
+                          company_id: Company.find_by_name(r[:company]).id,
+                          status: r[:status])
   end
 end
 

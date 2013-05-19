@@ -37,6 +37,7 @@ class ProjectsController < ApplicationController
 
     respond_to do |format|
       if @project.save
+        @project.events.create!(state: 'open', user_id: current_user.id)
         format.html { redirect_to session[:return_to], flash: {success: 'Project was successfully created.'} }
       else
         format.html { render action: "new" }
@@ -64,6 +65,17 @@ class ProjectsController < ApplicationController
         format.html { redirect_to projects_url, flash: {success: 'Project was successfully deleted.'} }
       else
         format.html { redirect_to request.referer, flash: {error: 'Project not deleted. Maybe sales or purchase orders exist'} }
+      end
+    end
+  end
+
+  def close
+    @project = current_resource
+    respond_to do |format|
+      if @project.close(current_user)
+        format.html { redirect_to @project, flash: {success: "project #{@project.code} closed"}}
+      else
+        format.html { redirect_to @project, flash: {error: @project.errors.full_messages.join(' ')} }
       end
     end
   end

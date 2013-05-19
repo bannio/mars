@@ -72,5 +72,10 @@
 </table>
 <%= render 'quotations' %>
 <%= render 'sales_orders' %>
+<% if (allow? :projects, :close) && @project.open? %>
+  <%= link_to 'Close Project', close_project_path(@project), method: :put, 
+    data: { confirm: 'Close project to future use?' }, class: "btn btn-warning" %>
+    <br />
+<% end %>
 
 <%= link_to 'Customer', company_path(@project.company) %> | <%= link_to 'Projects', projects_path %>

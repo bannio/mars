@@ -49,4 +49,10 @@ Feature: Project
 		And I am on the "projects" page
 		And I click the first "New Project" link
 		Then I should see the code "P004"
+
+	Scenario: I can close a project
+		Given I am on the "MyProject" project page
+		When I click "Close Project"
+		Then I should see "Status closed"
+		And I should not see "Close Project"
 		

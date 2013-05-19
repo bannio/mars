@@ -69,3 +69,16 @@ Feature: Version Control
 		Then I should see "Status issued"
 		And I should not see "Issue Quotation"
 		And I should see "Re-open"
+
+	Scenario: Cancel a quotation
+		Given the status is "open"
+		When I click "Cancel Quotation"
+		Then I should see "Quotation SQ001 cancelled"
+		When I am on the show page for quotation SQ001
+		Then I should not see "Issue Quotation"
+		And I should not see "Re-open"
+
+	Scenario: I cannot cancel an issued quotation
+		Given the status is "issued"
+		When I am on the show page for quotation SQ001
+		Then I should not see "Issue Quotation"

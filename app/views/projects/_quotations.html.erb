@@ -1,19 +1,13 @@
 <table class='table table-condensed'>
   <tr class='grey-header'>
-    <th>Quotations</th><th></th><th></th><th></th> <th></th>
+    <th>Quotations</th><th></th><th></th><th></th> 
   </tr>
 	<% @project.quotations.each do |quote| %>
 	  <tr>
 			<td><%= link_to quote.code, quote %></td>
 		  <td><%= quote.name %></td>
-			<td><%= number_to_currency(quote.total) %></td>
-			<td><%= quote.current_state %></td>
-			<% if allow? :quotations, :edit %>
-		    <td class="text-right"><%= link_to 'Edit', edit_quotation_path(quote) %> |
-				<%= link_to 'Destroy', [quote], method: :delete, data: { confirm: 'Are you sure?' } %></td>
-			<% else %>
-				<td></td>
-			<% end %>
+			<td class="text-right"><%= number_to_currency(quote.total) %></td>
+			<td class="text-right"><%= quote.current_state %></td>
 	  </tr>
   <% end %>
 </table>

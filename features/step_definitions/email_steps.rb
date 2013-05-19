@@ -12,3 +12,18 @@ Then(/^I should be on the email page$/) do
   # page.should have_selector('#new_email_page')
   expect(current_path).to eq(new_email_path)
 end
+
+Given(/^I have the following emails$/) do |table|
+  table.hashes.each do |row|
+  	FactoryGirl.create(:email, 
+  									from: 			row[:from],
+  									to:  				row[:to],
+  									emailable_type: 			row[:type],
+  									attachment: File.join(ENV['MARS_DATA'], row[:attachment]),
+  									body: row[:body] )
+  end
+end
+
+Then(/^I should be looking at a pdf file$/) do
+  pending # some idea of how to test this
+end

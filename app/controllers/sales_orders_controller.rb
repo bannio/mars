@@ -130,6 +130,11 @@ class SalesOrdersController < ApplicationController
     end
   end
 
+  def list_emails
+    @emails = @sales_order.emails
+    render template: 'emails/index' 
+  end
+
 	private
 	def find_sales_order
 		@sales_order = SalesOrder.find(params[:id]) if params[:id]

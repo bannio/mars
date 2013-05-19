@@ -12,9 +12,9 @@
 		<% if allow_param? :project, :company_id %>
 	    	<%= f.association :company %>
 		<% end %>
-		<% if allow_param? :project, :status %>
-	    	<%= f.input :status %>
-		<% end %>
+		<div class="control-group string optional"><label class="string optional control-label">Status </label>
+		<div class="controls string optional"><label class="string optional control-label">
+		<%= @project.status %></label> </div></div>
 		</div>
 	
 		<div class="span6">

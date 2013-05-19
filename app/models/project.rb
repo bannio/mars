@@ -3,10 +3,20 @@ class Project < ActiveRecord::Base
   belongs_to :company
   has_many  :quotations
   has_many  :sales_orders
+  has_many  :events, as: :eventable
   
   validates_presence_of :company_id, :code, :name
   validate :valid_dates
   before_destroy :check_for_children
+
+  scope :current, where(status: 'open')
+
+    STATES = %w[open closed]
+  delegate :open?, :issued?, :cancelled?, :ordered?, to: :current_state
+
+  def current_state
+    (events.last.try(:state) || STATES.first).inquiry
+  end
 
   def quotes_total(status)
     quotations.where(status: status).sum(:total)
@@ -22,6 +32,10 @@ class Project < ActiveRecord::Base
 
   def sales_total_total
     sales_orders.where("status != 'cancelled'").sum(:total)
+  end
+
+  def close(user)
+    events.create!(state: "closed", user_id: user.id)
   end
   
   private

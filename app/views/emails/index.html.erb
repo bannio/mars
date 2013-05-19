@@ -1,11 +1,21 @@
 <h1 id="emails-index-page">Emails</h1>
-<table class="table">
+
+<%= form_tag emails_path, method: 'get', class: "navbar-search pull-left", id: "emails_search" do %>
+    <%= hidden_field_tag :direction, params[:direction] %>
+    <%= hidden_field_tag :sort, params[:sort] %>
+    <%= text_field_tag :search, params[:search], class: "search-query", placeholder: 'Search Attachment' %>
+    <%= submit_tag "Search", name: nil, class: "hidden" %>
+<% end %>
+
+<br><br>
+<table class="table table-condensed">
 	<tr>
 		<th>Type</th>
 		<th>From</th>
 		<th>To</th>
 		<th>Attachment</th>
 		<th>Date</th>
+		<th></th>
 	</tr>
 	<% @emails.each do |email| %>
 		<tr>
@@ -14,6 +24,9 @@
 			<td><%= email.to %></td>
 			<td><%= File.basename(email.attachment) %></td>
 			<td><%= email.created_at.strftime('%F') %></td>
+			<td><%= link_to 'show', email_path(email) %></td>
 		</tr>
 	<% end %>
 </table>
+
+<%= link_to 'Back', :back %>

@@ -1,6 +1,7 @@
 class QuotationsController < ApplicationController
 
-  before_filter :find_quotation, only: [:show, :edit, :update, :destroy, :issue, :import, :reopen, :convert]
+  before_filter :find_quotation, except: [:new, :create, :index]
+    #only: [:show, :edit, :update, :destroy, :issue, :import, :reopen, :convert]
   helper_method :sort_column, :sort_direction
 
   def import
@@ -116,6 +117,18 @@ class QuotationsController < ApplicationController
     end
   end
 
+  def cancel
+    respond_to do |format|
+      # create a new sales order based on the quotation and change status of quotation to 'ordered'
+      if @quotation.cancel(current_user)
+        format.html { redirect_to @quotation.customer, flash: {success: "Quotation #{@quotation.code} cancelled"}}
+      else
+        format.html { redirect_to @quotation, flash: {error: @quotation.errors.full_messages.join(' ')} }
+      end
+    end
+    
+  end
+
   def destroy
     @quotation.destroy
 
@@ -123,6 +136,11 @@ class QuotationsController < ApplicationController
       format.html { redirect_to :back } # destroy link on company show page NOT on quotation show
       format.json { head :no_content }
     end
+  end
+
+  def list_emails
+    @emails = @quotation.emails
+    render template: 'emails/index' 
   end
 
   private

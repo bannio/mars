@@ -10,7 +10,7 @@ describe Email do
 					from: 'bloggs@example.com',
 					subject: 'My test email',
 					body: 'Hello',
-					attachment: 'spec/fixtures/mars_mailer/SQ0018.pdf'}
+					attachment: 'spec/fixtures/SQ001.pdf'}
 	end
 
 

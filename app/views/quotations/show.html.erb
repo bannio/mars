@@ -113,9 +113,14 @@
 		</div>
 	</div>
 					<%= link_to "Issue Quotation", issue_quotation_path(@quotation), method: :put, #id: @quotation.id, 
-					data: { confirm: 'Are you sure? This will prevent further changes' }, class: "btn btn-warning" %>
+					data: { confirm: 'The quotation is ready to send to customer?' }, class: "btn btn-warning" %>
+					<% if @quotation.open? %>
+						<%= link_to "Cancel Quotation", cancel_quotation_path(@quotation), method: :put, 
+						data: { confirm: 'Are you sure? This cannot be undone.' }, class: "btn btn-danger" %>
+					<% end %>
 					<br />
 <% end %>
 <%= link_to 'Customer', company_path(@quotation.customer_id) %> |
 <%= link_to 'Project', project_path(@quotation.project_id) %> | 
-<%= link_to "Printable Quote (PDF)", quotation_path(@quotation, format: "pdf") %>
+<%= link_to "Printable Quote (PDF)", quotation_path(@quotation, format: "pdf") %> |
+<%= link_to 'Email history', quotation_emails_path(@quotation) %>

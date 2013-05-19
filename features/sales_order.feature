@@ -9,8 +9,8 @@ Feature: In order to sell to companies I need to be able to issue sales orders.
 		And "Elderberry" has an address
 
 		And I have the following projects
-			| code |name| company |
-			| P001 |My project |Z Company |
+			| code |name| company | status |
+			| P001 |My project |Z Company | open |
 		And I have the following contacts
 	      | name | email | company |
 	      | Fred | fred@example.com | Z Company |
