@@ -1,0 +1,20 @@
+<h1>Event history</h1>
+
+<table class="table table-condensed">
+	<tr>
+		<th>Item</th>
+		<th>Changed to</th>
+		<th>By</th>
+		<th>At</th>
+	</tr>
+	<% @events.each do |event| %>
+	<tr>
+		<td><%= event.eventable.code %></td>
+		<td><%= event.state %></td>
+		<td><%= event.user.name %></td>
+		<td><%= event.created_at %></td>
+	</tr>
+	<% end %>
+</table>
+
+<%= link_to 'Back', :back %>

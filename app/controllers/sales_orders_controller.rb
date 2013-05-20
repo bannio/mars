@@ -135,6 +135,11 @@ class SalesOrdersController < ApplicationController
     render template: 'emails/index' 
   end
 
+  def list_events
+    @events = @sales_order.events
+    render template: 'events/index' 
+  end
+
 	private
 	def find_sales_order
 		@sales_order = SalesOrder.find(params[:id]) if params[:id]

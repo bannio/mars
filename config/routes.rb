@@ -1,5 +1,7 @@
 Mars::Application.routes.draw do
 
+  get "events/index"
+
   root :to => 'home#index'
   get "home/index"
   get "addresses/index"
@@ -18,7 +20,9 @@ Mars::Application.routes.draw do
   put "sales_orders/:id/paid" => "sales_orders#paid", as: "paid_sales_order"
   post "quotations/:id/convert" => "quotations#convert", as: "convert_quotation"
   get "quotations/:id/emails" => "quotations#list_emails", as: "quotation_emails"
+  get "quotations/:id/events" => "quotations#list_events", as: "quotation_events"
   get "sales_orders/:id/emails" => "sales_orders#list_emails", as: "sales_order_emails"
+  get "sales_orders/:id/events" => "sales_orders#list_events", as: "sales_order_events"
   get "emails/:id/download_attachment" => "emails#download_attachment", as: "email_attachment"
   
   resources :companies do

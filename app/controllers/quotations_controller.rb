@@ -143,6 +143,11 @@ class QuotationsController < ApplicationController
     render template: 'emails/index' 
   end
 
+  def list_events
+    @events = @quotation.events
+    render template: 'events/index' 
+  end
+
   private
 
   def find_quotation

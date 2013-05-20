@@ -4,6 +4,8 @@ class User < ActiveRecord::Base
   # :lockable, :timeoutable, :recoverableand :omniauthable
   devise :database_authenticatable, :registerable,
          :rememberable, :trackable, :validatable
+
+  has_many :events 
   
   validates_uniqueness_of :name, :email
   validates_presence_of :name, :email, :case_sensitive => false

@@ -122,4 +122,5 @@
 <%= link_to 'Customer', company_path(@sales_order.customer_id) %> |
 <%= link_to 'Project', project_path(@sales_order.project_id) %> | 
 <%= link_to "Printable Sales Order (PDF)", sales_order_path(@sales_order, format: "pdf") %> |
-<%= link_to 'Email history', sales_order_emails_path(@sales_order) %>
+<%= link_to 'Email history', sales_order_emails_path(@sales_order) %> |
+<%= link_to 'Event history', sales_order_events_path(@sales_order) %>

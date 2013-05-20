@@ -1,6 +1,7 @@
 class Event < ActiveRecord::Base
   # attr_accessible :eventable_id, :eventable_type, :state, :user_id
   belongs_to :eventable, polymorphic: true
+  belongs_to :user
 
   after_save :update_eventable_status
  
