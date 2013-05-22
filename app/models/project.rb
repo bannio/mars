@@ -3,6 +3,7 @@ class Project < ActiveRecord::Base
   belongs_to :company
   has_many  :quotations
   has_many  :sales_orders
+  has_many  :purchase_orders
   has_many  :events, as: :eventable
   
   validates_presence_of :company_id, :code, :name
@@ -32,6 +33,14 @@ class Project < ActiveRecord::Base
 
   def sales_total_total
     sales_orders.where("status != 'cancelled'").sum(:total)
+  end
+
+  def purchase_total(status)
+    purchase_orders.where(status: status).sum(:total)
+  end
+
+  def purchase_total_total
+    purchase_orders.where("status != 'cancelled'").sum(:total)
   end
 
   def close(user)

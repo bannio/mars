@@ -101,4 +101,82 @@ describe Permissions::UserPermission do
       should allow('users/registrations', :update)
     end
   end
+  describe "with just sales_order role" do
+    let(:user) { create(:user, roles_mask: 16) }
+    subject { Permissions.permission_for(user) }
+    
+    it "allows" do
+      should allow(:home, :index)
+      should allow(:quotations, :index)
+      should allow(:quotations, :show)
+      should_not allow(:quotations, :new)
+      should_not allow(:purchase_orders, :new)
+      should_not allow(:companies, :new)
+      should allow(:sales_orders, :create)
+      should allow(:sales_orders, :edit)
+      should allow(:sales_orders, :update)
+      should allow(:sales_orders, :destroy)
+      should allow(:sales_order_lines, :new)
+      should allow(:sales_order_lines, :create)
+      should allow(:sales_order_lines, :edit)
+      should allow(:sales_order_lines, :update)
+      should allow(:sales_order_lines, :destroy)
+      should allow(:sales_orders, :issue)
+      should allow(:sales_orders, :reopen)
+      should_not allow(:users, :index)
+      should allow_param(:sales_order, :code)
+      should allow_param(:sales_order, :address_id)
+      should allow_param(:sales_order, :delivery_address_id)
+      should allow_param(:sales_order, :description)
+      should allow_param(:sales_order, :customer_id)
+      should allow_param(:sales_order, :contact_id)
+      should allow_param(:sales_order, :issue_date)
+      should allow_param(:sales_order, :name)
+      should allow_param(:sales_order, :notes)
+      should allow_param(:sales_order, :project_id)
+      should allow_param(:sales_order, :supplier_id)
+      should_not allow_param(:user, :name)
+      should allow('users/registrations', :edit)
+      should allow('users/registrations', :update)
+    end
+  end
+  describe "with just purchase role" do
+    let(:user) { create(:user, roles_mask: 32) }
+    subject { Permissions.permission_for(user) }
+    
+    it "allows" do
+      should allow(:home, :index)
+      should allow(:quotations, :index)
+      should allow(:quotations, :show)
+      should_not allow(:quotations, :new)
+      should_not allow(:sales_orders, :new)
+      should_not allow(:companies, :new)
+      should allow(:purchase_orders, :create)
+      should allow(:purchase_orders, :edit)
+      should allow(:purchase_orders, :update)
+      should allow(:purchase_orders, :destroy)
+      should allow(:purchase_order_lines, :new)
+      should allow(:purchase_order_lines, :create)
+      should allow(:purchase_order_lines, :edit)
+      should allow(:purchase_order_lines, :update)
+      should allow(:purchase_order_lines, :destroy)
+      should allow(:purchase_orders, :issue)
+      should allow(:purchase_orders, :reopen)
+      should_not allow(:users, :index)
+      should allow_param(:purchase_order, :code)
+      should allow_param(:purchase_order, :address_id)
+      should allow_param(:purchase_order, :delivery_address_id)
+      should allow_param(:purchase_order, :description)
+      should allow_param(:purchase_order, :customer_id)
+      should allow_param(:purchase_order, :contact_id)
+      should allow_param(:purchase_order, :issue_date)
+      should allow_param(:purchase_order, :name)
+      should allow_param(:purchase_order, :notes)
+      should allow_param(:purchase_order, :project_id)
+      should allow_param(:purchase_order, :supplier_id)
+      should_not allow_param(:user, :name)
+      should allow('users/registrations', :edit)
+      should allow('users/registrations', :update)
+    end
+  end
 end

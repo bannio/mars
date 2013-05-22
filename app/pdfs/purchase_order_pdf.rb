@@ -1,7 +1,7 @@
-class SalesOrderPdf < Prawn::Document
-	def initialize(sales_order)
+class PurchaseOrderPdf < Prawn::Document
+	def initialize(purchase_order)
     super(bottom_margin: 50)
-    @sales_order = sales_order
+    @purchase_order = purchase_order
     
     define_grid(columns: 3, rows: 6, gutter: 0)
     #grid.show_all
@@ -12,11 +12,21 @@ class SalesOrderPdf < Prawn::Document
     end
     
     grid([0,0],[0,1]).bounding_box do
-      sales_order_heading
+      purchase_order_heading
     end
 
     grid([1,0],[1,1]).bounding_box do
       address_box
+    end
+
+    grid([1,1],[1,1]).bounding_box do
+      text "Deliver to:  ", align: :center,
+                            style: :bold,
+                            size:  12
+    end
+
+    grid([1,2],[1,2]).bounding_box do
+      delivery_address
     end
 
     order_number_and_date
@@ -25,7 +35,7 @@ class SalesOrderPdf < Prawn::Document
     order_total
     fold_mark
     our_address
-    sales_order_page_number
+    purchase_order_page_number
     
     
   end
@@ -37,18 +47,30 @@ class SalesOrderPdf < Prawn::Document
   end
   
   def address_box
-    if @sales_order.address
-    text_box "#{@sales_order.customer.name}
-              #{@sales_order.address.body}
-              #{@sales_order.address.post_code}",
+    if @purchase_order.address
+    text_box "#{@purchase_order.supplier.name}
+              #{@purchase_order.address.body}
+              #{@purchase_order.address.post_code}",
               size: 12 
     else
       text_box "MISSING AN ADDRESS!"
     end
   end
   
-  def sales_order_heading
-    text "Sales Order", 
+  def delivery_address
+    if @purchase_order.delivery_address
+      move_down 6
+      text_box "#{@purchase_order.client.name}
+                #{@purchase_order.delivery_address.body}
+                #{@purchase_order.delivery_address.post_code}",
+                size: 12 
+    else
+      text_box "MISSING AN ADDRESS!"
+    end
+  end
+
+  def purchase_order_heading
+    text "Purchase Order", 
           size: 30, 
           style: :bold
   end
@@ -59,11 +81,12 @@ class SalesOrderPdf < Prawn::Document
   end
   
   def order_number_and_date
-      date = @sales_order.issue_date ? @sales_order.issue_date.strftime("%d %B %Y") : "NOT ISSUED"
-      data = [["Ref.:","#{@sales_order.code}","Date", date]]
+      date = @purchase_order.issue_date ? @purchase_order.issue_date.strftime("%d %B %Y") : "NOT ISSUED"
+      data = [["Order No.:","#{@purchase_order.code}","Date", date]]
       table(data) do
         cells.borders = []
         columns(2).align = :right
+        columns(1).font_style = :bold
         columns(3).align = :right
         columns(0).width = 80
         columns(1).width = 250
@@ -74,9 +97,9 @@ class SalesOrderPdf < Prawn::Document
     
     def order_comment
       move_down 15
-      text "#{@sales_order.name}\n", style: :bold, size: 14
+      text "#{@purchase_order.name}\n", style: :bold, size: 14
       move_down 6
-      text "#{@sales_order.description}", style: :italic
+      text "#{@purchase_order.description}", style: :italic
     end
      
     def order_table
@@ -108,14 +131,14 @@ class SalesOrderPdf < Prawn::Document
     def order_lines
       rowno = 0
       [["","Item", "Specification", "Quantity", "Unit Price","Total"]] +
-      @sales_order.sales_order_lines.map do |line|
+      @purchase_order.purchase_order_lines.map do |line|
         [rowno += 1, line.name, line.description, line.quantity, price(line.unit_price), price(line.total)]
       end
     end
     
     def order_total
       move_down 15
-      data = [["","Total (excluding VAT):", "#{price(@sales_order.total)}"]]
+      data = [["","Total (excluding VAT):", "#{price(@purchase_order.total)}"]]
       table(data) do
         cells.borders = []
         columns(1).align = :right
@@ -131,7 +154,7 @@ class SalesOrderPdf < Prawn::Document
     end
     
     def our_address
-      addr = "#{@sales_order.supplier.addresses.first.body.gsub(/\n/,', ')}, #{@sales_order.supplier.addresses.first.post_code}"
+      addr = "#{@purchase_order.customer.addresses.first.body.gsub(/\n/,', ')}, #{@purchase_order.customer.addresses.first.post_code}"
 
       repeat(:all) do
         canvas do
@@ -144,7 +167,7 @@ class SalesOrderPdf < Prawn::Document
       end
     end
     
-    def sales_order_page_number
+    def purchase_order_page_number
       string = "page <page> of <total>"
       options = { at: [500, 15],
                 width: 70,

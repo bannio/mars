@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130517113438) do
+ActiveRecord::Schema.define(:version => 20130521111436) do
 
   create_table "addresses", :force => true do |t|
     t.integer  "company_id"
@@ -82,6 +82,44 @@ ActiveRecord::Schema.define(:version => 20130517113438) do
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
   end
+
+  create_table "purchase_order_lines", :force => true do |t|
+    t.integer  "purchase_order_id"
+    t.string   "name"
+    t.text     "description"
+    t.integer  "quantity"
+    t.decimal  "unit_price",        :precision => 10, :scale => 2, :default => 0.0
+    t.decimal  "total",             :precision => 10, :scale => 2, :default => 0.0
+    t.datetime "created_at",                                                        :null => false
+    t.datetime "updated_at",                                                        :null => false
+  end
+
+  add_index "purchase_order_lines", ["purchase_order_id"], :name => "index_purchase_order_lines_on_purchase_order_id"
+
+  create_table "purchase_orders", :force => true do |t|
+    t.string   "name"
+    t.integer  "project_id"
+    t.integer  "customer_id"
+    t.integer  "supplier_id"
+    t.integer  "contact_id"
+    t.date     "issue_date"
+    t.text     "notes"
+    t.integer  "address_id"
+    t.string   "code"
+    t.text     "description"
+    t.integer  "delivery_address_id"
+    t.string   "status"
+    t.decimal  "total",               :precision => 10, :scale => 2, :default => 0.0
+    t.datetime "created_at",                                                          :null => false
+    t.datetime "updated_at",                                                          :null => false
+    t.integer  "client_id"
+  end
+
+  add_index "purchase_orders", ["address_id"], :name => "index_purchase_orders_on_address_id"
+  add_index "purchase_orders", ["contact_id"], :name => "index_purchase_orders_on_contact_id"
+  add_index "purchase_orders", ["customer_id"], :name => "index_purchase_orders_on_customer_id"
+  add_index "purchase_orders", ["project_id"], :name => "index_purchase_orders_on_project_id"
+  add_index "purchase_orders", ["supplier_id"], :name => "index_purchase_orders_on_supplier_id"
 
   create_table "quotation_lines", :force => true do |t|
     t.integer  "quotation_id"

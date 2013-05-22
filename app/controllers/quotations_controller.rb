@@ -5,8 +5,13 @@ class QuotationsController < ApplicationController
   helper_method :sort_column, :sort_direction
 
   def import
-    @quotation.import(params[:file])
-    redirect_to :back, flash: {success: 'Lines were successfully imported'}
+    if params[:file]
+      @quotation.import(params[:file])
+      redirect_to :back, flash: {success: 'Lines were successfully imported'}
+    else
+      redirect_to :back, flash: {error: 'You must select a file before import'}
+    end
+    
   end
   
   def index
@@ -39,7 +44,6 @@ class QuotationsController < ApplicationController
     @quotation.customer = Company.find(params[:customer_id])
     # @quotation.customer_id = @customer.id
     @quotation.project_id = params[:project_id]
-    @quotation.supplier_id = 2                          # hard coded! To be changed.
 
     respond_to do |format|
       format.html # new.html.erb
@@ -57,7 +61,7 @@ class QuotationsController < ApplicationController
     respond_to do |format|
       if @quotation.save
         @quotation.events.create!(state: 'open', user_id: current_user.id)
-        format.html { redirect_to @quotation, notice: 'Quotation was successfully created.' }
+        format.html { redirect_to @quotation, flash: {success: 'Quotation was successfully created.'} }
         format.json { render json: @quotation, status: :created, location: @quotation }
       else
         format.html { render action: "new" }

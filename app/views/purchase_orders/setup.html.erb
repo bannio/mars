@@ -1,0 +1,21 @@
+<h1><%= "New Purchase Order #{@purchase_order.code}" %></h1>
+<br />
+<%= simple_form_for(@purchase_order, url: {action: 'new'}, :html => { method: 'get', :class => 'form-horizontal'}) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+		<div class="row">
+			<div class="span6">
+			<%= f.association :customer, collection: Company.owned %>
+			<%= f.association :client %>
+			<%= f.association :supplier %>
+			<%= f.hidden_field :code, value: @purchase_order.code %>
+			</div>
+	  </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit 'Next', class: 'btn btn-primary' %>
+    <%= link_to 'Cancel', :back, class: 'btn btn-warning'  %>
+  </div>
+<% end %>

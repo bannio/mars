@@ -25,11 +25,10 @@ class SalesOrdersController < ApplicationController
   end
 
 	def new
-	@sales_order = SalesOrder.new
+	  @sales_order = SalesOrder.new
     @sales_order.code = SalesOrder.next_code
     @sales_order.customer = Company.find(params[:customer_id])
     @sales_order.project_id = params[:project_id]
-    @sales_order.supplier_id = 2                          # hard coded! To be changed.
 
     respond_to do |format|
       format.html # new.html.erb
@@ -59,7 +58,7 @@ class SalesOrdersController < ApplicationController
       if @sales_order.update_attributes(params[:sales_order])
         format.html {redirect_to @sales_order, flash: {success: 'Sales Order successfully updated'}}
       else
-        render action: 'edit'
+        format.html {render action: 'edit'}
       end
     end
   end

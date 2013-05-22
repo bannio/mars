@@ -42,6 +42,15 @@ module Permissions
           {sales_order_lines_attributes: [:sales_order_id, :description, :name, :quantity, :total, :unit_price]}]
         allow_param :sales_order_line, [:sales_order_id, :description, :name, :quantity, :total, :unit_price]
       end
+      if user.has_role?('purchase')
+        allow :purchase_orders, [:setup, :new, :create, :edit, :update, :destroy, 
+                              :issue, :reopen, :cancel, :receipt, :paid]
+        allow :purchase_order_lines, [:new, :create, :edit, :update, :destroy]
+        allow_param :purchase_order, [:code, :address_id, :delivery_address_id, :total,
+          :description, :customer_id, :contact_id, :issue_date, :name, :notes, :project_id, :supplier_id, :client_id, :status,
+          {purchase_order_lines_attributes: [:purchase_order_id, :description, :name, :quantity, :total, :unit_price]}]
+        allow_param :purchase_order_line, [:sales_order_id, :description, :name, :quantity, :total, :unit_price]
+      end
     end
   end
 end

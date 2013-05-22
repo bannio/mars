@@ -20,6 +20,24 @@ Mars::Application.configure do
   # Generate digests for assets URLs
   config.assets.digest = true
 
+  # Don't care if the mailer can't send
+  config.action_mailer.raise_delivery_errors = false
+  # config.action_mailer.delivery_method = :letter_opener
+  
+  # Devise recommend:
+  config.action_mailer.default_url_options = { :host => 'elderberry-furniture.com'}
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    :address              => exchange.mail.bsky.net,
+    :port                 => 2525,
+    :domain               => 'elderberry-furniture.com',
+    :user_name            => ENV['MAIL_USERNAME'],
+    :password             => ENV['MAIL_PASSWORD'],
+    :authentication       => 'plain',
+    :enable_starttls_auto => true
+  }
+
   # Defaults to nil and saved in location specified by config.assets.prefix
   # config.assets.manifest = YOUR_PATH
 
@@ -47,9 +65,6 @@ Mars::Application.configure do
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
   # config.assets.precompile += %w( search.js )
-
-  # Disable delivery errors, bad email addresses will be ignored
-  # config.action_mailer.raise_delivery_errors = false
 
   # Enable threaded mode
   # config.threadsafe!

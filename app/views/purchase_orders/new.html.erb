@@ -1,0 +1,8 @@
+<h1><%= "New Purchase Order #{@purchase_order.code}" %></h1>
+<br />
+<%= render 'form' %>
+
+<%= link_to 'Customer', company_path(@purchase_order.customer) %> |
+<%= link_to 'Client', company_path(@purchase_order.client) %> |
+<%= link_to 'Supplier', company_path(@purchase_order.supplier) %>
+

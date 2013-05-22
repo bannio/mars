@@ -1,0 +1,42 @@
+<%= simple_form_for(@purchase_order, :html => { :class => 'form-horizontal'}) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+		<div class="row">
+			<div class="span6">
+			<%= f.association :customer, disabled: true %> <%= f.hidden_field :customer_id %>
+			<%= f.association :client, disabled: true %> <%= f.hidden_field :client_id %>
+			<%= f.association :supplier, disabled: true %> <%= f.hidden_field :supplier_id %>
+		  <%= f.association :project, collection: @purchase_order.client.projects.current %>
+		  <%= f.input :name, label: 'Title' %>
+			<%= f.hidden_field :code, value: @purchase_order.code %>
+			</div>
+			<div class="span6">
+				<%= f.association :contact, collection: @purchase_order.supplier.contacts, label: "Supplier Contact" %>
+		    <%= f.association :address, label: 'Supplier address', collection:  @purchase_order.supplier.addresses %>
+				<%= f.association :delivery_address, collection: @purchase_order.client.addresses %>
+				<div class="control-group string optional"><label class="string optional control-label">Date Issued </label>
+					<div class="controls string optional"><label class="string optional control-label">
+					<%= @purchase_order.issue_date %></label> 
+					</div>
+				</div>
+		    <div class="control-group string optional"><label class="string optional control-label">Status </label>
+					<div class="controls string optional"><label class="string optional control-label">
+						<%= @purchase_order.current_state %></label> 
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="span12">
+				<%= f.input :description, placeholder: 'visible to supplier', input_html: {rows: 4, class: 'span9'} %>
+			    <%= f.input :notes, input_html: {rows: 6, class: 'span9'} %>
+				</div>
+			</div>
+	  </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+    <%= link_to 'Cancel', :back, class: 'btn btn-warning'  %>
+  </div>
+<% end %>

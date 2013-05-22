@@ -17,23 +17,23 @@
   </tr>
   <tr>
     <td>Start Date</td>
-    <td><%= @project.start_date %></td>
+    <td class="text-right"><%= @project.start_date %></td>
     <td class="text-right">Open</td>
     <td class="text-right"><%= number_to_currency(@project.quotes_total('open')) %></td>
     <td class="text-right"><%= number_to_currency(@project.sales_total('open')) %></td>
-    <td class="text-right"></td>
+    <td class="text-right"><%= number_to_currency(@project.purchase_total('open')) %></td>
   </tr>
   <tr>
     <td>End date</td>
-    <td><%= @project.end_date %></td>
+    <td class="text-right"><%= @project.end_date %></td>
     <td class="text-right">Issued</td>
     <td class="text-right"><%= number_to_currency(@project.quotes_total('issued')) %></td>
     <td class="text-right"><%= number_to_currency(@project.sales_total('issued')) %></td>
-    <td class="text-right"></td>
+    <td class="text-right"><%= number_to_currency(@project.purchase_total('issued')) %></td>
   </tr>
 	<tr>
     <td>Completion date</td>
-    <td><%= @project.completion_date %></td>
+    <td class="text-right"><%= @project.completion_date %></td>
     <td class="text-right">Accepted</td>
     <td></td>
     <td class="text-right"><%= number_to_currency(@project.sales_total('accepted')) %></td>
@@ -41,7 +41,7 @@
   </tr>
   <tr>
     <td>Status</td>
-    <td><%= @project.status %></td>
+    <td class="text-right"><%= @project.status %></td>
     <td class="text-right">Invoiced</td>
     <td></td>
     <td class="text-right"><%= number_to_currency(@project.sales_total('invoiced')) %></td>
@@ -53,7 +53,7 @@
     <td class="text-right">Paid</td>
     <td></td>
     <td class="text-right"><%= number_to_currency(@project.sales_total('paid')) %></td>
-    <td class="text-right"></td>
+    <td class="text-right"><%= number_to_currency(@project.purchase_total('paid')) %></td>
   </tr>
   <tr>
     <th>Total Sales</th>
@@ -61,7 +61,7 @@
     <th class="text-right">Total</th>
     <th class="text-right"><%= number_to_currency(@project.quotes_total_total) %></th>
     <th class="text-right"><%= number_to_currency(@project.sales_total_total) %></th>
-    <th class="text-right"></th>
+    <th class="text-right"><%= number_to_currency(@project.purchase_total_total) %></th>
   </tr>
 </table>
 <table class='table table-condensed'>
@@ -72,6 +72,7 @@
 </table>
 <%= render 'quotations' %>
 <%= render 'sales_orders' %>
+<%= render 'purchase_orders' %>
 <% if (allow? :projects, :close) && @project.open? %>
   <%= link_to 'Close Project', close_project_path(@project), method: :put, 
     data: { confirm: 'Close project to future use?' }, class: "btn btn-warning" %>

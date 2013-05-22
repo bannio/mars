@@ -24,6 +24,14 @@ Mars::Application.routes.draw do
   get "sales_orders/:id/emails" => "sales_orders#list_emails", as: "sales_order_emails"
   get "sales_orders/:id/events" => "sales_orders#list_events", as: "sales_order_events"
   get "emails/:id/download_attachment" => "emails#download_attachment", as: "email_attachment"
+  get "purchase_orders/setup" => "purchase_orders#setup", as: "setup_purchase_order"
+  get "purchase_orders/:id/issue" => "purchase_orders#issue", as: "issue_purchase_order"
+  get "purchase_orders/:id/reopen" => "purchase_orders#reopen", as: "reopen_purchase_order"
+  get "purchase_orders/:id/cancel" => "purchase_orders#cancel", as: "cancel_purchase_order"
+  get "purchase_orders/:id/receipt" => "purchase_orders#receipt", as: "receipt_purchase_order"
+  get "purchase_orders/:id/paid" => "purchase_orders#paid", as: "paid_purchase_order"
+  get "purchase_orders/:id/emails" => "purchase_orders#list_emails", as: "purchase_order_emails"
+  get "purchase_orders/:id/events" => "purchase_orders#list_events", as: "purchase_order_events"
   
   resources :companies do
     resources :contacts
@@ -37,13 +45,11 @@ Mars::Application.routes.draw do
     collection {post :import }
   end
 
-  resources :sales_orders do
-    # put :reopen
-    # get :email
-  end
-
+  resources :sales_orders
   resources :sales_order_lines
+  resources :purchase_order_lines
   resources :quotation_lines
+  resources :purchase_orders
 
   # devise_for :users , :controllers => {:registrations => "users/registrations", :passwords => "users/passwords"}
   devise_for :users, :skip => [:registrations]                                          
