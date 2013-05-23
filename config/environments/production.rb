@@ -35,7 +35,9 @@ Mars::Application.configure do
     :user_name            => ENV['MAIL_USERNAME'],
     :password             => ENV['MAIL_PASSWORD'],
     :authentication       => 'plain',
-    :enable_starttls_auto => true
+    :enable_starttls_auto => true,
+    # :openssl_verify_mode  => OpenSSL::SSL::VERIFY_NONE
+    :openssl_verify_mode  => 'none'
   }
 
   # Defaults to nil and saved in location specified by config.assets.prefix
