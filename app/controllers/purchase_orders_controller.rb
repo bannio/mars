@@ -1,7 +1,23 @@
 class PurchaseOrdersController < ApplicationController
 	before_filter :find_purchase_order, except: [:new, :create, :index ]
+	helper_method :sort_column, :sort_direction
 
-	 def show
+	 def import
+    if params[:file]
+      @purchase_order.import(params[:file])
+      redirect_to :back, flash: {success: 'Lines were successfully imported'}
+    else
+      redirect_to :back, flash: {error: 'You must select a file before import'}
+    end
+    
+  end
+
+	def index
+		@purchase_orders = PurchaseOrder.current.joins(:project, :supplier).order(sort_column + " " + sort_direction)
+    @purchase_orders = @purchase_orders.search(params[:search])
+	end
+
+	def show
     flash[:notice] = params[:warning] if params[:warning]
     
     respond_to do |format|
@@ -25,11 +41,6 @@ class PurchaseOrdersController < ApplicationController
 
 	def new
 		@purchase_order = PurchaseOrder.new(params[:purchase_order])
-		# @purchase_order.code = params[:purchase_order][:code]
-		# @purchase_order.supplier = Company.find(params[:purchase_order][:supplier_id])
-  #   @purchase_order.client = Company.find(params[:purchase_order][:client_id])
-  #   @purchase_order.customer = Company.find(params[:purchase_order][:customer_id])
-    @delivery_addresses = @purchase_order.client.addresses << Company.owned.first.addresses
 	end
 
 	def create
@@ -57,6 +68,53 @@ class PurchaseOrdersController < ApplicationController
 		end
 	end
 
+	def issue
+		if @purchase_order.issue(current_user)
+			@purchase_order.update_attributes(issue_date: Date.today, status: 'open')
+			@purchase_order.create_pdf
+			redirect_to new_email_path params: {type: 'PurchaseOrder', id: @purchase_order.id }
+		else
+			redirect_to @purchase_order, flash: {error: @purchase_order.errors.full_messages.join(' ')}
+		end
+	end
+
+	def reopen
+		if @purchase_order.reopen(current_user)
+			@purchase_order.update_code
+			@purchase_order.update_attributes(status: 'open')
+			redirect_to @purchase_order, flash: {success: 'Purchase order status changed to open'}
+		else
+			redirect_to @purchase_order, flash: {error: @purchase_order.errors.full_messages.join(' ')}
+		end
+	end
+
+  def cancel
+    if @purchase_order.cancel(current_user)
+    	@purchase_order.update_attributes(status: 'cancel')
+      redirect_to @purchase_order, flash: {success: 'purchase order status changed to cancelled'}
+    else
+      redirect_to @purchase_order, flash: {error: @purchase_order.errors.full_messages.join(' ')}
+    end
+  end
+
+  def receipt
+    if @purchase_order.receipt(current_user)
+    	@purchase_order.update_attributes(status: 'delivered')
+      redirect_to @purchase_order, flash: {success: 'purchase order status changed to delivered'}
+    else
+      redirect_to @purchase_order, flash: {error: @purchase_order.errors.full_messages.join(' ')}
+    end
+  end
+
+  def paid
+    if @purchase_order.paid(current_user)
+    	@purchase_order.update_attributes(status: 'paid')
+      redirect_to @purchase_order, flash: {success: 'purchase order status changed to paid'} 
+    else
+      redirect_to @purchase_order, flash: {error: @purchase_order.errors.full_messages.join(' ')}
+    end
+  end
+
   def list_emails
     @emails = @purchase_order.emails
     render template: 'emails/index' 
@@ -71,4 +129,12 @@ class PurchaseOrdersController < ApplicationController
 	def find_purchase_order
 		@purchase_order = PurchaseOrder.find(params[:id]) if params[:id]
 	end
+
+	 def sort_column
+     %w[purchase_orders.code purchase_orders.name projects.code companies.name issue_date due_date total status].include?(params[:sort]) ? params[:sort] : "purchase_orders.code"
+   end
+
+   def sort_direction
+     %w[asc desc].include?(params[:direction]) ? params[:direction] : "desc"
+   end
 end

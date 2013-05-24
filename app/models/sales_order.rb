@@ -26,6 +26,12 @@ class SalesOrder < ActiveRecord::Base
     # joins(:events).merge Event.with_last_state("open")
   end
 
+  def import(file)
+    CSV.foreach(file.path, headers: true) do |row|
+      self.sales_order_lines.create(row.to_hash)
+    end
+  end
+
   def update_total
     total = sales_order_lines.sum(:total)
   end

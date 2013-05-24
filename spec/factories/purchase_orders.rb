@@ -7,7 +7,7 @@ FactoryGirl.define do
     customer nil
     supplier nil
     contact nil
-    issue_date "2013-05-20"
+    issue_date Date.today
     notes "MyText"
     address nil
     code "MyString"
@@ -15,5 +15,6 @@ FactoryGirl.define do
     delivery_address_id 1
     status "MyString"
     total "9.99"
+    due_date 1.month.from_now
   end
 end

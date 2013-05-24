@@ -1,0 +1,54 @@
+<table class='table table-condensed' id="po-header-table">
+  <tr>
+    <td>Title</td>
+    <th><%= @purchase_order.name %></th>
+	<td>Total</td>
+	<th class="text-right"><%= number_to_currency(@purchase_order.update_total) %></th>
+  </tr>
+  <tr>
+    <td>Description</td>
+    <td><%= simple_format(@purchase_order.description) %></td>
+    <td>Due Date</td>
+    <td><%= @purchase_order.due_date %></td>
+  </tr>
+  <tr>
+  	<td>Client</td>
+  	<td><%= @purchase_order.client.name %></td>
+  	<td>Project</td>
+		<td><%= simple_format("#{@purchase_order.project.code} - #{@purchase_order.project.name}") %></td>
+  </tr>
+  <tr>
+    <td>Customer</td>
+    <td><%= @purchase_order.customer.name %><br />
+		<% if !@purchase_order.customer.addresses.empty? %>
+		<%= simple_format("#{@purchase_order.customer.addresses.first.body}\n#{@purchase_order.customer.addresses.first.post_code}") %>
+		<% end %>
+	</td>
+	<td>Supplier</td>
+	<td><%= @purchase_order.supplier.name %><br />
+	<% if @purchase_order.address %>
+	<%= simple_format("#{@purchase_order.address.body}\n#{@purchase_order.address.post_code}") %>
+	<% end %>
+	</td>
+  </tr>
+  <tr>
+    <td>Delivery</td>
+    <td><%= @purchase_order.delivery_name %><br />
+	<% if @purchase_order.delivery_address %>
+	<%= simple_format("#{@purchase_order.delivery_address.body}\n#{@purchase_order.delivery_address.post_code}") %>
+	<% end %></td>
+	<td>Contact</td>
+	<td><% if @purchase_order.contact %>
+		<%= @purchase_order.contact.name %><br />
+		<%=	@purchase_order.contact.telephone %><br />
+		<%= mail_to(@purchase_order.contact.email, nil, encode: :javascript) %>
+		<% end %>
+	</td>
+  </tr>
+  <tr>
+    <td>Notes</td>
+    <td><%= simple_format(@purchase_order.notes) %></td>
+	<td>Status</td>
+	<td><%= @purchase_order.status %></td>
+  </tr>
+</table>

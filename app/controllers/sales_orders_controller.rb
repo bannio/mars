@@ -2,6 +2,16 @@ class SalesOrdersController < ApplicationController
 	before_filter :find_sales_order, except: [:new, :create, :index ]
   helper_method :sort_column, :sort_direction
 
+  def import
+    if params[:file]
+      @sales_order.import(params[:file])
+      redirect_to :back, flash: {success: 'Lines were successfully imported'}
+    else
+      redirect_to :back, flash: {error: 'You must select a file before import'}
+    end
+    
+  end
+
   def show
     flash[:notice] = params[:warning] if params[:warning]
     
@@ -17,9 +27,6 @@ class SalesOrdersController < ApplicationController
   end
 
   def index
-    # @sales_orders = SalesOrder.search(params[:search])
-    # @sales_orders = SalesOrder.includes(:project, :customer).order(sort_column + " " + sort_direction)
-    # @sales_orders = SalesOrder.joins(:project, :customer).search(params[:search]).order(sort_column + " " + sort_direction)
     @sales_orders = SalesOrder.current.joins(:project, :customer).order(sort_column + " " + sort_direction)
     @sales_orders = @sales_orders.search(params[:search])
   end
@@ -119,7 +126,7 @@ class SalesOrdersController < ApplicationController
     end
   end
 
-    def paid
+  def paid
     respond_to do |format|
       if @sales_order.paid(current_user)
         format.html { redirect_to @sales_order, flash: {success: 'Sales order status changed to paid'} }

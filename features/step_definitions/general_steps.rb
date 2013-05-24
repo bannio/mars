@@ -43,7 +43,7 @@ Given(/^I am logged in as a user with a role "(.*?)"$/) do |role|
 end
 
 Then(/^I should see a successfully created message$/) do
-  page.should have_content 'was successfully created'
+  page.should have_content 'successfully created'
 end
 
 Given(/^I am on the "(.*?)" page$/) do |arg1|
@@ -51,7 +51,7 @@ Given(/^I am on the "(.*?)" page$/) do |arg1|
 end
 
 Then(/^I should see a successfully updated message$/) do
-  page.should have_content 'was successfully updated'
+  page.should have_content 'successfully updated'
 end
 
 Then(/^if I try to visit the (.*?) page$/) do |page|

@@ -7,84 +7,9 @@
 	<%= link_to 'Email purchase_order', new_email_path(type: 'purchaseOrder', id: @purchase_order.id),
 		class: 'pull-right btn btn-primary' %>
 <% end %></h3>
-
-<table class='table table-condensed' id="sq-header-table">
-  <tr>
-    <td>Title</td>
-    <th><%= @purchase_order.name %></th>
-	<td>Total</td>
-	<th class="text-right"><%= number_to_currency(@purchase_order.update_total) %></th>
-  </tr>
-  <tr>
-    <td>Description</td>
-    <td><%= simple_format(@purchase_order.description) %></td>
-	<td>Project</td>
-	<td><%= simple_format("#{@purchase_order.project.code} - #{@purchase_order.project.name}") %></td>
-  </tr>
-  <tr>
-    <td>Customer</td>
-    <td><%= @purchase_order.customer.name %><br />
-		<% if @purchase_order.customer.addresses %>
-		<%= simple_format("#{@purchase_order.customer.addresses.first.body}\n#{@purchase_order.customer.addresses.first.post_code}") %>
-		<% end %>
-	</td>
-	<td>Supplier</td>
-	<td><%= @purchase_order.supplier.name %><br />
-	<% if @purchase_order.address %>
-	<%= simple_format("#{@purchase_order.address.body}\n#{@purchase_order.address.post_code}") %>
-	<% end %>
-	</td>
-  </tr>
-  <tr>
-    <td>Delivery</td>
-    <td><%= @purchase_order.client.name %><br />
-	<% if @purchase_order.delivery_address %>
-	<%= simple_format("#{@purchase_order.delivery_address.body}\n#{@purchase_order.delivery_address.post_code}") %>
-	<% end %></td>
-	<td>Contact</td>
-	<td><% if @purchase_order.contact %>
-		<%= @purchase_order.contact.name %><br />
-		<%=	@purchase_order.contact.telephone %><br />
-		<%= mail_to(@purchase_order.contact.email, nil, encode: :javascript) %>
-		<% end %>
-	</td>
-  </tr>
-  <tr>
-    <td>Notes</td>
-    <td><%= simple_format(@purchase_order.notes) %></td>
-	<td>Status</td>
-	<td><%= @purchase_order.status %></td>
-  </tr>
-</table>
+<%= render 'po_header' %>
 <h3>Detail</h3>
-
-<table class='table table-condensed' id='sq-detail-table'>
-	<tr>
-		<th>Item</th>
-		<th>Specification</th>
-		<th class="text-right">Quantity</th>
-		<th class="text-right">Unit Price</th>
-		<th class="text-right">Total</th>
-		<th></th>
-	</tr>
-	<% @purchase_order.purchase_order_lines.each do |line| %>
-		<tr>
-			<td width="120"><%= line.name %></td>
-			<td width="350"><%= line.description %></td>
-			<td class="text-right"><%= line.quantity %></td>
-			<td class="text-right"><%= number_to_currency(line.unit_price) %></td>
-			<td class="text-right"><%= number_to_currency(line.total) %></td>
-			<td class="text-right">
-			<% if @purchase_order.open? %>
-			<% if allow? :purchase_order_lines, :edit %>
-				<%= link_to 'Edit', edit_purchase_order_line_path(line) %> |
- 				<%= link_to 'Remove', purchase_order_line_path(line), method: :delete, data: { confirm: 'Are you sure?' } %>
-			<% end %>
-			<% end %>
-			</td>
-		</tr>
-	<% end %>
-</table>
+<%= render 'po_detail' %>
 <% if @purchase_order.open? %>
 	<div class="form-actions">
 		Add line:
@@ -93,18 +18,30 @@
 				<%= render 'shared/lines', f: builder %>
 			<% end %>
 		<% end %>
+		<div class='row'>
+			<div class='span3'>
+				or select CSV file to upload:
+			</div>
+			<div class='span6'>
+				<%= form_tag import_purchase_orders_path, multipart: true do %>
+				<%= file_field_tag :file %>
+				<%= hidden_field_tag :id, @purchase_order.id %>
+				<%= submit_tag "Import",class: "btn btn-primary" %>
+				<% end%>
+			</div>
+		</div>
 	</div>
-		<%= link_to "Issue purchase Order", issue_purchase_order_path(@purchase_order), method: :put, 
+		<%= link_to "Issue Purchase Order", issue_purchase_order_path(@purchase_order), method: :put, 
 		data: { confirm: 'Are you sure? This will prevent further changes' }, class: "btn btn-warning" %>
 		<%= link_to "Cancel", cancel_purchase_order_path(@purchase_order), method: :put, 
 		data: {confirm: 'WARNING - this will close the order for good, you might want to add a comment first'}, class: "btn btn-danger" %>
 		<br />
 <% end %>
 <% if @purchase_order.issued? %>
-		<%= link_to "Receipt", accept_purchase_order_path(@purchase_order), method: :put, 
+		<%= link_to "Receipt", receipt_purchase_order_path(@purchase_order), method: :put, 
 		data: {confirm: 'The supplier has delivered the order?'}, class: "btn btn-success" %>
 		<%= link_to 'Re-open', reopen_purchase_order_path(@purchase_order), method: :put,  
-		data: { confirm: 'You to change the order?'}, class: 'btn btn-warning' %> 
+		data: { confirm: 'You need to change the order?'}, class: 'btn btn-warning' %> 
 		<%= link_to "Cancel", cancel_purchase_order_path(@purchase_order), method: :put, 
 		data: {confirm: 'WARNING - this will close the order for good'}, class: "btn btn-danger" %>
 		<br />

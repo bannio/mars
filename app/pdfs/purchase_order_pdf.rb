@@ -29,7 +29,7 @@ class PurchaseOrderPdf < Prawn::Document
       delivery_address
     end
 
-    order_number_and_date
+    order_number_and_dates
     order_comment
     order_table
     order_total
@@ -60,7 +60,7 @@ class PurchaseOrderPdf < Prawn::Document
   def delivery_address
     if @purchase_order.delivery_address
       move_down 6
-      text_box "#{@purchase_order.client.name}
+      text_box "#{@purchase_order.delivery_name}
                 #{@purchase_order.delivery_address.body}
                 #{@purchase_order.delivery_address.post_code}",
                 size: 12 
@@ -80,9 +80,10 @@ class PurchaseOrderPdf < Prawn::Document
       position: :right
   end
   
-  def order_number_and_date
+  def order_number_and_dates
       date = @purchase_order.issue_date ? @purchase_order.issue_date.strftime("%d %B %Y") : "NOT ISSUED"
-      data = [["Order No.:","#{@purchase_order.code}","Date", date]]
+      due_date = @purchase_order.due_date ? @purchase_order.due_date.strftime("%d %B %Y") : "NOT SET"
+      data = [["Order No.:","#{@purchase_order.code}","Date", date],["Delivery Date:", due_date,"",""]]
       table(data) do
         cells.borders = []
         columns(2).align = :right
@@ -154,7 +155,11 @@ class PurchaseOrderPdf < Prawn::Document
     end
     
     def our_address
-      addr = "#{@purchase_order.customer.addresses.first.body.gsub(/\n/,', ')}, #{@purchase_order.customer.addresses.first.post_code}"
+      if @purchase_order.customer.addresses.first
+        addr = "#{@purchase_order.customer.addresses.first.body.gsub(/\n/,', ')}, #{@purchase_order.customer.addresses.first.post_code}"
+      else
+        addr = "address missing"
+      end
 
       repeat(:all) do
         canvas do

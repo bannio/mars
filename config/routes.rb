@@ -25,11 +25,11 @@ Mars::Application.routes.draw do
   get "sales_orders/:id/events" => "sales_orders#list_events", as: "sales_order_events"
   get "emails/:id/download_attachment" => "emails#download_attachment", as: "email_attachment"
   get "purchase_orders/setup" => "purchase_orders#setup", as: "setup_purchase_order"
-  get "purchase_orders/:id/issue" => "purchase_orders#issue", as: "issue_purchase_order"
-  get "purchase_orders/:id/reopen" => "purchase_orders#reopen", as: "reopen_purchase_order"
-  get "purchase_orders/:id/cancel" => "purchase_orders#cancel", as: "cancel_purchase_order"
-  get "purchase_orders/:id/receipt" => "purchase_orders#receipt", as: "receipt_purchase_order"
-  get "purchase_orders/:id/paid" => "purchase_orders#paid", as: "paid_purchase_order"
+  put "purchase_orders/:id/issue" => "purchase_orders#issue", as: "issue_purchase_order"
+  put "purchase_orders/:id/reopen" => "purchase_orders#reopen", as: "reopen_purchase_order"
+  put "purchase_orders/:id/cancel" => "purchase_orders#cancel", as: "cancel_purchase_order"
+  put "purchase_orders/:id/receipt" => "purchase_orders#receipt", as: "receipt_purchase_order"
+  put "purchase_orders/:id/paid" => "purchase_orders#paid", as: "paid_purchase_order"
   get "purchase_orders/:id/emails" => "purchase_orders#list_emails", as: "purchase_order_emails"
   get "purchase_orders/:id/events" => "purchase_orders#list_events", as: "purchase_order_events"
   
@@ -41,7 +41,6 @@ Mars::Application.routes.draw do
   resources :emails
   
   resources :quotations do
-    # get :email
     collection {post :import }
   end
 
@@ -49,7 +48,9 @@ Mars::Application.routes.draw do
   resources :sales_order_lines
   resources :purchase_order_lines
   resources :quotation_lines
-  resources :purchase_orders
+  resources :purchase_orders do
+    collection {post :import }
+  end
 
   # devise_for :users , :controllers => {:registrations => "users/registrations", :passwords => "users/passwords"}
   devise_for :users, :skip => [:registrations]                                          

@@ -33,5 +33,43 @@ Feature: Purchase Orders
 
 	Scenario: Complete New PO
 		Given I have setup a PO
-		And  I select project "My project"
+		And I select project "My project"
+		And I fill in "Title" with "My PO"
+		And I fill in "Due date" with "2013-05-20"
+		And I select Supplier contact "Fred"
+		And I select Supplier address "primary"
+		And I select Delivery address "client address"
+		And I click button "Create Purchase order"
+		Then I should see a successfully created message
+
+	Scenario: Issue a PO
+		Given I have setup a PO
+		And I have completed the PO header
+		And when I enter the following po line detail
+			|name|description|quantity|unit_price|
+			|chair|office chair |2|120.25|
+		And I click button "Add"
+		Then I should be on the "Purchase Order for" page
+		Then I should see £240.50 in the po header table
+		And I should see £240.50 in the po detail table
+		When I click "Issue Purchase Order"
+		Then I should see "Email PurchaseOrder"
+		And I click "Issue without Email"
+		Then I should be on the "Purchase Order for" page
+		And I should see "Status issued"
+		And I should not see "Issue Purchase Order"
+
+	Scenario: Attempt to issue a PO with no lines
+		Given I have setup a PO
+		And I have completed the PO header
+		When I click "Issue Purchase Order"
+		Then I should see "There are no lines on this order"
+
+	Scenario: Import lines from file
+		Given I have setup a PO
+		And I have completed the PO header
+		When I select the file "spec/fixtures/testquotelines.csv"
+		And I click button "Import"
+		Then I should see a successfully imported message
+		And I should see £3,373.15 in the po header table
 

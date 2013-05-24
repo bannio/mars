@@ -37,4 +37,5 @@ private
       order(:name).scoped
     end
   end
+
 end

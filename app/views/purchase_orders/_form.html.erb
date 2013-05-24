@@ -10,11 +10,12 @@
 		  <%= f.association :project, collection: @purchase_order.client.projects.current %>
 		  <%= f.input :name, label: 'Title' %>
 			<%= f.hidden_field :code, value: @purchase_order.code %>
+			<%= f.input :due_date, as: :string, input_html: {class: 'date_picker'} %>
 			</div>
 			<div class="span6">
 				<%= f.association :contact, collection: @purchase_order.supplier.contacts, label: "Supplier Contact" %>
 		    <%= f.association :address, label: 'Supplier address', collection:  @purchase_order.supplier.addresses %>
-				<%= f.association :delivery_address, collection: @purchase_order.client.addresses %>
+				<%= f.association :delivery_address, collection: delivery_addresses(@purchase_order) %>
 				<div class="control-group string optional"><label class="string optional control-label">Date Issued </label>
 					<div class="controls string optional"><label class="string optional control-label">
 					<%= @purchase_order.issue_date %></label> 

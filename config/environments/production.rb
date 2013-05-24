@@ -29,14 +29,13 @@ Mars::Application.configure do
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    :address              => 'exchange.mail.bsky.net',
-    :port                 => 2525,
-    :domain               => 'elderberry-furniture.com',
-    :user_name            => ENV['MAIL_USERNAME'],
-    :password             => ENV['MAIL_PASSWORD'],
-    :authentication       => 'plain',
+  #   :address              => 'exchange.mail.bsky.net',
+  #   :port                 => 2525,
+  #   :domain               => 'elderberry-furniture.com',
+  #   :user_name            => ENV['MAIL_USERNAME'],
+  #   :password             => ENV['MAIL_PASSWORD'],
+  #   :authentication       => 'plain',
     :enable_starttls_auto => true,
-    # :openssl_verify_mode  => OpenSSL::SSL::VERIFY_NONE
     :openssl_verify_mode  => 'none'
   }
 

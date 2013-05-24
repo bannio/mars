@@ -1,6 +1,11 @@
 <table class='table table-condensed'>
   <tr class='grey-header'>
-    <th>Purchase Orders</th><th></th><th></th><th></th> 
+    <th>Purchase Orders</th><th></th><th></th>
+    <td class="text-right">
+    	<% if (allow? :purchase_orders, :setup) && @project.open? %>
+    		<%= link_to "New Purchase Order", setup_purchase_order_path(project_id: @project.id, client_id: @project.company_id) %>
+    	<% end %>
+    </td> 
   </tr>
 	<% @project.purchase_orders.each do |purchase_order| %>
 	  <tr>

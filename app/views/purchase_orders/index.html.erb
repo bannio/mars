@@ -1,0 +1,38 @@
+<h1>Purchase Orders</h1>
+
+<%= form_tag purchase_orders_path, method: 'get', class: "navbar-search pull-left", id: "purchase_orders_search" do %>
+    <%= hidden_field_tag :direction, params[:direction] %>
+    <%= hidden_field_tag :sort, params[:sort] %>
+    <%= text_field_tag :search, params[:search], class: "search-query", placeholder: 'Search in Title' %>
+    <%= submit_tag "Search", name: nil, class: "hidden" %>
+<% end %>
+
+<br><br>
+
+<table class='table table-condensed'>
+  <tr>
+    <th><%= sortable "purchase_orders.code", "Code" %> <%= arrow "purchase_orders.code" %></th>
+	<th><%= sortable "purchase_orders.name", "Title" %> <%= arrow "purchase_orders.name" %></th>
+    <th><%= sortable "projects.code", "Project" %> <%= arrow "projects.code"%></th>
+    <th><%= sortable "companies.name", "Supplier" %> <%= arrow "companies.name"%></th>
+    <th><%= sortable "issue_date", "Issue date" %> <%= arrow "issue_date" %></th>
+    <th><%= sortable "due_date", "Due date" %> <%= arrow "due_date" %></th>
+    <th><%= sortable "total", "Total" %> <%= arrow "total" %></th>
+    <th><%= sortable "status", "Status" %> <%= arrow "status" %></th>
+  </tr>
+
+<% @purchase_orders.each do |purchase_order| %>
+  <tr>
+    <td><%= link_to purchase_order.code, purchase_order %></td>
+	<td><%= purchase_order.name %></td>
+    <td><%= purchase_order.project.code %></td>
+    <td><%= purchase_order.supplier.name %></td>
+    <td><%= purchase_order.issue_date %></td>
+    <td><%= purchase_order.due_date %></td>
+    <td><%= number_to_currency(purchase_order.total) %></td>
+    <td><%= purchase_order.status %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'Add new Purchase Order via the Supplier', companies_path %>
