@@ -4,6 +4,78 @@
 		"selected_items":
 		[
 			[
+				"Purchase",
+				"PurchaseOrder"
+			],
+			[
+				"delivery",
+				"delivery_address"
+			],
+			[
+				"add",
+				"delivery_addresses"
+			],
+			[
+				"cl",
+				"cla	Create controller class"
+			],
+			[
+				"sales_",
+				"sales_orders"
+			],
+			[
+				"quot",
+				"quotation_id"
+			],
+			[
+				"update",
+				"update_total"
+			],
+			[
+				"sales_o",
+				"sales_order"
+			],
+			[
+				"pro",
+				"project_id"
+			],
+			[
+				"issu",
+				"issue_date"
+			],
+			[
+				"del",
+				"delivery_address_id"
+			],
+			[
+				"Sale",
+				"SalesOrder"
+			],
+			[
+				"sal",
+				"sales_order"
+			],
+			[
+				"red",
+				"redirect_to"
+			],
+			[
+				"cla",
+				"cla	Create functional test class"
+			],
+			[
+				"sale",
+				"sales_order_line"
+			],
+			[
+				"find",
+				"find_by_code"
+			],
+			[
+				"btn",
+				"btn-primary"
+			],
+			[
 				"h",
 				"h1	Tag"
 			],
@@ -14,10 +86,6 @@
 			[
 				"con",
 				"contact_id"
-			],
-			[
-				"cla",
-				"cla	ClassName = Struct .. do .. end"
 			]
 		]
 	},
@@ -71,7 +139,7 @@
 				"Set Syntax: Ruby on Rails"
 			]
 		],
-		"width": 553.0
+		"width": 530.0
 	},
 	"console":
 	{
@@ -88,58 +156,134 @@
 	},
 	"file_history":
 	[
-		"/Users/owen/Projects/mars/features/email_quotation.feature",
-		"/Users/owen/Projects/mars/spec/controllers/emails_controller_spec.rb",
-		"/Users/owen/Projects/mars/app/views/companies/index.html.erb",
-		"/Users/owen/Projects/mars/app/controllers/emails_controller.rb",
-		"/Users/owen/Projects/mars/app/models/email.rb",
-		"/Users/owen/Projects/mars/app/mailers/mars_mailer.rb",
-		"/Users/owen/Projects/mars/app/views/emails/index.html.erb",
-		"/Users/owen/Projects/datasheets/.gitignore",
-		"/Users/owen/Projects/datasheets/README.md",
-		"/Users/owen/Projects/mars/app/views/companies/_companies.html.erb",
-		"/Users/owen/Projects/mars/app/views/emails/_form.html.erb",
-		"/Users/owen/Projects/mars/spec/controllers/addresses_controller_spec.rb",
-		"/Users/owen/Projects/mars/app/controllers/addresses_controller.rb",
-		"/Users/owen/Projects/mars/app/controllers/companies_controller.rb",
+		"/Users/owen/Projects/mars/config/environments/production.rb",
+		"/Users/owen/Projects/mars/app/views/purchase_orders/show.html.erb",
+		"/Users/owen/Projects/mars/app/views/quotations/show.html.erb",
+		"/Users/owen/Projects/mars/config/routes.rb",
 		"/Users/owen/Projects/mars/app/models/permissions/user_permission.rb",
-		"/Users/owen/Projects/mars/app/models/quotation.rb",
-		"/Users/owen/Projects/mars/app/pdfs/sales_quote_pdf.rb",
-		"/Users/owen/Projects/mars/app/controllers/quotations_controller.rb",
-		"/Users/owen/Projects/mars/features/step_definitions/email_steps.rb",
-		"/Users/owen/Projects/mars/features/step_definitions/version_steps.rb",
-		"/Users/owen/Projects/mars/features/version.feature",
-		"/Users/owen/Projects/mars/features/step_definitions/company_steps.rb",
+		"/Users/owen/Projects/mars/features/purchaseorder.feature",
+		"/Users/owen/Projects/mars/features/step_definitions/po_steps.rb",
 		"/Users/owen/Projects/mars/features/step_definitions/quotation_steps.rb",
-		"/Users/owen/Projects/mars/features/step_definitions/search_steps.rb",
-		"/Users/owen/Projects/mars/features/step_definitions/contact_steps.rb",
-		"/Users/owen/Projects/mars/features/step_definitions/general_steps.rb",
-		"/Users/owen/Projects/mars/features/step_definitions/address_steps.rb",
-		"/Users/owen/Projects/mars/spec/mailers/mars_mailer_spec.rb",
-		"/Users/owen/Projects/mars/db/schema.rb",
-		"/Users/owen/Projects/mars/spec/factories/addresses.rb",
-		"/Users/owen/Projects/mars/spec/factories/quotations.rb",
-		"/Users/owen/Projects/mars/spec/factories/companies.rb",
-		"/Users/owen/Projects/mars/app/views/emails/new.html.erb",
-		"/Users/owen/Projects/mars/app/models/contact.rb",
-		"/Users/owen/Projects/mars/mars.sublime-project",
-		"/Users/owen/Projects/mars/mars.sublime-workspace",
-		"/Users/owen/Library/Application Support/Sublime Text 2/Packages/User/Preferences.sublime-settings",
-		"/Users/owen/Library/Application Support/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
-		"/Users/owen/Library/Application Support/Sublime Text 2/Packages/Default/Default (OSX).sublime-keymap",
+		"/Users/owen/Projects/mars/app/views/quotation_lines/show.html.erb",
 		"/Users/owen/Projects/mars/features/quotation.feature",
-		"/Users/owen/Projects/mars/app/views/quotations/new.html.erb",
+		"/Users/owen/Projects/mars/app/models/purchase_order.rb",
+		"/Users/owen/Projects/mars/app/models/sales_order.rb",
+		"/Users/owen/Projects/mars/app/models/quotation.rb",
+		"/Users/owen/Projects/mars/app/views/purchase_orders/index.html.erb",
+		"/Users/owen/Projects/mars/app/controllers/quotations_controller.rb",
+		"/Users/owen/Projects/mars/app/controllers/sales_orders_controller.rb",
+		"/Users/owen/Projects/mars/app/controllers/purchase_orders_controller.rb",
+		"/Users/owen/Projects/mars/app/views/purchase_orders/_form.html.erb",
+		"/Users/owen/Projects/mars/app/views/projects/show.html.erb",
+		"/Users/owen/Projects/mars/app/views/projects/_purchase_orders.html.erb",
+		"/Users/owen/Projects/mars/app/views/purchase_orders/setup.html.erb",
+		"/Users/owen/Projects/mars/app/views/companies/_purchase_orders.html.erb",
+		"/Users/owen/Projects/mars/app/pdfs/purchase_order_pdf.rb",
+		"/Users/owen/Projects/mars/app/helpers/application_helper.rb",
+		"/Users/owen/Projects/mars/app/views/purchase_orders/_po_header.html.erb",
 		"/Users/owen/Projects/mars/app/views/projects/_form.html.erb",
-		"/Users/owen/Projects/flix/app/controllers/movies_controller.rb",
-		"/Users/owen/Projects/flix/app/views/movies/index.html.erb",
-		"/Users/owen/Projects/flix/app/helpers/movies_helper.rb",
-		"/Users/owen/Projects/flix/app/models/movie.rb",
-		"/Users/owen/Projects/flix/config/initializers/date_formats.rb",
-		"/Users/owen/Projects/flix/app/models/concerns/.keep",
-		"/Users/owen/Projects/flix/db/schema.rb",
-		"/Users/owen/Projects/flix/db/migrate/20130429081358_add_columns_to_movies.rb",
-		"/Users/owen/Projects/flix/.gitignore",
-		"/Users/owen/Projects/flix/config/routes.rb"
+		"/Users/owen/Projects/mars/app/views/quotations/_form.html.erb",
+		"/Users/owen/Projects/mars/app/views/quotation_lines/_form.html.erb",
+		"/Users/owen/Projects/mars/spec/factories/purchase_orders.rb",
+		"/Users/owen/Projects/mars/features/purchase_order_index.feature",
+		"/Users/owen/Projects/mars/db/migrate/20130524082301_add_due_date_to_purchase_order.rb",
+		"/Users/owen/Projects/mars/features/sales_index.feature",
+		"/Users/owen/Projects/mars/app/models/company.rb",
+		"/Users/owen/Projects/mars/db/schema.rb",
+		"/Users/owen/Projects/mars/app/views/sales_orders/index.html.erb",
+		"/Users/owen/Projects/mars/features/quote_index.feature",
+		"/Users/owen/Projects/mars/app/views/layouts/_header.html.erb",
+		"/Users/owen/Projects/mars/features/quotation_version.feature",
+		"/Users/owen/Projects/mars/features/sales_order.feature",
+		"/Users/owen/Projects/mars/app/views/emails/new.html.erb",
+		"/Users/owen/Projects/mars/app/views/emails/_form.html.erb",
+		"/Users/owen/Projects/mars/app/views/purchase_orders/_po_detail.html.erb",
+		"/Users/owen/Projects/mars/db/migrate/20130523110653_change_column_in_purchase_order_line.rb",
+		"/Users/owen/Projects/mars/app/views/quotation_lines/edit.html.erb",
+		"/Users/owen/Projects/mars/features/step_definitions/general_steps.rb",
+		"/Users/owen/Projects/mars/features/step_definitions/version_steps.rb",
+		"/Users/owen/Projects/mars/app/pdfs/sales_order_pdf.rb",
+		"/Users/owen/Projects/mars/config/application.yml",
+		"/Users/owen/Projects/mars/config/environments/development.rb",
+		"/Users/owen/Projects/mars/.gitignore",
+		"/Users/owen/Projects/mars/app/models/project.rb",
+		"/Users/owen/Projects/mars/app/views/companies/_addresses.html.erb",
+		"/Users/owen/Projects/mars/app/views/shared/_lines.html.erb",
+		"/Users/owen/Projects/mars/app/views/sales_orders/show.html.erb",
+		"/Users/owen/Projects/mars/app/controllers/application_controller.rb",
+		"/Users/owen/Projects/mars/Gemfile",
+		"/Users/owen/Projects/mars/app/models/sales_order_line.rb",
+		"/Users/owen/Projects/mars/app/views/projects/_sales_orders.html.erb",
+		"/Users/owen/Projects/mars/app/views/purchase_orders/new.html.erb",
+		"/Users/owen/Projects/mars/app/views/purchase_orders/edit.html.erb",
+		"/Users/owen/Projects/mars/app/assets/javascripts/purchase_orders.js.coffee",
+		"/Users/owen/Projects/mars/config/initializers/simple_form_components.rb",
+		"/Users/owen/Projects/mars/db/migrate/20130521111436_add_client_to_purchase_order.rb",
+		"/Users/owen/Projects/mars/app/controllers/projects_controller.rb",
+		"/Users/owen/Projects/mars/spec/models/permissions/user_permission_spec.rb",
+		"/Users/owen/Projects/mars/app/views/companies/show.html.erb",
+		"/Users/owen/Projects/mars/app/views/sales_orders/_form.html.erb",
+		"/Users/owen/Projects/mars/app/views/sales_orders/new.html.erb",
+		"/Users/owen/Projects/mars/app/models/user.rb",
+		"/Users/owen/Projects/mars/app/models/purchase_order_line.rb",
+		"/Users/owen/Projects/mars/db/migrate/20130520100628_create_purchase_order_lines.rb",
+		"/Users/owen/Projects/mars/db/migrate/20130520094500_create_purchase_orders.rb",
+		"/Users/owen/Projects/mars/app/views/companies/_sales_orders.html.erb",
+		"/Users/owen/Projects/mars/app/views/emails/index.html.erb",
+		"/Users/owen/Projects/mars/app/views/events/index.html.erb",
+		"/Users/owen/Projects/mars/features/email_index.feature",
+		"/Users/owen/Projects/mars/app/models/email.rb",
+		"/Users/owen/Projects/mars/app/models/event.rb",
+		"/Users/owen/Projects/mars/app/controllers/events_controller.rb",
+		"/Users/owen/Projects/mars/app/controllers/emails_controller.rb",
+		"/Users/owen/Projects/mars/spec/controllers/projects_controller_spec.rb",
+		"/Users/owen/Projects/mars/features/step_definitions/project_steps.rb",
+		"/Users/owen/Projects/mars/features/project.feature",
+		"/Users/owen/Projects/mars/app/views/projects/_quotations.html.erb",
+		"/Users/owen/Projects/mars/features/step_definitions/email_steps.rb",
+		"/Users/owen/Projects/mars/spec/models/email_spec.rb",
+		"/Users/owen/Projects/mars/app/views/contacts/_contacts.html.erb",
+		"/Users/owen/Projects/mars/app/views/contacts/index.html.erb",
+		"/Users/owen/Projects/mars/spec/controllers/emails_controller_spec.rb",
+		"/Users/owen/Projects/mars/app/views/emails/show.html.erb",
+		"/Users/owen/Projects/mars/features/step_definitions/sales_order_steps.rb",
+		"/Users/owen/Projects/mars/spec/factories/emails.rb",
+		"/Users/owen/Projects/mars/app/views/quotations/index.html.erb",
+		"/Users/owen/Projects/mars/features/step_definitions/contact_steps.rb",
+		"/Users/owen/Projects/mars/features/step_definitions/company_steps.rb",
+		"/Users/owen/Projects/mars/features/step_definitions/search_steps.rb",
+		"/Users/owen/Projects/mars/features/project_show.feature",
+		"/Users/owen/Projects/mars/app/views/projects/_projects.html.erb",
+		"/Users/owen/Projects/mars/spec/controllers/quotations_controller_spec.rb",
+		"/Users/owen/Projects/mars/app/views/projects/index.html.erb",
+		"/Users/owen/Projects/mars/spec/factories/quotations.rb",
+		"/Users/owen/Projects/mars/spec/factories/sales_orders.rb",
+		"/Users/owen/Projects/mars/spec/controllers/contacts_controller_spec.rb",
+		"/Users/owen/Projects/mars/app/helpers/email_helper.rb",
+		"/Users/owen/Projects/mars/app/views/contacts/show.html.erb",
+		"/Users/owen/Projects/mars/app/controllers/quotation_lines_controller.rb",
+		"/Users/owen/Projects/mars/app/models/quotation_line.rb",
+		"/Users/owen/Projects/mars/spec/models/sales_order_line_spec.rb",
+		"/Users/owen/Projects/mars/spec/models/quotation_line_spec.rb",
+		"/Users/owen/Projects/mars/spec/models/event_spec.rb",
+		"/Users/owen/Projects/mars/app/views/companies/_quotations.html.erb",
+		"/Users/owen/Projects/mars/app/views/companies/_contacts.html.erb",
+		"/Users/owen/Projects/mars/app/views/companies/_projects.html.erb",
+		"/Users/owen/Projects/mars/app/views/companies/_companies.html.erb",
+		"/Users/owen/Projects/mars/app/views/companies/index.html.erb",
+		"/Users/owen/Projects/mars/db/migrate/20130517113438_add_columns_to_quotation.rb",
+		"/Users/owen/Projects/mars/db/migrate/20130517100040_add_default_to_sales_order.rb",
+		"/Users/owen/Projects/mars/spec/models/sales_order_spec.rb",
+		"/Users/owen/Projects/mars/db/migrate/20130517094606_add_total_to_sales_order.rb",
+		"/Users/owen/Projects/mars/db/migrate/20130511173657_create_sales_order_lines.rb",
+		"/Users/owen/Projects/mars/app/assets/javascripts/custom.js",
+		"/Users/owen/Projects/mars/app/controllers/contacts_controller.rb",
+		"/Users/owen/Projects/mars/app/assets/javascripts/application.js",
+		"/Users/owen/Projects/mars/app/views/contacts/index.js.erb",
+		"/Users/owen/Projects/mars/app/views/companies/index.js.erb",
+		"/Users/owen/Projects/mars/spec/factories/projects.rb",
+		"/Users/owen/Projects/mars/app/controllers/companies_controller.rb",
+		"/Users/owen/Projects/mars/spec/features/issue_sales_order_spec.rb"
 	],
 	"find":
 	{
@@ -147,9 +291,10 @@
 	},
 	"find_in_files":
 	{
-		"height": 0.0,
+		"height": 93.0,
 		"where_history":
 		[
+			""
 		]
 	},
 	"find_state":
@@ -157,6 +302,92 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"Sales",
+			"sales",
+			"quotation",
+			"project",
+			"sales",
+			"quotation_quotation",
+			"quote",
+			"sales",
+			"supplier",
+			"emails",
+			"paid",
+			"receipt",
+			"cancel",
+			"reopen",
+			"issue",
+			"model",
+			"customer",
+			"sales",
+			"And",
+			"sales",
+			"purchase_order",
+			"purchase_order_lines",
+			"purchase_orders",
+			"purchase",
+			"quotation",
+			"quotation_lines",
+			"quotations",
+			"sales",
+			"quotation",
+			"Quotation",
+			"quotation",
+			"quotations",
+			"quotation",
+			"sales_orders",
+			"orders",
+			"index",
+			"Rails.root",
+			"quote",
+			"quotations",
+			"quotation",
+			"QuotationLine",
+			"sales_order",
+			"companies",
+			"quotation",
+			"total",
+			"issue_date",
+			"customer",
+			"project",
+			"name",
+			"quotation",
+			"sales_quotation",
+			"sales_quotation_lines",
+			"sales_quotations",
+			"projects",
+			"sales_order",
+			"Project not deleted.",
+			"Invoice",
+			"invoice",
+			"accept",
+			"cancel",
+			"reopen",
+			"redirect_to",
+			"quotation",
+			"issue",
+			"reopen_quotation",
+			"issue",
+			"quotation_quotation",
+			"quotation",
+			"Quotation",
+			"quotation",
+			"sales_order",
+			"quotation",
+			"Quotation",
+			"quotation",
+			"Quotation",
+			"quotation",
+			"quote",
+			"sales_order",
+			"Quotation",
+			"quotation",
+			"Quotation",
+			"quotation",
+			"Quotation",
+			"quotation",
+			"quotation_lines",
+			"to",
 			"spec",
 			"document",
 			"customer",
@@ -241,208 +472,516 @@
 		"selected_items":
 		[
 			[
-				"contema",
-				"app/controllers/emails_controller.rb"
+				"confprod",
+				"config/environments/production.rb"
 			],
 			[
-				"companies",
-				"app/views/companies/_companies.html.erb"
+				"poste",
+				"features/step_definitions/po_steps.rb"
 			],
 			[
-				"viewcompind",
-				"app/views/companies/index.html.erb"
+				"quostep",
+				"features/step_definitions/quotation_steps.rb"
 			],
 			[
-				"mars",
-				"app/mailers/mars_mailer.rb"
-			],
-			[
-				"email",
-				"app/models/email.rb"
-			],
-			[
-				"speceme",
-				"spec/controllers/emails_controller_spec.rb"
-			],
-			[
-				"featu",
-				"features/email_quotation.feature"
-			],
-			[
-				"vieemai",
-				"app/views/emails/_form.html.erb"
-			],
-			[
-				"modepermi",
+				"userper",
 				"app/models/permissions/user_permission.rb"
 			],
 			[
-				"contcomp",
-				"app/controllers/companies_controller.rb"
+				"rout",
+				"config/routes.rb"
 			],
 			[
-				"contadd",
-				"app/controllers/addresses_controller.rb"
+				"viqusho",
+				"app/views/quotations/show.html.erb"
 			],
 			[
-				"contspec",
-				"spec/controllers/addresses_controller_spec.rb"
+				"viequshow",
+				"app/views/quotation_lines/show.html.erb"
 			],
 			[
-				"emailcontspe",
-				"spec/controllers/emails_controller_spec.rb"
+				"viepusho",
+				"app/views/purchase_orders/show.html.erb"
 			],
 			[
-				"featur",
-				"features/email_quotation.feature"
+				"featpu",
+				"features/purchaseorder.feature"
 			],
 			[
-				"versi",
-				"features/version.feature"
+				"feat",
+				"features/quotation.feature"
 			],
 			[
-				"vers",
-				"features/step_definitions/version_steps.rb"
+				"modsal",
+				"app/models/sales_order.rb"
 			],
 			[
-				"versistep",
-				"features/step_definitions/version_steps.rb"
+				"modpur",
+				"app/models/purchase_order.rb"
 			],
 			[
-				"step",
-				"features/step_definitions/email_steps.rb"
-			],
-			[
-				"addrste",
-				"features/step_definitions/address_steps.rb"
-			],
-			[
-				"emailquotfeat",
-				"features/email_quotation.feature"
-			],
-			[
-				"modeemail",
-				"app/models/email.rb"
-			],
-			[
-				"modelquot",
+				"modqu",
 				"app/models/quotation.rb"
 			],
 			[
-				"contemai",
-				"app/controllers/emails_controller.rb"
-			],
-			[
-				"salesqu",
-				"app/pdfs/sales_quote_pdf.rb"
-			],
-			[
-				"viewemaform",
-				"app/views/emails/_form.html.erb"
-			],
-			[
-				"contemail",
-				"app/controllers/emails_controller.rb"
-			],
-			[
-				"contquot",
+				"conqucon",
 				"app/controllers/quotations_controller.rb"
 			],
 			[
-				"emailform",
+				"consalcon",
+				"app/controllers/sales_orders_controller.rb"
+			],
+			[
+				"contpurco",
+				"app/controllers/purchase_orders_controller.rb"
+			],
+			[
+				"viepurind",
+				"app/views/purchase_orders/index.html.erb"
+			],
+			[
+				"salcon",
+				"app/controllers/sales_orders_controller.rb"
+			],
+			[
+				"userperm",
+				"app/models/permissions/user_permission.rb"
+			],
+			[
+				"vipurform",
+				"app/views/purchase_orders/_form.html.erb"
+			],
+			[
+				"quotstep",
+				"features/step_definitions/quotation_steps.rb"
+			],
+			[
+				"postep",
+				"features/step_definitions/po_steps.rb"
+			],
+			[
+				"featupur",
+				"features/purchaseorder.feature"
+			],
+			[
+				"salcont",
+				"app/controllers/sales_orders_controller.rb"
+			],
+			[
+				"viesetu",
+				"app/views/purchase_orders/setup.html.erb"
+			],
+			[
+				"viecompurc",
+				"app/views/companies/_purchase_orders.html.erb"
+			],
+			[
+				"contpurch",
+				"app/controllers/purchase_orders_controller.rb"
+			],
+			[
+				"viprojpur",
+				"app/views/projects/_purchase_orders.html.erb"
+			],
+			[
+				"viprojsho",
+				"app/views/projects/show.html.erb"
+			],
+			[
+				"purpdf",
+				"app/pdfs/purchase_order_pdf.rb"
+			],
+			[
+				"vipurhead",
+				"app/views/purchase_orders/_po_header.html.erb"
+			],
+			[
+				"vipurshow",
+				"app/views/purchase_orders/show.html.erb"
+			],
+			[
+				"helpapp",
+				"app/helpers/application_helper.rb"
+			],
+			[
+				"contpur",
+				"app/controllers/purchase_orders_controller.rb"
+			],
+			[
+				"vprojform",
+				"app/views/projects/_form.html.erb"
+			],
+			[
+				"vquoform",
+				"app/views/quotations/_form.html.erb"
+			],
+			[
+				"viequoform",
+				"app/views/quotation_lines/_form.html.erb"
+			],
+			[
+				"factopur",
+				"spec/factories/purchase_orders.rb"
+			],
+			[
+				"featinde",
+				"features/sales_index.feature"
+			],
+			[
+				"featupuin",
+				"features/purchase_order_index.feature"
+			],
+			[
+				"viepurshow",
+				"app/views/purchase_orders/show.html.erb"
+			],
+			[
+				"modcompa",
+				"app/models/company.rb"
+			],
+			[
+				"sche",
+				"db/schema.rb"
+			],
+			[
+				"salecont",
+				"app/controllers/sales_orders_controller.rb"
+			],
+			[
+				"viesalesinde",
+				"app/views/sales_orders/index.html.erb"
+			],
+			[
+				"salesinde",
+				"features/sales_index.feature"
+			],
+			[
+				"salescon",
+				"app/controllers/sales_orders_controller.rb"
+			],
+			[
+				"purccont",
+				"app/controllers/purchase_orders_controller.rb"
+			],
+			[
+				"viesaleind",
+				"app/views/sales_orders/index.html.erb"
+			],
+			[
+				"layouhead",
+				"app/views/layouts/_header.html.erb"
+			],
+			[
+				"featurquoi",
+				"features/quote_index.feature"
+			],
+			[
+				"versfeat",
+				"features/quotation_version.feature"
+			],
+			[
+				"rou",
+				"config/routes.rb"
+			],
+			[
+				"eminew",
+				"app/views/emails/new.html.erb"
+			],
+			[
+				"emaiform",
 				"app/views/emails/_form.html.erb"
+			],
+			[
+				"pucont",
+				"app/controllers/purchase_orders_controller.rb"
+			],
+			[
+				"ro",
+				"config/routes.rb"
+			],
+			[
+				"helpap",
+				"app/helpers/application_helper.rb"
+			],
+			[
+				"salesor",
+				"app/models/sales_order.rb"
+			],
+			[
+				"purchpdf",
+				"app/pdfs/purchase_order_pdf.rb"
+			],
+			[
+				"viewpurcsho",
+				"app/views/purchase_orders/show.html.erb"
+			],
+			[
+				"modpurc",
+				"app/models/purchase_order.rb"
 			],
 			[
 				"schem",
 				"db/schema.rb"
 			],
 			[
-				"quo",
-				"app/models/quotation.rb"
+				"viewpurc",
+				"app/views/purchase_orders/_form.html.erb"
 			],
 			[
-				"factorquot",
-				"spec/factories/quotations.rb"
+				"viewpursho",
+				"app/views/purchase_orders/show.html.erb"
 			],
 			[
-				"factcomp",
-				"spec/factories/companies.rb"
+				"genestep",
+				"features/step_definitions/general_steps.rb"
 			],
 			[
-				"pdf",
-				"app/pdfs/sales_quote_pdf.rb"
+				"purcont",
+				"app/controllers/purchase_orders_controller.rb"
 			],
 			[
-				"factor",
-				"spec/factories/addresses.rb"
+				"verstep",
+				"features/step_definitions/version_steps.rb"
 			],
 			[
-				"marsmail",
-				"app/mailers/mars_mailer.rb"
+				"viepursho",
+				"app/views/purchase_orders/show.html.erb"
 			],
 			[
-				"marsmailspe",
-				"spec/mailers/mars_mailer_spec.rb"
-			],
-			[
-				"emailnew",
-				"app/views/emails/new.html.erb"
-			],
-			[
-				"contact",
-				"app/models/contact.rb"
-			],
-			[
-				"views/emai",
-				"app/views/emails/_form.html.erb"
-			],
-			[
-				"emailcont",
-				"app/controllers/emails_controller.rb"
-			],
-			[
-				"db/",
+				"schema",
 				"db/schema.rb"
 			],
 			[
-				"quot",
+				"post",
+				"features/step_definitions/po_steps.rb"
+			],
+			[
+				"featursal",
+				"features/sales_order.feature"
+			],
+			[
+				"featupu",
+				"features/purchaseorder.feature"
+			],
+			[
+				"produc",
+				"config/environments/production.rb"
+			],
+			[
+				"salpdf",
+				"app/pdfs/sales_order_pdf.rb"
+			],
+			[
+				"confdev",
+				"config/environments/development.rb"
+			],
+			[
+				"applyml",
+				"config/application.yml"
+			],
+			[
+				"contsal",
+				"app/controllers/sales_orders_controller.rb"
+			],
+			[
+				".gitig",
+				".gitignore"
+			],
+			[
+				"contquot",
 				"app/controllers/quotations_controller.rb"
 			],
 			[
-				"versio",
-				"features/version.feature"
+				"modproj",
+				"app/models/project.rb"
 			],
 			[
-				"quotat",
-				"spec/factories/quotations.rb"
+				"vieprojsho",
+				"app/views/projects/show.html.erb"
 			],
 			[
-				"modelq",
-				"app/models/quotation.rb"
+				"gemfi",
+				"Gemfile"
 			],
 			[
-				"quota",
-				"app/models/quotation.rb"
+				"appcon",
+				"app/controllers/application_controller.rb"
 			],
 			[
-				"quotatcont",
+				"sharedline",
+				"app/views/shared/_lines.html.erb"
+			],
+			[
+				"viewcompasadd",
+				"app/views/companies/_addresses.html.erb"
+			],
+			[
+				"routes",
+				"config/routes.rb"
+			],
+			[
+				"visalorshow",
+				"app/views/sales_orders/show.html.erb"
+			],
+			[
+				"vieprojsal",
+				"app/views/projects/_sales_orders.html.erb"
+			],
+			[
+				"userpermi",
+				"app/models/permissions/user_permission.rb"
+			],
+			[
+				"migr",
+				"db/migrate/20130521111436_add_client_to_purchase_order.rb"
+			],
+			[
+				"conproj",
+				"app/controllers/projects_controller.rb"
+			],
+			[
+				"modeproj",
+				"app/models/project.rb"
+			],
+			[
+				"salesorder",
+				"app/models/sales_order.rb"
+			],
+			[
+				"versstep",
+				"features/step_definitions/version_steps.rb"
+			],
+			[
+				"pdfspdf",
+				"app/pdfs/sales_order_pdf.rb"
+			],
+			[
+				"spusepr",
+				"spec/models/permissions/user_permission_spec.rb"
+			],
+			[
+				"useper",
+				"app/models/permissions/user_permission.rb"
+			],
+			[
+				"modcomp",
+				"app/models/company.rb"
+			],
+			[
+				"vicompapur",
+				"app/views/companies/_purchase_orders.html.erb"
+			],
+			[
+				"viecompanshow",
+				"app/views/companies/show.html.erb"
+			],
+			[
+				"viewsalesnew",
+				"app/views/sales_orders/new.html.erb"
+			],
+			[
+				"viesalesform",
+				"app/views/sales_orders/_form.html.erb"
+			],
+			[
+				"quotcontr",
 				"app/controllers/quotations_controller.rb"
 			],
 			[
-				"vieemanew",
-				"app/views/emails/new.html.erb"
+				"salesordercont",
+				"app/controllers/sales_orders_controller.rb"
 			],
 			[
-				"emailst",
-				"features/step_definitions/email_steps.rb"
+				"specuserperm",
+				"spec/models/permissions/user_permission_spec.rb"
 			],
 			[
-				"quotste",
-				"features/step_definitions/quotation_steps.rb"
+				"moduser",
+				"app/models/user.rb"
 			],
 			[
-				"_form",
-				"app/views/quotations/_form.html.erb"
+				"viewcompapur",
+				"app/views/companies/_purchase_orders.html.erb"
+			],
+			[
+				"modpurlin",
+				"app/models/purchase_order_line.rb"
+			],
+			[
+				"modsallin",
+				"app/models/sales_order_line.rb"
+			],
+			[
+				"migrpurlin",
+				"db/migrate/20130520100628_create_purchase_order_lines.rb"
+			],
+			[
+				"migra",
+				"db/migrate/20130520094500_create_purchase_orders.rb"
+			],
+			[
+				"modsales",
+				"app/models/sales_order.rb"
+			],
+			[
+				"modecompa",
+				"app/models/company.rb"
+			],
+			[
+				"migrapurc",
+				"db/migrate/20130520094500_create_purchase_orders.rb"
+			],
+			[
+				"viewcompansales",
+				"app/views/companies/_sales_orders.html.erb"
+			],
+			[
+				"feaqu",
+				"features/quotation.feature"
+			],
+			[
+				".git",
+				".gitignore"
+			],
+			[
+				"viewevenind",
+				"app/views/events/index.html.erb"
+			],
+			[
+				"vieemailinde",
+				"app/views/emails/index.html.erb"
+			],
+			[
+				"emailinde",
+				"features/email_index.feature"
+			],
+			[
+				"viesaleshow",
+				"app/views/sales_orders/show.html.erb"
+			],
+			[
+				"contsale",
+				"app/controllers/sales_orders_controller.rb"
+			],
+			[
+				"mosuser",
+				"app/models/user.rb"
+			],
+			[
+				"route",
+				"config/routes.rb"
+			],
+			[
+				"viequotshow",
+				"app/views/quotations/show.html.erb"
+			],
+			[
+				"modluser",
+				"app/models/user.rb"
+			],
+			[
+				"viewsemailind",
+				"app/views/emails/index.html.erb"
 			]
 		],
 		"width": 0.0
@@ -459,6 +998,6 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": false,
-	"side_bar_width": 225.0,
+	"side_bar_width": 243.0,
 	"status_bar_visible": true
 }
