@@ -4,6 +4,7 @@ class QuotationLine < ActiveRecord::Base
   belongs_to :quotation
   before_save :update_total
   after_save :update_quotation_total
+  after_destroy :update_quotation_total
   
   validates :name, presence: true
   

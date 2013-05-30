@@ -73,3 +73,17 @@ Feature: Purchase Orders
 		Then I should see a successfully imported message
 		And I should see £3,373.15 in the po header table
 
+	Scenario: Remove lines
+		Given I have setup a PO
+		And I have completed the PO header
+		When I select the file "spec/fixtures/testquotelines.csv"
+		And I click button "Import"
+		Then I should see a successfully imported message
+		And I should see "Remove"
+		When I click the first "Remove" link
+    Then I should see a successfully deleted message
+
+
+
+
+

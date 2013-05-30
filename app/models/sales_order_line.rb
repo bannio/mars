@@ -3,6 +3,7 @@ class SalesOrderLine < ActiveRecord::Base
   belongs_to :sales_order
   before_save :update_total
   after_save :update_order_total
+  after_destroy :update_order_total
 
   validates :name, presence: true
 

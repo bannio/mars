@@ -9,6 +9,9 @@ FactoryGirl.define do
 
 	  factory :supplier do
 	  end
+
+	  factory :client do
+	  end
   end
 end
 

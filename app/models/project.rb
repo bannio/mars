@@ -3,6 +3,7 @@ class Project < ActiveRecord::Base
   belongs_to :company
   has_many  :quotations
   has_many  :sales_orders
+  has_many  :sales_order_lines, through: :sales_orders 
   has_many  :purchase_orders
   has_many  :events, as: :eventable
   

@@ -75,6 +75,10 @@ Given(/^I have the following purchase orders to index$/) do |table|
   end
 end
 
+Then(/^I should see a successfully deleted message$/) do
+  page.should have_content 'successfully deleted'
+end
+
 
 
 

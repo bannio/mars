@@ -3,6 +3,7 @@ class PurchaseOrderLine < ActiveRecord::Base
   # attr_accessible :description, :name, :quantity, :total, :unit_price
   before_save :update_total
   after_save :update_order_total
+  after_destroy :update_order_total
 
   validates :name, presence: true
 

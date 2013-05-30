@@ -3,13 +3,14 @@
 FactoryGirl.define do
   factory :purchase_order do
     name "MyString"
-    project nil
-    customer nil
-    supplier nil
-    contact nil
+    association :project
+    association :customer
+    association :supplier
+    association :client
+    association :contact
     issue_date Date.today
     notes "MyText"
-    address nil
+    association :address
     code "MyString"
     description "MyText"
     delivery_address_id 1
