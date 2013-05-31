@@ -41,6 +41,14 @@ class PurchaseOrdersController < ApplicationController
 
 	def new
 		@purchase_order = PurchaseOrder.new(params[:purchase_order])
+		if !@purchase_order.supplier || !@purchase_order.client || !@purchase_order.customer
+
+			redirect_to setup_purchase_order_path(project_id: @purchase_order.project_id, 
+																						client_id: @purchase_order.client_id,
+																						supplier_id: @purchase_order.supplier_id,
+																						customer_id: @purchase_order.customer_id), 
+																						flash: {error: "All fields must be selected"}
+		end
 	end
 
 	def create
