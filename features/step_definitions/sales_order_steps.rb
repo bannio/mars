@@ -70,3 +70,7 @@ And(/^I submit the "(.*?)" form$/) do |form_id|
     Capybara::RackTest::Form.new(page.driver, element.native).submit :name => nil
 end
 
+Then(/^I should see (.\d,?\d*\.\d{2}) in the so detail table$/) do |value|
+  within("table#so-detail-table"){page.should have_content(value)}
+end
+

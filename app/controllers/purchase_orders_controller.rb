@@ -60,6 +60,21 @@ class PurchaseOrdersController < ApplicationController
 		
 	end
 
+	def select_order_lines
+		# find all sales order lines for the same project as current PO
+		@lines = @purchase_order.project.sales_order_lines
+	end
+
+	def create_order_lines
+		sales_order_lines = SalesOrderLine.find(params[:line_ids])
+		sales_order_lines.each do |s|
+			s.purchase_order_lines << @purchase_order.purchase_order_lines.create(name: s.name,
+																																	description: s.description,
+																																	quantity: s.quantity)
+		end
+		redirect_to @purchase_order
+	end
+
 	def update
 		if @purchase_order.update_attributes(params[:purchase_order])
 			redirect_to @purchase_order, flash: {success: "Purchase Order successfully updated"}

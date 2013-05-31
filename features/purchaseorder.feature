@@ -83,6 +83,13 @@ Feature: Purchase Orders
 		When I click the first "Remove" link
     Then I should see a successfully deleted message
 
+  Scenario: Import lines from sales order
+  	Given I have setup a PO
+		And I have completed the PO header
+		Then I should see "Sales Order Lines"
+		When I click "Sales Order Lines"
+		Then I should be on the "Sales Order Lines for Project" page
+
 
 
 

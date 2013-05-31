@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130524082301) do
+ActiveRecord::Schema.define(:version => 20130531101751) do
 
   create_table "addresses", :force => true do |t|
     t.integer  "company_id"
@@ -150,6 +150,16 @@ ActiveRecord::Schema.define(:version => 20130524082301) do
     t.string   "status"
     t.decimal  "total",               :precision => 10, :scale => 2, :default => 0.0
   end
+
+  create_table "sales_links", :force => true do |t|
+    t.integer  "purchase_order_line_id"
+    t.integer  "sales_order_line_id"
+    t.datetime "created_at",             :null => false
+    t.datetime "updated_at",             :null => false
+  end
+
+  add_index "sales_links", ["purchase_order_line_id"], :name => "index_sales_links_on_purchase_order_line_id"
+  add_index "sales_links", ["sales_order_line_id"], :name => "index_sales_links_on_sales_order_line_id"
 
   create_table "sales_order_lines", :force => true do |t|
     t.integer  "sales_order_id"

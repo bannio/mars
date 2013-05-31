@@ -32,6 +32,8 @@ Mars::Application.routes.draw do
   put "purchase_orders/:id/paid" => "purchase_orders#paid", as: "paid_purchase_order"
   get "purchase_orders/:id/emails" => "purchase_orders#list_emails", as: "purchase_order_emails"
   get "purchase_orders/:id/events" => "purchase_orders#list_events", as: "purchase_order_events"
+  get "purchase_orders/:id/select_order_lines" => "purchase_orders#select_order_lines", as: "select_order_lines"
+  post "purchase_orders/:id/create_order_lines" => "purchase_orders#create_order_lines", as: "create_order_lines"
   
   resources :companies do
     resources :contacts

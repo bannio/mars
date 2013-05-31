@@ -29,6 +29,10 @@
 				<%= submit_tag "Import",class: "btn btn-primary" %>
 				<% end%>
 			</div>
+			<div>
+				<%= link_to "Copy Sales Order Lines", select_order_lines_path(@purchase_order),
+							class: "btn btn-primary" %>
+			</div>
 		</div>
 	</div>
 		<%= link_to "Issue Purchase Order", issue_purchase_order_path(@purchase_order), method: :put, 

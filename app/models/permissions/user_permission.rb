@@ -46,7 +46,7 @@ module Permissions
       end
       if user.has_role?('purchase')
         allow :purchase_orders, [:setup, :new, :create, :edit, :update, :destroy, :show, :import,
-                              :issue, :reopen, :cancel, :receipt, :paid]
+                              :issue, :reopen, :cancel, :receipt, :paid, :select_order_lines, :create_order_lines]
         allow :purchase_order_lines, [:new, :create, :edit, :update, :destroy]
         allow_param :purchase_order, [:code, :address_id, :delivery_address_id, :total, :due_date,
           :description, :customer_id, :contact_id, :issue_date, :name, :notes, :project_id, :supplier_id, :client_id, :status,

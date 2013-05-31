@@ -1,5 +1,7 @@
 class PurchaseOrderLine < ActiveRecord::Base
   belongs_to :purchase_order
+  has_many :sales_links, dependent: :destroy
+  has_many :sales_order_lines, through: :sales_links
   # attr_accessible :description, :name, :quantity, :total, :unit_price
   before_save :update_total
   after_save :update_order_total

@@ -57,34 +57,8 @@
   </tr>
 </table>
 <h3>Detail</h3>
+	<%= render 'so_detail' %>
 
-<table class='table table-condensed' id='sq-detail-table'>
-	<tr>
-		<th>Item</th>
-		<th>Specification</th>
-		<th class="text-right">Quantity</th>
-		<th class="text-right">Unit Price</th>
-		<th class="text-right">Total</th>
-		<th></th>
-	</tr>
-	<% @sales_order.sales_order_lines.each do |line| %>
-		<tr>
-			<td width="120"><%= line.name %></td>
-			<td width="350"><%= line.description %></td>
-			<td class="text-right"><%= line.quantity %></td>
-			<td class="text-right"><%= number_to_currency(line.unit_price) %></td>
-			<td class="text-right"><%= number_to_currency(line.total) %></td>
-			<td class="text-right">
-			<% if @sales_order.open? %>
-			<% if allow? :sales_order_lines, :edit %>
-				<%= link_to 'Edit', edit_sales_order_line_path(line) %> |
- 				<%= link_to 'Remove', sales_order_line_path(line), method: :delete, data: { confirm: 'Are you sure?' } %>
-			<% end %>
-			<% end %>
-			</td>
-		</tr>
-	<% end %>
-</table>
 <% if @sales_order.open? %>
 	<div class="form-actions">
 		Add line:

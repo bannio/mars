@@ -43,7 +43,7 @@ Feature: In order to sell to companies I need to be able to issue sales orders.
 		And I click button "Add"
 		Then I should be on the "Sales Order for" page
 		Then I should see £240.50 in the header table
-		And I should see £240.50 in the detail table
+		And I should see £240.50 in the so detail table
 		
 	Scenario: Remove lines from a Sales Order
 		Given I have the following sales orders

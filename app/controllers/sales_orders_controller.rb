@@ -49,7 +49,7 @@ class SalesOrdersController < ApplicationController
     respond_to do |format|
       if @sales_order.save
         @sales_order.events.create!(state: 'open', user_id: current_user.id)
-        format.html { redirect_to @sales_order, notice: 'Sales Order was successfully created.' }
+        format.html { redirect_to @sales_order, flash: {success: 'Sales Order was successfully created.'} }
       else
         format.html { render action: "new" }
       end
