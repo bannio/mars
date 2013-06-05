@@ -4,7 +4,7 @@
 <% if @purchase_order.open? %>
 	<%= link_to 'Edit', edit_purchase_order_path(@purchase_order), class: 'pull-right btn btn-primary' %>
 <% elsif @purchase_order.issued? %>
-	<%= link_to 'Email purchase_order', new_email_path(type: 'purchaseOrder', id: @purchase_order.id),
+	<%= link_to 'Email purchase_order', new_email_path(type: 'PurchaseOrder', id: @purchase_order.id),
 		class: 'pull-right btn btn-primary' %>
 <% end %></h3>
 <%= render 'po_header' %>

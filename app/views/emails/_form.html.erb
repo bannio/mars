@@ -3,9 +3,15 @@
 
   <div class="form-inputs">
 	<div class="row">
+		<% if @email.emailable_type == 'PurchaseOrder' %>
+			<%= f.input :to,
+						collection: @email.emailable.supplier.contacts.with_email,
+						value_method: :email %>
+		<% else %>
 			<%= f.input :to,
 						collection: @email.emailable.customer.contacts.with_email,
 						value_method: :email %>
+		<% end %>
 			<%= f.hidden_field :from, value: @user.email %>
 			<%= f.input :subject, input_html: {value: "#{@email.emailable_type} - #{@email.emailable.code}"} %>
 			<%= f.input :body, input_html: {value: "Please find #{@email.emailable_type} - #{@email.emailable.code} attached.", class: 'span6', rows: 7 }%>
