@@ -23,6 +23,9 @@ class SalesOrdersController < ApplicationController
                               type: "application/pdf",
                               disposition: "inline"
       end
+      format.csv do
+        send_data @sales_order.to_csv
+      end
     end
   end
 

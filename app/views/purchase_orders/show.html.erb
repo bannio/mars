@@ -60,4 +60,5 @@
 <%= link_to 'Project', project_path(@purchase_order.project_id) %> | 
 <%= link_to "Printable purchase Order (PDF)", purchase_order_path(@purchase_order, format: "pdf") %> |
 <%= link_to 'Email history', purchase_order_emails_path(@purchase_order) %> |
-<%= link_to 'Event history', purchase_order_events_path(@purchase_order) %>
+<%= link_to 'Event history', purchase_order_events_path(@purchase_order) %> |
+<%= link_to 'Export to file (CSV)', purchase_order_path(@purchase_order, format: "csv") %>

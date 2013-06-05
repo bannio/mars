@@ -32,6 +32,16 @@ class SalesOrder < ActiveRecord::Base
     end
   end
 
+  def to_csv
+    col_names = %w[name description quantity unit_price]
+    CSV.generate do |csv|
+      csv << col_names
+      sales_order_lines.each do |line|
+        csv << line.attributes.values_at(*col_names)
+      end
+    end
+  end
+
   def update_total
     total = sales_order_lines.sum(:total)
   end

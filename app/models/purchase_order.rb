@@ -36,6 +36,16 @@ class PurchaseOrder < ActiveRecord::Base
     end
   end
 
+  def to_csv
+    col_names = %w[name description quantity unit_price]
+    CSV.generate do |csv|
+      csv << col_names
+      purchase_order_lines.each do |line|
+        csv << line.attributes.values_at(*col_names)
+      end
+    end
+  end
+
   def self.next_code
     last ? last.code.gsub(/R\d+$/, '').next : 'PO0001'
   end

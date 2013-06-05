@@ -35,6 +35,9 @@ class QuotationsController < ApplicationController
                               type: "application/pdf",
                               disposition: "inline"
       end
+      format.csv do
+        send_data @quotation.to_csv
+      end
     end
   end
 

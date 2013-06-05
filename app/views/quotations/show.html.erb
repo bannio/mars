@@ -124,4 +124,5 @@
 <%= link_to 'Project', project_path(@quotation.project_id) %> | 
 <%= link_to "Printable Quote (PDF)", quotation_path(@quotation, format: "pdf") %> |
 <%= link_to 'Email history', quotation_emails_path(@quotation) %> |
-<%= link_to 'Event history', quotation_events_path(@quotation) %> 
+<%= link_to 'Event history', quotation_events_path(@quotation) %> |
+<%= link_to 'Export to file(CSV)', quotation_path(@quotation, format: "csv") %>

@@ -2,7 +2,7 @@ class PurchaseOrdersController < ApplicationController
 	before_filter :find_purchase_order, except: [:new, :create, :index ]
 	helper_method :sort_column, :sort_direction
 
-	 def import
+	def import
     if params[:file]
       @purchase_order.import(params[:file])
       redirect_to :back, flash: {success: 'Lines were successfully imported'}
@@ -28,6 +28,9 @@ class PurchaseOrdersController < ApplicationController
                               type: "application/pdf",
                               disposition: "inline"
       end
+      format.csv do
+      	send_data @purchase_order.to_csv
+      end
     end
   end
 
@@ -48,7 +51,10 @@ class PurchaseOrdersController < ApplicationController
 																						supplier_id: @purchase_order.supplier_id,
 																						customer_id: @purchase_order.customer_id), 
 																						flash: {error: "All fields must be selected"}
+		else
+			@purchase_order.name = 'Notes' # set as default value
 		end
+
 	end
 
 	def create
@@ -153,11 +159,11 @@ class PurchaseOrdersController < ApplicationController
 		@purchase_order = PurchaseOrder.find(params[:id]) if params[:id]
 	end
 
-	 def sort_column
+	def sort_column
      %w[purchase_orders.code purchase_orders.name projects.code companies.name issue_date due_date total status].include?(params[:sort]) ? params[:sort] : "purchase_orders.code"
-   end
+  end
 
-   def sort_direction
+  def sort_direction
      %w[asc desc].include?(params[:direction]) ? params[:direction] : "desc"
-   end
+  end
 end
