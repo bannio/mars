@@ -91,6 +91,10 @@
 	<%= link_to 'Make Order', convert_quotation_path(@quotation), method: :post,
 				class: 'pull-right btn btn-primary',data: { confirm: 'Are you sure?'} %>
 <% end %>
+<% if @quotation.issued? %>
+	<%= link_to "Cancel Quotation", cancel_quotation_path(@quotation), method: :put, 
+						data: { confirm: 'Are you sure? This cannot be undone.' }, class: "pull-right btn btn-danger" %>
+<% end %>
 <% if @quotation.open? %>
 	<div class="form-actions">
 		Add line:

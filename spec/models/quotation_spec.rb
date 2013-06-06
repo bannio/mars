@@ -79,14 +79,14 @@ describe Quotation do
     quote.issue(user).should be_false
   end
 
-  it "does not cancel issued quotes" do
+  it "does not cancel ordered quotes" do
     quote = Quotation.create(@attr)
     lines = quote.quotation_lines.create!(name: 'test item', 
                                     description: 'test item description',
                                     quantity: 12,
                                     unit_price: 10.0)
     user = FactoryGirl.create(:user)
-    quote.events.create(user_id: user.id, state: 'issued')
+    quote.events.create(user_id: user.id, state: 'ordered')
     quote.cancel(user).should be_false
   end
   it "can cancel open quotes" do
@@ -97,6 +97,16 @@ describe Quotation do
                                     unit_price: 10.0)
     user = FactoryGirl.create(:user)
     quote.events.create(user_id: user.id, state: 'open')
+    quote.cancel(user).should be_valid
+  end
+    it "can cancel issued quotes" do
+    quote = Quotation.create(@attr)
+    lines = quote.quotation_lines.create!(name: 'test item', 
+                                    description: 'test item description',
+                                    quantity: 12,
+                                    unit_price: 10.0)
+    user = FactoryGirl.create(:user)
+    quote.events.create(user_id: user.id, state: 'issued')
     quote.cancel(user).should be_valid
   end
   it "creates a pdf version of itself" do

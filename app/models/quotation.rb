@@ -82,7 +82,7 @@ class Quotation < ActiveRecord::Base
   end
   
   def cancel(user)
-    events.create!(state: "cancelled", user_id: user.id) if open?
+    events.create!(state: "cancelled", user_id: user.id) if open? || issued?
   end
   
   def convert(user)

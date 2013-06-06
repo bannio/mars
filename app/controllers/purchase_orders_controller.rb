@@ -119,7 +119,7 @@ class PurchaseOrdersController < ApplicationController
 
   def cancel
     if @purchase_order.cancel(current_user)
-    	@purchase_order.update_attributes(status: 'cancel')
+    	@purchase_order.update_attributes(status: 'cancelled')
       redirect_to @purchase_order, flash: {success: 'purchase order status changed to cancelled'}
     else
       redirect_to @purchase_order, flash: {error: @purchase_order.errors.full_messages.join(' ')}

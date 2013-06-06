@@ -45,7 +45,6 @@ class QuotationsController < ApplicationController
     @quotation = Quotation.new
     @quotation.code = Quotation.last ? Quotation.last.code.next : 'SQ0001'
     @quotation.customer = Company.find(params[:customer_id])
-    # @quotation.customer_id = @customer.id
     @quotation.project_id = params[:project_id]
 
     respond_to do |format|
@@ -90,7 +89,7 @@ class QuotationsController < ApplicationController
   def issue
     respond_to do |format|
       if @quotation.issue(current_user) 
-        @quotation.update_attributes(issue_date: Date.today)
+        @quotation.update_attributes(issue_date: Date.today, status: 'issued')
         @quotation.create_pdf
         format.html { redirect_to new_email_path params: {type: 'Quotation',
                                                           id: @quotation.id} , 
@@ -104,7 +103,7 @@ class QuotationsController < ApplicationController
   def reopen
     respond_to do |format|
       if @quotation.reopen(current_user) 
-        # @quotation.update_attributes(issue_date: Date.today)
+        @quotation.update_attributes(status: 'open')
         format.html { redirect_to @quotation, flash: {success: 'Quotation status changed to open'} }
       else
         format.html { redirect_to @quotation, flash: {error: @quotation.errors.full_messages.join(' ')} }
@@ -116,6 +115,7 @@ class QuotationsController < ApplicationController
     respond_to do |format|
       # create a new sales order based on the quotation and change status of quotation to 'ordered'
       if @quotation.convert(current_user)
+        @quotation.update_attributes(status: 'ordered')
         @quotation.clone_as_sales_order
         format.html { redirect_to @quotation.customer, flash: {success: 'New Sales Order created'}}
       else
@@ -126,8 +126,9 @@ class QuotationsController < ApplicationController
 
   def cancel
     respond_to do |format|
-      # create a new sales order based on the quotation and change status of quotation to 'ordered'
+      # change status of quotation to 'cancelled'
       if @quotation.cancel(current_user)
+        @quotation.update_attributes(status: 'cancelled')
         format.html { redirect_to @quotation.customer, flash: {success: "Quotation #{@quotation.code} cancelled"}}
       else
         format.html { redirect_to @quotation, flash: {error: @quotation.errors.full_messages.join(' ')} }
