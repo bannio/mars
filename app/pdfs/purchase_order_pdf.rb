@@ -77,25 +77,26 @@ class PurchaseOrderPdf < Prawn::Document
   end
   
   def logo
-    image "#{Rails.root}/app/assets/images/Sml_Blue_logo.jpg",
-      position: :right
+    image "#{Rails.root}/app/assets/images/blue_square_logo.png",
+      position: :right,
+      fit: [89,89]
   end
   
   def order_number_and_dates
-      date = @purchase_order.issue_date ? @purchase_order.issue_date.strftime("%d %B %Y") : "NOT ISSUED"
-      due_date = @purchase_order.due_date ? @purchase_order.due_date.strftime("%d %B %Y") : "NOT SET"
-      data = [["Order No.:","#{@purchase_order.code}","Date", date],["Delivery Date:", due_date,"",""]]
-      table(data) do
-        cells.borders = []
-        columns(2).align = :right
-        columns(1).font_style = :bold
-        columns(3).align = :right
-        columns(0).width = 80
-        columns(1).width = 250
-        columns(2).width = 110
-        columns(3).width = 100
-      end
+    date = @purchase_order.issue_date ? @purchase_order.issue_date.strftime("%d %B %Y") : "NOT ISSUED"
+    due_date = @purchase_order.due_date ? @purchase_order.due_date.strftime("%d %B %Y") : "NOT SET"
+    data = [["Order No.:","#{@purchase_order.code}","Date", date],["Delivery Date:", due_date,"",""]]
+    table(data) do
+      cells.borders = []
+      columns(2).align = :right
+      columns(1).font_style = :bold
+      columns(3).align = :right
+      columns(0).width = 80
+      columns(1).width = 250
+      columns(2).width = 110
+      columns(3).width = 100
     end
+  end
     
     def order_comment
       move_down 15

@@ -30,3 +30,6 @@
 /spec/fixtures/salesorder/
 /spec/fixtures/quotation/
 /spec/fixtures/purchaseorder/
+
+# Ignore pow config
+/.powrc
