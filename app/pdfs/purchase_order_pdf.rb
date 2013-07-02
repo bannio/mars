@@ -33,6 +33,7 @@ class PurchaseOrderPdf < Prawn::Document
     order_comment
     order_table
     order_total
+    poterms
     fold_mark
     our_address
     purchase_order_page_number
@@ -98,7 +99,7 @@ class PurchaseOrderPdf < Prawn::Document
     
     def order_comment
       move_down 15
-      text "#{@purchase_order.name}\n", style: :bold, size: 14
+      text "#{@purchase_order.name}\n", style: :bold, size: 12
       move_down 6
       text "#{@purchase_order.description}", style: :italic
     end
@@ -152,6 +153,18 @@ class PurchaseOrderPdf < Prawn::Document
     
     def price(num)
       helpers.number_to_currency(num)
+    end
+
+    def poterms
+      move_down 10
+      content = "The Supplier shall ensure that all Products despatched from their premises "\
+                "are properly packed and secured in such manner as to enable them to "\
+                "reach their destination in good condition. In cases where the Products "\
+                "are not despatched from the Supplier's premises, the Supplier shall notify "\
+                "the party who despatches the Products to do so in a manner that ensures "\
+                "that the Products are properly packed and secured in such manner as to " \
+                "enable them to reach their destination in good condition"
+      text content, style: :italic, size: 8
     end
     
     def our_address
