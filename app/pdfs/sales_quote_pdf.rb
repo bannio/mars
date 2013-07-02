@@ -54,8 +54,9 @@ class SalesQuotePdf < Prawn::Document
   end
   
   def logo
-    image "#{Rails.root}/app/assets/images/Sml_Blue_logo.jpg",
-      position: :right
+    image "#{Rails.root}/app/assets/images/blue_square_logo.png",
+      position: :right,
+      fit: [89,89]
   end
   
   def quote_number_and_date
