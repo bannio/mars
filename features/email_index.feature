@@ -10,7 +10,7 @@ Feature: In order to find emails
 			|SalesOrder | owen@example.com | customer@example.com | SO002.pdf | 2013-05-01 | email three |
 			|SalesOrder | owen@example.com | customer@example.com | SO001.pdf | 2013-05-01 | email four body |
 
-			And I am logged in as a user with a role "admin"
+			And I am logged in as a user with a role "sales_order"
 			And I visit "/emails/"
 
 	Scenario: The index page has the required columns

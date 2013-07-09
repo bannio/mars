@@ -7,7 +7,7 @@ class SalesQuotePdf < Prawn::Document
     #grid.show_all
     font_size 10
     
-    grid([0,2],[0,2]).bounding_box do
+    grid([0,1],[0,2]).bounding_box do
       logo
     end
     
@@ -26,6 +26,7 @@ class SalesQuotePdf < Prawn::Document
     fold_mark
     our_address
     sales_quote_page_number
+    quotation_number
     
     
   end
@@ -41,37 +42,45 @@ class SalesQuotePdf < Prawn::Document
     text_box "#{@quotation.customer.name}
               #{@quotation.address.body}
               #{@quotation.address.post_code}",
-              size: 12 
+              size: 10
     else
       text_box "MISSING AN ADDRESS!"
     end
   end
   
   def sales_quote_heading
+    move_down 50
     text "Sales Quotation", 
-          size: 30, 
+          size: 20, 
           style: :bold
   end
   
   def logo
-    image "#{Rails.root}/app/assets/images/blue_square_logo.png",
+    if @quotation.supplier.name.include? "Roger"
+      image "#{Rails.root}/app/assets/images/RBDC_logo.png",
+      postion: :right,
+      fit: [350,50]
+    else
+      image "#{Rails.root}/app/assets/images/blue_square_logo.png",
       position: :right,
-      fit: [89,89]
+      vposition: :center,
+      fit: [70,70]
+    end
   end
   
   def quote_number_and_date
-      date = @quotation.issue_date ? @quotation.issue_date.strftime("%d %B %Y") : "NOT ISSUED"
-      data = [["Ref.:","#{@quotation.code}","Date", date]]
-      table(data) do
-        cells.borders = []
-        columns(2).align = :right
-        columns(3).align = :right
-        columns(0).width = 80
-        columns(1).width = 250
-        columns(2).width = 110
-        columns(3).width = 100
-      end
+    date = @quotation.issue_date ? @quotation.issue_date.strftime("%d %B %Y") : "NOT ISSUED"
+    data = [["Ref.:","#{@quotation.code}","Date", date]]
+    table(data) do
+      cells.borders = []
+      columns(2).align = :right
+      columns(3).align = :right
+      columns(0).width = 80
+      columns(1).width = 250
+      columns(2).width = 110
+      columns(3).width = 100
     end
+  end
     
     def quote_comment
       move_down 15
@@ -132,22 +141,29 @@ class SalesQuotePdf < Prawn::Document
     end
     
     def our_address
-      addr = "#{@quotation.supplier.addresses.first.body.gsub(/\n/,', ')}, #{@quotation.supplier.addresses.first.post_code}"
+      if @quotation.supplier.addresses.first
+        addr = "#{@quotation.supplier.addresses.first.body.gsub(/\n/,', ')}, #{@quotation.supplier.addresses.first.post_code}"
+        if @quotation.supplier.name.include? "Elderberry"
+          addr = addr + "\nRegistered No. 2993752 VAT Reg No. 619 9162 14"
+        end
+      else
+        addr = "address missing"
+      end
 
       repeat(:all) do
         canvas do
-          move_cursor_to 25
+          move_cursor_to 30
           line_width 0.1
           transparent(0.5){
           stroke_horizontal_rule}
-          text_box addr, at: [0,15], align: :center, size: 8
+          text_box addr, at: [30,20], align: :center, size: 8
         end
       end
     end
     
     def sales_quote_page_number
       string = "page <page> of <total>"
-      options = { at: [500, 15],
+      options = { at: [500, 20],
                 width: 70,
                 align: :right,
                 size: 8,
@@ -155,6 +171,20 @@ class SalesQuotePdf < Prawn::Document
                 }
       canvas do
         number_pages string, options
+      end
+    end
+
+    def quotation_number
+      string = @quotation.code
+      options = { at: [30, 20],
+                width: 30,
+                align: :left,
+                size: 8
+                }
+      repeat(:all) do
+        canvas do
+          text_box string, options
+        end
       end
     end
     

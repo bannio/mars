@@ -6,7 +6,7 @@
   <div class="form-inputs">
 		<div class="row">
 			<div class="span6">
-			<%= f.association :customer, collection: Company.owned %>
+			<%= f.association :customer, collection: Company.owned, selected: Company.owned.first %>
 			<%= f.association :client %>
 			<%= f.association :supplier %>
 			<%= f.hidden_field :code, value: @purchase_order.code %>

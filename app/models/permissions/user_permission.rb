@@ -13,7 +13,7 @@ module Permissions
       allow :sales_order_lines, [:index, :show]
       allow :purchase_order_lines, [:index, :show]
       allow 'users/registrations', [:edit, :update]
-      allow :emails, [:new, :create, :index]
+      allow :emails, [:new, :create, :index, :show]
       allow_param :email, [:attachment, :body, :emailable_id, :emailable_type, :from, :subject, :to]
       if user.has_role?('company')
         allow :companies, [:new, :create, :edit, :update, :destroy] 

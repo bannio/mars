@@ -1,5 +1,5 @@
 class SalesOrderPdf < Prawn::Document
-	def initialize(sales_order)
+  def initialize(sales_order)
     super(bottom_margin: 50)
     @sales_order = sales_order
     
@@ -7,7 +7,7 @@ class SalesOrderPdf < Prawn::Document
     #grid.show_all
     font_size 10
     
-    grid([0,2],[0,2]).bounding_box do
+    grid([0,1],[0,2]).bounding_box do
       logo
     end
     
@@ -26,8 +26,7 @@ class SalesOrderPdf < Prawn::Document
     fold_mark
     our_address
     sales_order_page_number
-    
-    
+    sales_order_number
   end
   
   def fold_mark
@@ -41,22 +40,30 @@ class SalesOrderPdf < Prawn::Document
     text_box "#{@sales_order.customer.name}
               #{@sales_order.address.body}
               #{@sales_order.address.post_code}",
-              size: 12 
+              size: 10 
     else
       text_box "MISSING AN ADDRESS!"
     end
   end
   
   def sales_order_heading
-    text "Sales Order", 
-          size: 30, 
+    move_down 50
+    text "Sales Order",
+          size: 20, 
           style: :bold
   end
   
   def logo
-    image "#{Rails.root}/app/assets/images/blue_square_logo.png",
+    if @sales_order.supplier.name.include? "Roger"
+      image "#{Rails.root}/app/assets/images/RBDC_logo.png",
+      postion: :right,
+      fit: [350,50]
+    else
+      image "#{Rails.root}/app/assets/images/blue_square_logo.png",
       position: :right,
-      fit: [89,89]
+      vposition: :center,
+      fit: [70,70]
+    end
   end
   
   def order_number_and_date
@@ -132,22 +139,29 @@ class SalesOrderPdf < Prawn::Document
     end
     
     def our_address
-      addr = "#{@sales_order.supplier.addresses.first.body.gsub(/\n/,', ')}, #{@sales_order.supplier.addresses.first.post_code}"
+      if @sales_order.supplier.addresses.first
+        addr = "#{@sales_order.supplier.addresses.first.body.gsub(/\n/,', ')}, #{@sales_order.supplier.addresses.first.post_code}"
+        if @sales_order.supplier.name.include? "Elderberry"
+          addr = addr + "\nRegistered No. 2993752 VAT Reg No. 619 9162 14"
+        end
+      else
+        addr = "address missing"
+      end
 
       repeat(:all) do
         canvas do
-          move_cursor_to 25
+          move_cursor_to 30
           line_width 0.1
           transparent(0.5){
           stroke_horizontal_rule}
-          text_box addr, at: [0,15], align: :center, size: 8
+          text_box addr, at: [30,20], align: :center, size: 8
         end
       end
     end
     
     def sales_order_page_number
       string = "page <page> of <total>"
-      options = { at: [500, 15],
+      options = { at: [500, 20],
                 width: 70,
                 align: :right,
                 size: 8,
@@ -155,6 +169,20 @@ class SalesOrderPdf < Prawn::Document
                 }
       canvas do
         number_pages string, options
+      end
+    end
+    
+    def sales_order_number
+      string = @sales_order.code
+      options = { at: [30, 20],
+                width: 30,
+                align: :left,
+                size: 8
+                }
+      repeat(:all) do
+        canvas do
+          text_box string, options
+        end
       end
     end
     

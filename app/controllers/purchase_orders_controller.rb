@@ -40,6 +40,7 @@ class PurchaseOrdersController < ApplicationController
 		@purchase_order.supplier = Company.find(params[:supplier_id]) if params[:supplier_id]
     @purchase_order.project = Project.find(params[:project_id]) if params[:project_id]
     @purchase_order.client = Company.find(params[:client_id]) if params[:client_id]
+    @purchase_order.customer = Company.find(params[:customer_id]) if params[:customer_id]
 	end
 
 	def new

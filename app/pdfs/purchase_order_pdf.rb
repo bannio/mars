@@ -7,7 +7,7 @@ class PurchaseOrderPdf < Prawn::Document
     #grid.show_all
     font_size 10
     
-    grid([0,2],[0,2]).bounding_box do
+    grid([0,1],[0,2]).bounding_box do
       logo
     end
     
@@ -36,6 +36,7 @@ class PurchaseOrderPdf < Prawn::Document
     poterms
     fold_mark
     our_address
+    purchase_order_number
     purchase_order_page_number
     
     
@@ -52,7 +53,7 @@ class PurchaseOrderPdf < Prawn::Document
     text_box "#{@purchase_order.supplier.name}
               #{@purchase_order.address.body}
               #{@purchase_order.address.post_code}",
-              size: 12 
+              size: 10 
     else
       text_box "MISSING AN ADDRESS!"
     end
@@ -64,22 +65,30 @@ class PurchaseOrderPdf < Prawn::Document
       text_box "#{@purchase_order.delivery_name}
                 #{@purchase_order.delivery_address.body}
                 #{@purchase_order.delivery_address.post_code}",
-                size: 12 
+                size: 10 
     else
       text_box "MISSING AN ADDRESS!"
     end
   end
 
   def purchase_order_heading
+    move_down 50
     text "Purchase Order", 
-          size: 30, 
+          size: 20, 
           style: :bold
   end
   
   def logo
-    image "#{Rails.root}/app/assets/images/blue_square_logo.png",
+    if @purchase_order.customer.name.include? "Roger"
+      image "#{Rails.root}/app/assets/images/RBDC_logo.png",
+      postion: :right,
+      fit: [350,50]
+    else
+      image "#{Rails.root}/app/assets/images/blue_square_logo.png",
       position: :right,
-      fit: [89,89]
+      vposition: :center,
+      fit: [70,70]
+    end
   end
   
   def order_number_and_dates
@@ -157,7 +166,7 @@ class PurchaseOrderPdf < Prawn::Document
     end
 
     def poterms
-      move_down 10
+      move_down 20
       content = "The Supplier shall ensure that all Products despatched from their premises "\
                 "are properly packed and secured in such manner as to enable them to "\
                 "reach their destination in good condition. In cases where the Products "\
@@ -171,24 +180,27 @@ class PurchaseOrderPdf < Prawn::Document
     def our_address
       if @purchase_order.customer.addresses.first
         addr = "#{@purchase_order.customer.addresses.first.body.gsub(/\n/,', ')}, #{@purchase_order.customer.addresses.first.post_code}"
+        if @purchase_order.customer.name.include? "Elderberry"
+          addr = addr + "\nRegistered No. 2993752 VAT Reg No. 619 9162 14"
+        end
       else
         addr = "address missing"
       end
 
       repeat(:all) do
         canvas do
-          move_cursor_to 25
+          move_cursor_to 30
           line_width 0.1
           transparent(0.5){
           stroke_horizontal_rule}
-          text_box addr, at: [0,15], align: :center, size: 8
+          text_box addr, at: [30,20], align: :center, size: 8
         end
       end
     end
     
     def purchase_order_page_number
       string = "page <page> of <total>"
-      options = { at: [500, 15],
+      options = { at: [500, 20],
                 width: 70,
                 align: :right,
                 size: 8,
@@ -196,6 +208,20 @@ class PurchaseOrderPdf < Prawn::Document
                 }
       canvas do
         number_pages string, options
+      end
+    end
+
+    def purchase_order_number
+      string = @purchase_order.code
+      options = { at: [30, 20],
+                width: 30,
+                align: :left,
+                size: 8
+                }
+      repeat(:all) do
+        canvas do
+          text_box string, options
+        end
       end
     end
     

@@ -4,7 +4,7 @@
   <div class="form-inputs">
 	<div class="row">
 		<div class="span6">
-		<%= f.association :supplier, collection: Company.owned %>
+		<%= f.association :supplier, collection: Company.owned, selected: Company.owned.first %>
 	    <%= f.hidden_field :customer_id %>
 	    <%= f.association :project, collection: @sales_order.customer.projects.current %>
 		<%= f.hidden_field :code, value: @sales_order.code %>

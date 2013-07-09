@@ -14,7 +14,7 @@ class Company < ActiveRecord::Base
   before_destroy :check_for_contacts, :check_for_addresses
 
   scope :owned, where(name: ENV["OUR_COMPANY_NAMES"].split(/,/))
-  scope :primary, where(name: ENV["OUR_COMPANY_NAMES"].split(/,/)).first
+  # scope :primary, where(name: ENV["OUR_COMPANY_NAMES"].split(/,/)).first
   
 private
 
