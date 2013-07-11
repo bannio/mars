@@ -27,7 +27,7 @@ class PurchaseOrder < ActiveRecord::Base
   end
 
   def update_total
-  	total = purchase_order_lines.sum(:total)
+  	purchase_order_lines.sum(:total)
   end
 
   def import(file)
@@ -61,10 +61,8 @@ class PurchaseOrder < ActiveRecord::Base
   end
 
   def delivery_name
-    if delivery_address && delivery_address.company.id == client.id
-      delivery_name = client.name
-    elsif delivery_address
-      delivery_name = customer.name
+    if delivery_address
+      delivery_address.company.name
     else
       'No delivery address'
     end

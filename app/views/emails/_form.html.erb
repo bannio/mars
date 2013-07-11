@@ -22,8 +22,8 @@
   </div>
 
   <div class="form-actions">
-    <%= f.button :submit %>
-	<%= link_to 'Issue without Email', :back, warning: 'Email not sent but quotation issued', 
-		class: 'btn btn-warning' %>
+    <%= f.submit 'Send Email', class: 'btn btn-primary' %>
+		<%= link_to 'Cancel', cancel_path(@email), class: 'btn btn-warning', 
+													data: {confirm: 'No email will be sent. Note that the document is and will stay issued'} %>
   </div>
 <% end %>

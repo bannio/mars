@@ -1,13 +1,15 @@
 class ProjectsController < ApplicationController
   
   rescue_from ActiveRecord::RecordNotFound, with: :not_found_message
+
+  helper_method :sort_column, :sort_direction
   
   def index
-    @projects = Project.includes(:company).search(params[:search])
+    @projects = Project.includes(:company).order(sort_column + " " + sort_direction)
+    @projects = @projects.search(params[:search])
 
     respond_to do |format|
       format.html # index.html.erb
-      format.js
     end
   end
   
@@ -89,5 +91,12 @@ class ProjectsController < ApplicationController
   def not_found_message
     session[:return_to] ||= root_url
     redirect_to session[:return_to], flash: {error: 'Not authorised or no record found'}
+  end
+  def sort_column
+    %w[projects.code projects.name companies.name start_date end_date status].include?(params[:sort]) ? params[:sort] : "projects.code"
+  end
+
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
   end
 end

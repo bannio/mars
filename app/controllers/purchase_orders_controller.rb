@@ -13,11 +13,11 @@ class PurchaseOrdersController < ApplicationController
   end
 
 	def index
-		@purchase_orders = PurchaseOrder.current.joins(:project, :supplier).order(sort_column + " " + sort_direction)
+		@purchase_orders = PurchaseOrder.current.includes(:project, :supplier).order(sort_column + " " + sort_direction)
     @purchase_orders = @purchase_orders.search(params[:search])
 	end
 
-	def show
+  def show
     flash[:notice] = params[:warning] if params[:warning]
     
     respond_to do |format|
@@ -41,12 +41,12 @@ class PurchaseOrdersController < ApplicationController
     @purchase_order.project = Project.find(params[:project_id]) if params[:project_id]
     @purchase_order.client = Company.find(params[:client_id]) if params[:client_id]
     @purchase_order.customer = Company.find(params[:customer_id]) if params[:customer_id]
+    session[:return_to] ||= request.referer
 	end
 
 	def new
 		@purchase_order = PurchaseOrder.new(params[:purchase_order])
 		if !@purchase_order.supplier || !@purchase_order.client || !@purchase_order.customer
-
 			redirect_to setup_purchase_order_path(project_id: @purchase_order.project_id, 
 																						client_id: @purchase_order.client_id,
 																						supplier_id: @purchase_order.supplier_id,

@@ -5,14 +5,15 @@ FactoryGirl.define do
     name "MyCompany"
 
     factory :customer do
+    	name "MyCustomer"
 	  end
 
 	  factory :supplier do
+	  	name "MySupplier"
 	  end
 
 	  factory :client do
+	  	name "MyClient"
 	  end
   end
 end
-
-

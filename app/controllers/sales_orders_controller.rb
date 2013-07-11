@@ -30,7 +30,7 @@ class SalesOrdersController < ApplicationController
   end
 
   def index
-    @sales_orders = SalesOrder.current.joins(:project, :customer).order(sort_column + " " + sort_direction)
+    @sales_orders = SalesOrder.current.includes(:project, :customer).order(sort_column + " " + sort_direction)
     @sales_orders = @sales_orders.search(params[:search])
   end
 

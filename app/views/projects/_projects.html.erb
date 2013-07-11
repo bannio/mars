@@ -1,12 +1,12 @@
 <table class="table">
   <tr>
-    <th>Code</th>
-    <th>Name</th>
-	<th>Company</th>
-	<th>Start</th>
-	<th>End</th>
-	<th>Status</th>
-	<th></th>
+    <th><%= sortable "projects.code","Code" %> <%= arrow "projects.code" %></th>
+    <th><%= sortable "projects.name","Name" %> <%= arrow "projects.name" %></th>
+		<th><%= sortable "companies.name","Company" %> <%= arrow "companies.name" %></th>
+		<th><%= sortable "start_date", "Start" %> <%= arrow "start_date" %></th>
+		<th><%= sortable "end_date", "End" %> <%= arrow "end_date" %></th>
+		<th><%= sortable "status", "Status" %> <%= arrow "status" %></th>
+		<th></th>
     <th></th>
   </tr>
 

@@ -33,13 +33,13 @@ Feature: Email quotations (and other documents)
 
 	Scenario: I can issue a Sales Quotation without sending by email
 		When I click "Issue Quotation"
-		Then I should see "Issue without Email"
-		And I click "Issue without Email"
+		Then I should see "Cancel"
+		And I click "Cancel"
 		Then I should be on the quotation show page
 
 	Scenario: I can send an email
 		When I click "Issue Quotation"
 		And I complete the email fields
-		And I click button "Create Email"
+		And I click button "Send Email"
 		Then I should be on the quotation show page
 		And I should see "Email was successfully created." 

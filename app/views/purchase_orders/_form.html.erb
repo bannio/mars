@@ -38,6 +38,6 @@
 
   <div class="form-actions">
     <%= f.button :submit %>
-    <%= link_to 'Cancel', :back, class: 'btn btn-warning'  %>
+    <%= link_to 'Cancel', session.delete(:return_to), class: 'btn btn-warning'  %>
   </div>
 <% end %>

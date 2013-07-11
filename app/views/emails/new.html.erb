@@ -2,4 +2,4 @@
 
 <%= render 'form' %>
 
-<%= link_to 'Customer', company_path(@email.emailable.customer_id) %>
+<%= format_owner_link(@email) %>

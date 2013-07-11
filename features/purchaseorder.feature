@@ -54,7 +54,7 @@ Feature: Purchase Orders
 		And I should see £240.50 in the po detail table
 		When I click "Issue Purchase Order"
 		Then I should see "Email PurchaseOrder"
-		And I click "Issue without Email"
+		And I click "Cancel"
 		Then I should be on the "Purchase Order for" page
 		And I should see "Status issued"
 		And I should not see "Issue Purchase Order"
@@ -90,7 +90,16 @@ Feature: Purchase Orders
 		When I click "Sales Order Lines"
 		Then I should be on the "Sales Order Lines for Project" page
 
+	Scenario: I can review event history
+		Given I have setup a PO
+		And I have completed the PO header
+		When I click "Event history"
+		Then I should be on the "Event history" page
+		And I should see "Item Changed to By At"
 
-
-
-
+	Scenario: I can review Email history
+		Given I have setup a PO
+		And I have completed the PO header
+		When I click "Email history"
+		Then I should be on the "Emails" page
+		And I should see "Type From To Attachment Date"

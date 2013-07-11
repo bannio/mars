@@ -27,9 +27,9 @@
 /db/seeds.rb
 /mars.sublime-project
 /mars.sublime-workspace
-/spec/fixtures/salesorder/
-/spec/fixtures/quotation/
-/spec/fixtures/purchaseorder/
+/spec/fixtures/salesorder/*
+/spec/fixtures/quotation/*
+/spec/fixtures/purchaseorder/*
 
 # Ignore pow config
 /.powrc
