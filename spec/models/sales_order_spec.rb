@@ -13,11 +13,11 @@ describe SalesOrder do
   	end
 
   	it "is not case sensitive" do
-  		expect(SalesOrder.search('A')).to eq([@order3, @order1])
+  		expect(SalesOrder.search('A')).to eq([@order1, @order3])
   	end
 
-  	it "copes with blank and returns everything newest first" do
-  		expect(SalesOrder.search(nil)).to eq([@order4, @order3, @order2, @order1])
+  	it "copes with blank" do
+  		expect(SalesOrder.search(nil)).to eq([@order1, @order2, @order3, @order4])
   	end
 
   end
