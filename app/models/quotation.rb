@@ -113,10 +113,8 @@ class Quotation < ActiveRecord::Base
 
   def self.search(search)
     if search.present?
-      # order("code DESC").where('quotations.name ilike :q', q: "%#{search}%")
       where('quotations.name ilike :q', q: "%#{search}%")
     else
-      # order("code DESC").scoped
       scoped
     end
   end

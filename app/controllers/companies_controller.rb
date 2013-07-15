@@ -3,7 +3,7 @@ class CompaniesController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :not_found_message
   
   def index
-    @companies = Company.search(params[:search])
+    @companies = Company.order(:name).search(params[:search])
 
     respond_to do |format|
       format.html # index.html.erb

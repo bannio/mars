@@ -5,8 +5,9 @@ class ProjectsController < ApplicationController
   helper_method :sort_column, :sort_direction
   
   def index
-    @projects = Project.includes(:company).order(sort_column + " " + sort_direction)
-    @projects = @projects.search(params[:search])
+    @projects = Project.includes(:company).
+                order(sort_column + " " + sort_direction).
+                search(params[:search])
 
     respond_to do |format|
       format.html # index.html.erb

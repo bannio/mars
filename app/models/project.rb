@@ -57,9 +57,9 @@ class Project < ActiveRecord::Base
   
   def self.search(search)
     if search.present?
-      order(:code).where('name ilike :q', q: "%#{search}%")
+      where('projects.name ilike :q', q: "%#{search}%")
     else
-      order(:code).scoped
+      scoped
     end
   end
 

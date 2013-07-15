@@ -15,8 +15,10 @@ class QuotationsController < ApplicationController
   end
   
   def index
-    @quotations = Quotation.current.includes(:project, :customer).order(sort_column + " " + sort_direction)
-    @quotations = @quotations.search(params[:search])
+    @quotations = Quotation.current.
+                  includes(:project, :customer).
+                  order(sort_column + " " + sort_direction).
+                  search(params[:search])
 
     respond_to do |format|
       format.html 

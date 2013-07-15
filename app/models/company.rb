@@ -32,9 +32,9 @@ private
   
   def self.search(search)
     if search.present?
-      order(:name).where('name ilike :q', q: "%#{search}%")
+      where('name ilike :q', q: "%#{search}%")
     else
-      order(:name).scoped
+      scoped
     end
   end
 

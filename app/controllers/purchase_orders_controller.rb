@@ -13,8 +13,10 @@ class PurchaseOrdersController < ApplicationController
   end
 
 	def index
-		@purchase_orders = PurchaseOrder.current.includes(:project, :supplier).order(sort_column + " " + sort_direction)
-    @purchase_orders = @purchase_orders.search(params[:search])
+		@purchase_orders = PurchaseOrder.current.
+		                   includes(:project, :supplier).
+		                   order(sort_column + " " + sort_direction).
+		                   search(params[:search])
 	end
 
   def show

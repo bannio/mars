@@ -108,9 +108,9 @@ class SalesOrder < ActiveRecord::Base
 
   def self.search(search)
     if search.present?
-      order("code DESC").where('sales_orders.name ilike :q', q: "%#{search}%")
+      where('sales_orders.name ilike :q', q: "%#{search}%")
     else
-      order("code DESC").scoped
+      scoped
     end
   end
 
