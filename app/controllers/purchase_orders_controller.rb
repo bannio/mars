@@ -72,6 +72,7 @@ class PurchaseOrdersController < ApplicationController
 	end
 
 	def edit
+		session[:return_to] = request.referer
 		
 	end
 

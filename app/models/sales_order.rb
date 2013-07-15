@@ -23,7 +23,6 @@ class SalesOrder < ActiveRecord::Base
   
   def self.open_sales_orders
     where(status: 'open')
-    # joins(:events).merge Event.with_last_state("open")
   end
 
   def import(file)
@@ -43,7 +42,7 @@ class SalesOrder < ActiveRecord::Base
   end
 
   def update_total
-    total = sales_order_lines.sum(:total)
+    sales_order_lines.sum(:total)
   end
   
   def current_state
