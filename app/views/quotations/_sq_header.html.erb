@@ -1,0 +1,48 @@
+<table class='table table-condensed' id="sq-header-table">
+  <tr>
+    <td>Title</td>
+    <th><%= @quotation.name %></th>
+	<td>Total</td>
+	<th class="text-right"><%= number_to_currency(@quotation.update_total) %></th>
+  </tr>
+  <tr>
+    <td>Description</td>
+    <td><%= simple_format(@quotation.description) %></td>
+	<td>Project</td>
+	<td><%= simple_format("#{@quotation.project.code} - #{@quotation.project.name}") %></td>
+  </tr>
+  <tr>
+    <td>Customer</td>
+    <td><%= @quotation.customer.name %><br />
+		<% if @quotation.address %>
+		<%= simple_format("#{@quotation.address.body}\n#{@quotation.address.post_code}") %>
+		<% end %>
+	</td>
+	<td>Supplier</td>
+	<td><%= @quotation.supplier.name %><br />
+	<% if @quotation.supplier.addresses.first %>
+	<%= simple_format("#{@quotation.supplier.addresses.first.body}\n#{@quotation.supplier.addresses.first.post_code}") %>
+	<% end %>
+	</td>
+  </tr>
+  <tr>
+    <td>Delivery</td>
+    <td><%= @quotation.customer.name %><br />
+	<% if @quotation.delivery_address %>
+	<%= simple_format("#{@quotation.delivery_address.body}\n#{@quotation.delivery_address.post_code}") %>
+	<% end %></td>
+	<td>Contact</td>
+	<td><% if @quotation.contact %>
+		<%= @quotation.contact.name %><br />
+		<%=	@quotation.contact.telephone %><br />
+		<%= mail_to(@quotation.contact.email, nil, encode: :javascript) %>
+		<% end %>
+	</td>
+  </tr>
+  <tr>
+    <td>Notes</td>
+    <td><%= simple_format(@quotation.notes) %></td>
+	<td>Status</td>
+	<th><%= @quotation.status %></th>
+  </tr>
+</table>

@@ -1,4 +1,4 @@
-<table class='table table-condensed' id='po-detail-table'>
+<table class='table table-condensed' id='sq-detail-table'>
 	<tr>
 		<th>Item</th>
 		<th>Specification</th>
@@ -7,7 +7,7 @@
 		<th class="text-right">Total</th>
 		<th></th>
 	</tr>
-	<% @purchase_order.purchase_order_lines.order(:id).each do |line| %>
+	<% @quotation.quotation_lines.order(:id).each do |line| %>
 		<tr>
 			<td width="120"><%= line.name %></td>
 			<td width="350"><%= line.description %></td>
@@ -15,10 +15,10 @@
 			<td class="text-right"><%= number_to_currency(line.unit_price) %></td>
 			<td class="text-right"><%= number_to_currency(line.total) %></td>
 			<td class="text-right">
-			<% if @purchase_order.open? %>
-			<% if allow? :purchase_order_lines, :edit %>
-				<%= link_to 'Edit', edit_purchase_order_line_path(line) %> |
- 				<%= link_to 'Remove', purchase_order_line_path(line), method: :delete, data: { confirm: 'Are you sure?' } %>
+			<% if @quotation.open? %>
+			<% if allow? :quotation_lines, :edit %>
+				<%= link_to 'Edit', edit_quotation_line_path(line) %> |
+				<%= link_to 'Remove', quotation_line_path(line), method: :delete, data: { confirm: 'Are you sure?' } %>
 			<% end %>
 			<% end %>
 			</td>
