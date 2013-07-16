@@ -1,5 +1,6 @@
 <table class='table table-condensed' id='sq-detail-table'>
 	<tr>
+		<th>Category</th>
 		<th>Item</th>
 		<th>Specification</th>
 		<th class="text-right">Quantity</th>
@@ -7,8 +8,9 @@
 		<th class="text-right">Total</th>
 		<th></th>
 	</tr>
-	<% @quotation.quotation_lines.order(:id).each do |line| %>
+	<% @quotation.quotation_lines.order(:category, :id).each do |line| %>
 		<tr>
+			<td width="120"><%= line.category %></td>
 			<td width="120"><%= line.name %></td>
 			<td width="350"><%= line.description %></td>
 			<td class="text-right"><%= line.quantity %></td>

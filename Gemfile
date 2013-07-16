@@ -19,7 +19,7 @@ gem 'simple_form', '~> 2.0.4'
 gem 'devise'
 # gem 'cancan' - replaced by scratch built authorisation
 gem 'figaro'
-gem 'prawn'
+gem 'prawn', '1.0.0.rc2'
 gem 'unicorn'
 gem 'strong_parameters'
 gem 'validates_email_format_of'

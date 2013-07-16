@@ -93,7 +93,7 @@ class SalesQuotePdf < Prawn::Document
       move_down 15
       table quote_lines do
         row(0).font_style = :bold
-        columns(0).align = :right
+        # columns(0).align = :right
         columns(3).align = :right
         columns(4).align = :right
         columns(5).align = :right
@@ -109,18 +109,27 @@ class SalesQuotePdf < Prawn::Document
         columns(1).size = 9
         row(0).size = 10
         columns(2).width = 240      # specification (description)
-        columns(3).width = 55       # quantity
-        columns(4).width = 75       # unit_price
-        columns(5).width = 75       # total
+        # columns(3).width = 55       # quantity
+        # columns(4).width = 75       # unit_price
+        # columns(5).width = 75       # total
       end
     end
     
     def quote_lines
+      output = []
       rowno = 0
-      [["","Item", "Specification", "Quantity", "Unit Price","Total"]] +
-      @quotation.quotation_lines.map do |line|
-        [rowno += 1, line.name, line.description, line.quantity, price(line.unit_price), price(line.total)]
+      cat = ""
+      output << ["","Item", "Specification", "Quantity", "Unit Price","Total"]
+      @quotation.quotation_lines.order(:category, :id).each do |line|
+        if cat == line.category
+          output << [{content: "#{rowno += 1}", align: :right}, line.name, line.description, line.quantity, price(line.unit_price), price(line.total)]
+        else
+          cat = line.category
+          output << ["",{content: line.category, colspan: 5, font_style: :bold, align: :left}]
+          output << [{content: "#{rowno += 1}", align: :right}, line.name, line.description, line.quantity, price(line.unit_price), price(line.total)]
+        end
       end
+      output
     end
     
     def quote_total

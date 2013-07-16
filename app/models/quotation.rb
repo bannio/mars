@@ -32,7 +32,7 @@ class Quotation < ActiveRecord::Base
   end
 
   def to_csv
-    col_names = %w[name description quantity unit_price]
+    col_names = %w[category name description quantity unit_price]
     CSV.generate do |csv|
       csv << col_names
       quotation_lines.each do |line|

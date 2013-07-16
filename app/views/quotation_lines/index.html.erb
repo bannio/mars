@@ -2,6 +2,7 @@
 
 <table>
   <tr>
+    <th>Category</th>
     <th>Name</th>
     <th>Description</th>
     <th>Quantity</th>
@@ -14,6 +15,7 @@
 
 <% @quotation_lines.each do |quotation_line| %>
   <tr>
+    <td><%= quotation_line.category %></td>
     <td><%= quotation_line.name %></td>
     <td><%= quotation_line.description %></td>
     <td><%= quotation_line.quantity %></td>

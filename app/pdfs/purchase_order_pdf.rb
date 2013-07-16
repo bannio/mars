@@ -143,7 +143,7 @@ class PurchaseOrderPdf < Prawn::Document
     def order_lines
       rowno = 0
       [["","Item", "Specification", "Quantity", "Unit Price","Total"]] +
-      @purchase_order.purchase_order_lines.map do |line|
+      @purchase_order.purchase_order_lines.order(:id).map do |line|
         [rowno += 1, line.name, line.description, line.quantity, price(line.unit_price), price(line.total)]
       end
     end
