@@ -7,6 +7,8 @@
 		<th class="text-right">Unit Price</th>
 		<th class="text-right">Total</th>
 		<th></th>
+		<th></th>
+		<th></th>
 	</tr>
 	<% @quotation.quotation_lines.order(:category, :id).each do |line| %>
 		<tr>
@@ -16,14 +18,15 @@
 			<td class="text-right"><%= line.quantity %></td>
 			<td class="text-right"><%= number_to_currency(line.unit_price) %></td>
 			<td class="text-right"><%= number_to_currency(line.total) %></td>
-			<td class="text-right">
-			<% if @quotation.open? %>
-			<% if allow? :quotation_lines, :edit %>
+			<% if @quotation.open? && allow?(:quotation_lines, :edit) %>
+      <td class="text-right">
 				<%= link_to 'Edit', edit_quotation_line_path(line) %> |
 				<%= link_to 'Remove', quotation_line_path(line), method: :delete, data: { confirm: 'Are you sure?' } %>
+				</td>
+			<% else %>
+			  <td></td>
 			<% end %>
-			<% end %>
-			</td>
+			
 		</tr>
 	<% end %>
 </table>
