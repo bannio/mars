@@ -92,6 +92,7 @@ class SalesQuotePdf < Prawn::Document
     def quote_table
       move_down 15
       table quote_lines do
+        self.width = 540
         row(0).font_style = :bold
         # columns(0).align = :right
         columns(3).align = :right
@@ -103,15 +104,15 @@ class SalesQuotePdf < Prawn::Document
         row(-1).borders = [:bottom]
         row(0).border_width = 0.5
         row(-1).border_width = 0.5
+        row(0).size = 10
         # columns(0).width = 20       # row number
         columns(0).size = 9
         # columns(1).width = 75       # item (name)
         columns(1).size = 9
-        row(0).size = 10
-        columns(2).width = 240      # specification (description)
-        # columns(3).width = 55       # quantity
-        # columns(4).width = 75       # unit_price
-        # columns(5).width = 75       # total
+        # columns(2).width = 240      # specification (description)
+        columns(3).width = 55       # quantity
+        columns(4).width = 75       # unit_price
+        columns(5).width = 75       # total
       end
     end
     
@@ -125,7 +126,7 @@ class SalesQuotePdf < Prawn::Document
           output << [{content: "#{rowno += 1}", align: :right}, line.name, line.description, line.quantity, price(line.unit_price), price(line.total)]
         else
           cat = line.category
-          output << ["",{content: line.category, colspan: 5, font_style: :bold, align: :left}]
+          output << [{content: line.category, colspan: 3, font_style: :bold, align: :left},"","",""]
           output << [{content: "#{rowno += 1}", align: :right}, line.name, line.description, line.quantity, price(line.unit_price), price(line.total)]
         end
       end
