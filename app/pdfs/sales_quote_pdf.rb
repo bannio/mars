@@ -105,7 +105,7 @@ class SalesQuotePdf < Prawn::Document
         row(-1).border_width = 0.5
         # columns(0).width = 20       # row number
         columns(0).size = 9
-        columns(1).width = 75       # item (name)
+        # columns(1).width = 75       # item (name)
         columns(1).size = 9
         row(0).size = 10
         columns(2).width = 240      # specification (description)
