@@ -7,7 +7,7 @@ class PurchaseOrder < ActiveRecord::Base
   belongs_to :address
   belongs_to :delivery_address, class_name: 'Address'
   # attr_accessible :code, :delivery_address_id, :description, :issue_date, :name, :notes, :status, :total
-  has_many  :purchase_order_lines, dependent: :destroy
+  has_many  :purchase_order_lines, order: :position, dependent: :destroy
   accepts_nested_attributes_for :purchase_order_lines
   has_many :events, as: :eventable
   has_many :emails, as: :emailable
@@ -37,7 +37,7 @@ class PurchaseOrder < ActiveRecord::Base
   end
 
   def to_csv
-    col_names = %w[name description quantity unit_price]
+    col_names = %w[category name description quantity unit_price]
     CSV.generate do |csv|
       csv << col_names
       purchase_order_lines.each do |line|

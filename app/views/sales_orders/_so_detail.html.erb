@@ -12,7 +12,7 @@
 	</tr>
 	</thead>
 	<tbody id="sales-order-lines" data-update-url="<%= sort_sales_order_lines_url %>">
-	<% @sales_order.sales_order_lines.order(:id).each do |line| %>
+	<% @sales_order.sales_order_lines.each do |line| %>
 	<%= content_tag_for :tr, line do %>
 			<td width="120"><%= line.category %></td>
 			<td width="120"><%= line.name %></td>
@@ -24,7 +24,7 @@
 			<td class="text-right">
 			<% if @sales_order.open? %>
 			<% if allow? :sales_order_lines, :edit %>
-				<i class="icon-resize-vertical handle"></i> |
+				<i class="icon-th-list handle"></i> |
 				<%= link_to raw('<i class="icon-edit"></i>'), edit_sales_order_line_path(line) %> |
  				<%= link_to raw('<i class="icon-trash"></i>'), sales_order_line_path(line), method: :delete, data: { confirm: 'Are you sure?' }, id: "Remove" %>
 			<% end %>

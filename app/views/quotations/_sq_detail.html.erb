@@ -21,9 +21,9 @@
 			<td class="text-right"><%= number_to_currency(line.total) %></td>
 			<% if @quotation.open? && allow?(:quotation_lines, :edit) %>
       <td class="text-right">
-      	<i class="icon-resize-vertical handle"></i> |
+      	<i class="icon-th-list handle"></i> |
 				<%= link_to raw('<i class="icon-edit"></i>'), edit_quotation_line_path(line) %> |
-				<%= link_to raw('<i class="icon-trash"></i>'), quotation_line_path(line), method: :delete, data: { confirm: 'Are you sure?' } %>
+				<%= link_to raw('<i class="icon-trash"></i>'), quotation_line_path(line), method: :delete, data: { confirm: 'Are you sure?' }, id: "Remove" %>
 				</td>
 			<% else %>
 			  <td></td>

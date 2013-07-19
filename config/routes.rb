@@ -10,6 +10,7 @@ Mars::Application.routes.draw do
   get "quotation_lines/index"
   post "quotation_lines/sort" => "quotation_lines#sort", as: "sort_quotation_lines"
   post "sales_order_lines/sort" => "sales_order_lines#sort", as: "sort_sales_order_lines"
+  post "purchase_order_lines/sort" => "purchase_order_lines#sort", as: "sort_purchase_order_lines"
   put "projects/:id/close" => "projects#close", as: "close_project"
   put "quotations/:id/issue" => "quotations#issue", as: "issue_quotation"
   put "quotations/:id/reopen" => "quotations#reopen", as: "reopen_quotation"

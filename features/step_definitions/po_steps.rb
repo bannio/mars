@@ -54,7 +54,7 @@ Then(/^I should see (.\d,?\d*\.\d{2}) in the po header table$/) do |value|
 end
 
 Then(/^I should see (.\d,?\d*\.\d{2}) in the po detail table$/) do |value|
-  within("table#po-detail-table"){page.should have_content(value)}
+  within("table#sortable-table"){page.should have_content(value)}
 end
 
 Given(/^I have the following purchase orders to index$/) do |table|

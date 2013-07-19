@@ -25,6 +25,13 @@ class PurchaseOrderLinesController < ApplicationController
 		end
 	end
 
+	def sort
+    params[:purchase_order_line].each_with_index do |id, index|
+      PurchaseOrderLine.update_all({position: index+1}, {id: id})
+    end
+    render nothing: true
+	end
+
 	private
 	def find_model
 		@purchase_order_line = PurchaseOrderLine.find(params[:id]) if params[:id]

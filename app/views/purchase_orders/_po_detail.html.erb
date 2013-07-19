@@ -1,4 +1,5 @@
-<table class='table table-condensed' id='po-detail-table'>
+<table class='table table-condensed' id='sortable-table'>
+	<thead>
 	<tr>
 		<th>Item</th>
 		<th>Specification</th>
@@ -7,8 +8,10 @@
 		<th class="text-right">Total</th>
 		<th></th>
 	</tr>
-	<% @purchase_order.purchase_order_lines.order(:id).each do |line| %>
-		<tr>
+	</thead>
+	<tbody id="purchase-order-lines" data-update-url="<%= sort_purchase_order_lines_url %>">
+	<% @purchase_order.purchase_order_lines.each do |line| %>
+		<%= content_tag_for :tr, line do %>
 			<td width="120"><%= line.name %></td>
 			<td width="350"><%= line.description %></td>
 			<td class="text-right"><%= line.quantity %></td>
@@ -16,12 +19,14 @@
 			<td class="text-right"><%= number_to_currency(line.total) %></td>
 			<td class="text-right">
 			<% if @purchase_order.open? %>
-			<% if allow? :purchase_order_lines, :edit %>
-				<%= link_to 'Edit', edit_purchase_order_line_path(line) %> |
- 				<%= link_to 'Remove', purchase_order_line_path(line), method: :delete, data: { confirm: 'Are you sure?' } %>
-			<% end %>
+				<% if allow? :purchase_order_lines, :edit %>
+					<i class="icon-th-list handle"></i> |
+					<%= link_to raw('<i class="icon-edit"></i>'), edit_purchase_order_line_path(line) %> |
+	 				<%= link_to raw('<i class="icon-trash"></i>'), purchase_order_line_path(line), method: :delete, data: { confirm: 'Are you sure?' }, id: "Remove" %>
+				<% end %>
 			<% end %>
 			</td>
-		</tr>
-	<% end %>
+			<% end %>
+		<% end %>
+	</tbody>
 </table>

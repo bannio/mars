@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe PurchaseOrdersController do
+
 	def valid_session
 	    {"warden.user.user.key" => session["warden.user.user.key"]}.merge(return_to: home_index_path)
 	end
@@ -31,9 +32,5 @@ describe PurchaseOrdersController do
 			get :index, {}, valid_session
 			expect(response).to render_template :index
 		end
-	end
-
-	describe 'GET #show' do
-		
 	end
 end

@@ -79,7 +79,6 @@ Feature: Purchase Orders
 		When I select the file "spec/fixtures/testquotelines.csv"
 		And I click button "Import"
 		Then I should see a successfully imported message
-		And I should see "Remove"
 		When I click the first "Remove" link
     Then I should see a successfully deleted message
 
