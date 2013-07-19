@@ -61,7 +61,7 @@ Then(/^I should see (.\d,?\d*\.\d{2}) in the header table$/) do |value|
 end
 
 Then(/^I should see (.\d,?\d*\.\d{2}) in the detail table$/) do |value|
-  within("table#sq-detail-table"){page.should have_content(value)}
+  within("table#sortable-table"){page.should have_content(value)}
 end
 
 When(/^I select the file "(.*?)"$/) do |file|

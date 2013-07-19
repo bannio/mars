@@ -25,13 +25,20 @@ class SalesOrderLinesController < ApplicationController
 		end
 	end
 
+	def sort
+    params[:sales_order_line].each_with_index do |id, index|
+      SalesOrderLine.update_all({position: index+1}, {id: id})
+    end
+    render nothing: true
+	end
+
 	private
 	def find_model
 		@sales_order_line = SalesOrderLine.find(params[:id]) if params[:id]
 	end
 
-	 def not_found_message
+	def not_found_message
     session[:return_to]||= root_url
     redirect_to session[:return_to], flash: {error: 'Not authorised or no record found'}
-  end
+	end
 end

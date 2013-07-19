@@ -14,7 +14,8 @@ describe Quotation do
         notes:       "some notes",
         code:        "SQ01",
         description:  "sq description",
-        delivery_address_id: create(:address).id
+        delivery_address_id: create(:address).id,
+        status:       "open"
     }
   end
   
@@ -69,7 +70,7 @@ describe Quotation do
   end
   
   it "does not issue quotes unless current_state is open" do
-    quote = Quotation.create(@attr)
+    quote = Quotation.create(@attr.merge(status: 'issued'))
     lines = quote.quotation_lines.create!(name: 'test item', 
                                     description: 'test item description',
                                     quantity: 12,
@@ -80,7 +81,7 @@ describe Quotation do
   end
 
   it "does not cancel ordered quotes" do
-    quote = Quotation.create(@attr)
+    quote = Quotation.create(@attr.merge(status: 'ordered'))
     lines = quote.quotation_lines.create!(name: 'test item', 
                                     description: 'test item description',
                                     quantity: 12,

@@ -105,9 +105,9 @@ class SalesQuotePdf < Prawn::Document
         row(0).border_width = 0.5
         row(-1).border_width = 0.5
         row(0).size = 10
-        # columns(0).width = 20       # row number
+        columns(0).width = 15       # row number
         columns(0).size = 9
-        # columns(1).width = 75       # item (name)
+        columns(1).width = 75       # item (name)
         columns(1).size = 9
         # columns(2).width = 240      # specification (description)
         columns(3).width = 55       # quantity
@@ -121,13 +121,13 @@ class SalesQuotePdf < Prawn::Document
       rowno = 0
       cat = ""
       output << ["","Item", "Specification", "Quantity", "Unit Price","Total"]
-      @quotation.quotation_lines.order(:category, :id).each do |line|
+      @quotation.quotation_lines.each do |line|
         if cat == line.category
-          output << [{content: "#{rowno += 1}", align: :right}, line.name, line.description, line.quantity, price(line.unit_price), price(line.total)]
+          output << ["#{'%02i' % rowno += 1}", line.name, line.description, line.quantity, price(line.unit_price), price(line.total)]
         else
           cat = line.category
-          output << [{content: line.category, colspan: 3, font_style: :bold, align: :left},"","",""]
-          output << [{content: "#{rowno += 1}", align: :right}, line.name, line.description, line.quantity, price(line.unit_price), price(line.total)]
+          output << [{content: line.category, colspan: 3, font_style: :bold},"","",""]
+          output << ["#{'%02i' % rowno += 1}", line.name, line.description, line.quantity, price(line.unit_price), price(line.total)]
         end
       end
       output
@@ -166,7 +166,7 @@ class SalesQuotePdf < Prawn::Document
           line_width 0.1
           transparent(0.5){
           stroke_horizontal_rule}
-          text_box addr, at: [30,20], align: :center, size: 8
+          text_box addr, at: [70,20], align: :center, size: 8, width: 400
         end
       end
     end
@@ -187,7 +187,7 @@ class SalesQuotePdf < Prawn::Document
     def quotation_number
       string = @quotation.code
       options = { at: [30, 20],
-                width: 30,
+                width: 40,
                 align: :left,
                 size: 8
                 }

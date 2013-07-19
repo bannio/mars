@@ -25,6 +25,13 @@ class QuotationLinesController < ApplicationController
     end
   end
 
+  def sort
+    params[:quotation_line].each_with_index do |id, index|
+      QuotationLine.update_all({position: index+1}, {id: id})
+    end
+    render nothing: true
+  end
+
   private
   def find_quotation_line
     @quotation_line = QuotationLine.find(params[:id]) unless params[:id] == nil
@@ -35,3 +42,4 @@ class QuotationLinesController < ApplicationController
     redirect_to session[:return_to], flash: {error: 'Not authorised or no record found'}
   end
 end
+

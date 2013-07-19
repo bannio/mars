@@ -82,8 +82,11 @@ class QuotationsController < ApplicationController
         format.html { redirect_to @quotation, notice: 'Quotation was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
-        format.json { render json: @quotation.errors, status: :unprocessable_entity }
+        if params[:commit] == "Add"
+          format.html {redirect_to @quotation}
+        else
+          format.html { render action: "edit" }
+        end
       end
     end
   end

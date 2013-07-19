@@ -5,7 +5,8 @@ Given(/^I have the following quotations$/) do |table|
                       customer_id: Company.find_by_name(r[:customer]).id,
                       supplier_id: Company.find_by_name(r[:supplier]).id,
                       project_id: Project.find_by_code(r[:project]).id,
-                      contact_id: Contact.find_by_name(r[:contact]).id
+                      contact_id: Contact.find_by_name(r[:contact]).id,
+                      status: 'open'
                       )
   end
 end
@@ -21,10 +22,12 @@ Given(/^I have the following addresses$/) do |table|
 end
 
 Given(/^the status is "(.*?)"$/) do |status|
-  @quotation.events.create!(state: status, user_id: 1)
+  @quotation.update_attributes(status: status)
   @quotation.current_state.should == status
 end
 
+# Note poor quality of tests here. @quotation is a dependency for other steps
+# but all steps should be independent
 Given(/^I am on the show page for quotation (.*?\d+)$/) do |quote|
   @quotation = Quotation.find_by_code(quote)
   # id = @quotation.id

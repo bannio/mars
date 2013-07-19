@@ -6,7 +6,8 @@ Given(/^I have the following sales orders$/) do |table|
                       customer_id: Company.find_by_name(r[:customer]).id,
                       supplier_id: Company.find_by_name(r[:supplier]).id,
                       project_id: Project.find_by_code(r[:project]).id,
-                      contact_id: Contact.find_by_name(r[:contact]).id
+                      contact_id: Contact.find_by_name(r[:contact]).id,
+                      status: 'open'
                       )
   end
 end
@@ -31,10 +32,10 @@ Then(/^the sales order "(.*?)" state is "(.*?)"$/) do |sales_order,state|
 end
 
 Given(/^I have an issued sales order "(.*?)" and visit that page$/) do |code|
-  sales_order = FactoryGirl.create(:sales_order, code: code)
-  event = FactoryGirl.create(:event, eventable_type: 'SalesOrder',
-                          eventable_id: sales_order.id,
-                          state: 'issued')
+  sales_order = FactoryGirl.create(:sales_order, code: code, status: 'issued')
+  # event = FactoryGirl.create(:event, eventable_type: 'SalesOrder',
+  #                         eventable_id: sales_order.id,
+  #                         state: 'issued')
   visit sales_order_path(sales_order)
 end
 
@@ -71,6 +72,6 @@ And(/^I submit the "(.*?)" form$/) do |form_id|
 end
 
 Then(/^I should see (.\d,?\d*\.\d{2}) in the so detail table$/) do |value|
-  within("table#so-detail-table"){page.should have_content(value)}
+  within("table#sortable-table"){page.should have_content(value)}
 end
 

@@ -193,7 +193,7 @@ class PurchaseOrderPdf < Prawn::Document
           line_width 0.1
           transparent(0.5){
           stroke_horizontal_rule}
-          text_box addr, at: [30,20], align: :center, size: 8
+          text_box addr, at: [70,20], align: :center, size: 8, width: 400
         end
       end
     end
@@ -214,7 +214,7 @@ class PurchaseOrderPdf < Prawn::Document
     def purchase_order_number
       string = @purchase_order.code
       options = { at: [30, 20],
-                width: 30,
+                width: 40,
                 align: :left,
                 size: 8
                 }

@@ -29,7 +29,7 @@
 		Add line:
 		<%= form_for @quotation, class: 'form-inline' do |f| %>
 			<%= f.fields_for :quotation_lines, @quotation.quotation_lines.new do |builder| %>
-			<%= render 'shared/lines', f: builder %>
+			<%= render 'shared/qlines', f: builder %>
 			<% end %>
 		<% end %>
 		<div class='row'>

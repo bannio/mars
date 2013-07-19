@@ -70,7 +70,11 @@ class SalesOrdersController < ApplicationController
       if @sales_order.update_attributes(params[:sales_order])
         format.html {redirect_to @sales_order, flash: {success: 'Sales Order successfully updated'}}
       else
-        format.html {render action: 'edit'}
+        if params[:commit] == "Add"
+          format.html {redirect_to @sales_order}
+        else
+          format.html {render action: 'edit'}
+        end
       end
     end
   end

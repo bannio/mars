@@ -24,10 +24,12 @@ describe QuotationLinesController do
   # QuotationLine. As you add validations to QuotationLine, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    { name: 'My string',
+    { category: '',
+      name: 'My string',
       quotation_id: 1,
       quantity: 1,
-      unit_price: 9.99
+      unit_price: 9.99,
+      position: 1
        }
   end
 
@@ -129,6 +131,27 @@ describe QuotationLinesController do
       quotation_line = QuotationLine.create! valid_attributes
       delete :destroy, {quotation_id: @quotation, id: quotation_line.to_param}, valid_session
       response.should redirect_to(root_url)
+    end
+  end
+
+  describe "POST sort" do
+    it "sorts by an array of ids" do
+      @line1 = QuotationLine.create! valid_attributes.merge({position: 1})
+      @line2 = QuotationLine.create! valid_attributes.merge({position: 2})
+      @line3 = QuotationLine.create! valid_attributes.merge({position: 3})
+      @line4 = QuotationLine.create! valid_attributes.merge({position: 4})
+      
+      quote_lines = ["4","3","1","2"]
+
+      post :sort, {quotation_line: quote_lines}, valid_session
+      @line1.reload
+      @line2.reload
+      @line3.reload
+      @line4.reload
+      expect(@line1.position).to eq(3)
+      expect(@line2.position).to eq(4)
+      expect(@line3.position).to eq(2)
+      expect(@line4.position).to eq(1)
     end
   end
 

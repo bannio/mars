@@ -8,7 +8,7 @@ class Quotation < ActiveRecord::Base
   belongs_to :contact
   belongs_to :delivery_address, class_name: 'Address'
   
-  has_many  :quotation_lines, dependent: :destroy
+  has_many  :quotation_lines, order: :position, dependent: :destroy
   accepts_nested_attributes_for :quotation_lines
   has_many :events, as: :eventable
   has_many :emails, as: :emailable
@@ -22,7 +22,7 @@ class Quotation < ActiveRecord::Base
   delegate :open?, :issued?, :cancelled?, :ordered?, to: :current_state
   
   def update_total
-    total = quotation_lines.sum(:total)
+    quotation_lines.sum(:total)
   end
   
   def import(file)
@@ -46,7 +46,8 @@ class Quotation < ActiveRecord::Base
   end
   
   def current_state
-    (events.last.try(:state) || STATES.first).inquiry
+    # (events.last.try(:state) || STATES.first).inquiry
+    status.inquiry
   end
   
   def reopen(user)
@@ -54,7 +55,7 @@ class Quotation < ActiveRecord::Base
     if errors.size == 0
     events.create!(state: "open", user_id: user.id)
     else
-      fa
+      false
     end
   end
 

@@ -23,6 +23,7 @@ gem 'prawn', '1.0.0.rc2'
 gem 'unicorn'
 gem 'strong_parameters'
 gem 'validates_email_format_of'
+gem 'acts_as_list'
 
 group :development do
 # Deploy with Capistrano

@@ -3,6 +3,7 @@
 
   <div class="form-inputs">
 	<%= f.hidden_field :sales_order_id, value: @sales_order_line.sales_order_id %>
+    <%= f.input :category %>
     <%= f.input :name %>
     <%= f.input :description, input_html: {rows: 4, class: 'span8'} %>
     <%= f.input :quantity %>

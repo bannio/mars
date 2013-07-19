@@ -97,7 +97,11 @@ class PurchaseOrdersController < ApplicationController
 		if @purchase_order.update_attributes(params[:purchase_order])
 			redirect_to @purchase_order, flash: {success: "Purchase Order successfully updated"}
 		else
-			render action: 'edit'
+      if params[:commit] == "Add"
+        redirect_to @purchase_order       # silently ignore most likely error of empty row
+      else
+			 render action: 'edit'
+      end
 		end
 	end
 

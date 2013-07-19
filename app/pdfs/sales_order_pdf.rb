@@ -90,8 +90,9 @@ class SalesOrderPdf < Prawn::Document
     def order_table
       move_down 15
       table order_lines do
+        self.width = 540
         row(0).font_style = :bold
-        columns(0).align = :right
+        # columns(0).align = :right
         columns(3).align = :right
         columns(4).align = :right
         columns(5).align = :right
@@ -101,12 +102,12 @@ class SalesOrderPdf < Prawn::Document
         row(-1).borders = [:bottom]
         row(0).border_width = 0.5
         row(-1).border_width = 0.5
-        columns(0).width = 20       # row number
+        columns(0).width = 15       # row number
         columns(0).size = 9
         columns(1).width = 75       # item (name)
         columns(1).size = 9
         row(0).size = 10
-        columns(2).width = 240      # specification (description)
+        # columns(2).width = 240      # specification (description)
         columns(3).width = 55       # quantity
         columns(4).width = 75       # unit_price
         columns(5).width = 75       # total
@@ -114,11 +115,20 @@ class SalesOrderPdf < Prawn::Document
     end
     
     def order_lines
+      output = []
       rowno = 0
-      [["","Item", "Specification", "Quantity", "Unit Price","Total"]] +
-      @sales_order.sales_order_lines.order(:id).map do |line|
-        [rowno += 1, line.name, line.description, line.quantity, price(line.unit_price), price(line.total)]
+      cat = ""
+      output << ["","Item", "Specification", "Quantity", "Unit Price","Total"]
+      @sales_order.sales_order_lines.map do |line|
+        if cat == line.category
+          output << ["#{'%02i' % rowno += 1}", line.name, line.description, line.quantity, price(line.unit_price), price(line.total)]
+        else
+          cat = line.category
+          output << [{content: line.category, colspan: 3, font_style: :bold},"","",""]
+          output << ["#{'%02i' % rowno += 1}", line.name, line.description, line.quantity, price(line.unit_price), price(line.total)]
+        end
       end
+      output
     end
     
     def order_total
@@ -154,7 +164,7 @@ class SalesOrderPdf < Prawn::Document
           line_width 0.1
           transparent(0.5){
           stroke_horizontal_rule}
-          text_box addr, at: [30,20], align: :center, size: 8
+          text_box addr, at: [70,20], align: :center, size: 8, width: 400
         end
       end
     end
@@ -175,7 +185,7 @@ class SalesOrderPdf < Prawn::Document
     def sales_order_number
       string = @sales_order.code
       options = { at: [30, 20],
-                width: 30,
+                width: 40,
                 align: :left,
                 size: 8
                 }

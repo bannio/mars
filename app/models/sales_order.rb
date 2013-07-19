@@ -7,7 +7,7 @@ class SalesOrder < ActiveRecord::Base
   belongs_to :contact
   belongs_to :delivery_address, class_name: 'Address'
   
-  has_many  :sales_order_lines, dependent: :destroy
+  has_many  :sales_order_lines, order: :position, dependent: :destroy
   accepts_nested_attributes_for :sales_order_lines
   has_many :events, as: :eventable
   has_many :emails, as: :emailable
@@ -32,7 +32,7 @@ class SalesOrder < ActiveRecord::Base
   end
 
   def to_csv
-    col_names = %w[name description quantity unit_price]
+    col_names = %w[category name description quantity unit_price]
     CSV.generate do |csv|
       csv << col_names
       sales_order_lines.each do |line|
@@ -46,7 +46,8 @@ class SalesOrder < ActiveRecord::Base
   end
   
   def current_state
-    (events.last.try(:state) || STATES.first).inquiry
+    # (events.last.try(:state) || STATES.first).inquiry
+    status.inquiry
   end
 
   def reopen(user)

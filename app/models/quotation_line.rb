@@ -2,6 +2,7 @@ class QuotationLine < ActiveRecord::Base
   # attr_accessible :description, :name, :quantity, :total, :unit_price
   
   belongs_to :quotation
+  acts_as_list scope: :quotation
   before_save :update_total
   after_save :update_quotation_total
   after_destroy :update_quotation_total
