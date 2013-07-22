@@ -29,7 +29,7 @@ module Permissions
       end
       if user.has_role?('sales_quote')
         allow :quotations, [:new, :create, :edit, :update, :destroy, 
-          :import, :issue, :reopen, :cancel, :list_emails, :list_events]
+          :import, :issue, :reopen, :cancel, :list_emails, :list_events, :convert]
         allow :quotation_lines, [:new, :create, :edit, :update, :destroy, :sort]
         allow_param :quotation, [:code, :address_id, :delivery_address_id,
           :description, :customer_id, :contact_id, :issue_date, :name, :notes, :project_id, :supplier_id,

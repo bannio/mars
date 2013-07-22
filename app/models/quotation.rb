@@ -99,7 +99,8 @@ class Quotation < ActiveRecord::Base
       sales_order.sales_order_lines.build(name: line.name,
                                           description: line.description,
                                           quantity: line.quantity,
-                                          unit_price: line.unit_price)
+                                          unit_price: line.unit_price,
+                                          category: line.category)
     end
     sales_order.save
   end
