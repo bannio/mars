@@ -84,13 +84,16 @@ class PurchaseOrdersController < ApplicationController
 	end
 
 	def create_order_lines
-		sales_order_lines = SalesOrderLine.find(params[:line_ids])
-		sales_order_lines.each do |s|
-			s.purchase_order_lines << @purchase_order.purchase_order_lines.create(name: s.name,
-																																	description: s.description,
-																																	quantity: s.quantity)
-		end
+    if params[:line_ids]
+  		sales_order_lines = SalesOrderLine.find(params[:line_ids])
+  		sales_order_lines.each do |s|
+  			s.purchase_order_lines << @purchase_order.purchase_order_lines.create(name: s.name,
+  																																	description: s.description,
+  																																	quantity: s.quantity)
+  		end
+    end
 		redirect_to @purchase_order
+  
 	end
 
 	def update
@@ -172,11 +175,13 @@ class PurchaseOrdersController < ApplicationController
   end
 
   def create_from_search
-    lines = PurchaseOrderLine.find(params[:line_ids])
-    lines.each do |line|
-      @purchase_order.purchase_order_lines.create(name: line.name,
-                                                  description: line.description,
-                                                  quantity: 0)
+    if params[:line_ids]
+      lines = PurchaseOrderLine.find(params[:line_ids])
+      lines.each do |line|
+        @purchase_order.purchase_order_lines.create(name: line.name,
+                                                    description: line.description,
+                                                    quantity: 0)
+      end
     end
     redirect_to @purchase_order
   end

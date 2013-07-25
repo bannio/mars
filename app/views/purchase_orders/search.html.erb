@@ -1,7 +1,9 @@
 <h1><%= "Search for Purchase Order Line Items" %></h1>
 
 <%= form_tag search_purchase_order_lines_path, method: 'get', class: "navbar-search pull-left", id: "purchase_orders_line_search" do %>
-    <%= text_field_tag :search, params[:search], class: "search-query", placeholder: 'Search' %>
+    <%= text_field_tag :search, params[:search], class: "search-query", 
+                                placeholder: 'Search',
+                                autofocus: 'autofocus' %>
     <%= submit_tag "Search", name: nil, class: "hidden" %>
 <% end %>
 
