@@ -80,7 +80,7 @@ class PurchaseOrdersController < ApplicationController
 
 	def select_order_lines
 		# find all sales order lines for the same project as current PO
-		@lines = @purchase_order.project.sales_order_lines
+		@lines = @purchase_order.project.sales_order_lines.order("sales_order_id ASC, position ASC")
 	end
 
 	def create_order_lines
