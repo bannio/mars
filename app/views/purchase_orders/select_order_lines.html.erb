@@ -16,7 +16,7 @@
 			<td><%= line.name %></td>
 			<td><%= line.description %></td>
 			<td class="text-right"><%= line.quantity %></td>
-			<td class="text-right"><%= line.unit_price %></td>
+			<td class="text-right"><%= number_to_currency(line.unit_price) %></td>
 			<td class="text-right"><%= line.quantity - line.purchase_order_lines.sum(:quantity) %></td>
 			<td class="text-right"><%= check_box_tag "line_ids[]", line.id %></td>
 		</tr>
@@ -25,4 +25,4 @@
 
 <%= submit_tag "Copy checked", class: "btn btn-primary pull-right" %>
 <% end %>
-<%= link_to "Back", :back %>
+<%= link_to "Back", purchase_order_path(@purchase_order) %>

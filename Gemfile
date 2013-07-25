@@ -24,6 +24,7 @@ gem 'unicorn'
 gem 'strong_parameters'
 gem 'validates_email_format_of'
 gem 'acts_as_list'
+gem 'pg_search'
 
 group :development do
 # Deploy with Capistrano

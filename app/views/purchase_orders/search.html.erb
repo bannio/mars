@@ -1,0 +1,34 @@
+<h1><%= "Search for Purchase Order Line Items" %></h1>
+
+<%= form_tag search_purchase_order_lines_path, method: 'get', class: "navbar-search pull-left", id: "purchase_orders_line_search" do %>
+    <%= text_field_tag :search, params[:search], class: "search-query", placeholder: 'Search' %>
+    <%= submit_tag "Search", name: nil, class: "hidden" %>
+<% end %>
+
+<br><br>
+
+
+<%= form_tag create_from_search_path(@purchase_order) do %>
+
+<table class="table table-condensed">
+  <tr>
+    <th>Item</th>
+    <th width="50%">Specification</th>
+    <th width="10%">Last Used</th>
+    <th class="text-right">Unit Price</th>
+    <th class="text-right">Copy?</th>
+  </tr>
+  <% @lines.each do |line| %>
+    <tr>
+      <td><%= line.name %></td>
+      <td width="50%"><%= line.description %></td>
+      <td width="10%"><%= time_ago_in_words(line.updated_at) %></td>
+      <td class="text-right"><%= number_to_currency(line.unit_price) %></td>
+      <td class="text-right"><%= check_box_tag "line_ids[]", line.id %></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= submit_tag "Copy checked", class: "btn btn-primary pull-right" %>
+<% end %>
+<%= link_to "Back", purchase_order_path(@purchase_order) %>

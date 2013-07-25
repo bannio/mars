@@ -23,14 +23,14 @@
 				</div>
 		    <div class="control-group string optional"><label class="string optional control-label">Status </label>
 					<div class="controls string optional"><label class="string optional control-label">
-						<%= @purchase_order.current_state %></label> 
+						<%= @purchase_order.status %></label> 
 					</div>
 				</div>
 			</div>
 			<div class="row">
 				<div class="span12">
-				<%= f.input :description, placeholder: 'visible to supplier', input_html: {rows: 4, class: 'span9'} %>
-			    <%= f.input :notes, input_html: {rows: 6, class: 'span9'} %>
+				<%= f.input :description, label: 'Instructions', placeholder: 'visible to supplier', input_html: {rows: 4, class: 'span9'} %>
+			    <%= f.input :notes, placeholder: 'For internal notes - not printed on the PDF', input_html: {rows: 6, class: 'span9'} %>
 				</div>
 			</div>
 	  </div>

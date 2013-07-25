@@ -14,6 +14,7 @@ require 'spec_helper'
 			sales_order_line = {name: '1', description: 'test', quantity: 1, unit_price: 10.00}
 			@sales_order.sales_order_lines.create(sales_order_line)
 			@supplier_address = FactoryGirl.create(:address, company_id: @sales_order.supplier.id)
+			@sales_order.stub(:create_pdf).and_return(true)
 		end
 		it "is available to open orders" do
 			expect(@sales_order).to be_valid
@@ -31,9 +32,8 @@ require 'spec_helper'
 			expect(page).not_to have_text('Edit')
 		end
 		it "displays the email form" do
-			visit sales_order_path(@sales_order)
 			put issue_sales_order_url(@sales_order)
-			# expect(current_path).to eq(new_email_path) # can't get this to work
+			expect(response).to redirect_to(new_email_path params: {id: @sales_order.id, type: 'SalesOrder'})
 		end
 	end
 end

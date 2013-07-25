@@ -23,7 +23,8 @@ class PurchaseOrder < ActiveRecord::Base
 
 # could change this to use status field now?
   def current_state
-    (events.last.try(:state) || STATES.first).inquiry
+    # (events.last.try(:state) || STATES.first).inquiry
+    status.inquiry
   end
 
   def update_total

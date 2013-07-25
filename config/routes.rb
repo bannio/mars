@@ -37,6 +37,8 @@ Mars::Application.routes.draw do
   get "purchase_orders/:id/events" => "purchase_orders#list_events", as: "purchase_order_events"
   get "purchase_orders/:id/select_order_lines" => "purchase_orders#select_order_lines", as: "select_order_lines"
   post "purchase_orders/:id/create_order_lines" => "purchase_orders#create_order_lines", as: "create_order_lines"
+  post "purchase_orders/:id/create_from_search" => "purchase_orders#create_from_search", as: "create_from_search"
+  get "purchase_orders/:id/search" => "purchase_orders#search", as: "search_purchase_order_lines"
   
   resources :companies do
     resources :contacts

@@ -8,5 +8,7 @@ FactoryGirl.define do
     quantity 1
     unit_price "9.99"
     total "9.99"
+    category ""
+    position 1
   end
 end

@@ -24,15 +24,18 @@
 			<div class='span3'>
 				or select CSV file to upload:
 			</div>
-			<div class='span6'>
+			<div class='span4'>
 				<%= form_tag import_purchase_orders_path, multipart: true do %>
 				<%= file_field_tag :file %>
 				<%= hidden_field_tag :id, @purchase_order.id %>
 				<%= submit_tag "Import",class: "btn btn-primary" %>
 				<% end%>
 			</div>
-			<div>
+			<div class='span3 pull-right'>
 				<%= link_to "Copy Sales Order Lines", select_order_lines_path(@purchase_order),
+							class: "btn btn-primary" %> 
+
+				<%= link_to "Search", search_purchase_order_lines_path(@purchase_order),
 							class: "btn btn-primary" %>
 			</div>
 		</div>

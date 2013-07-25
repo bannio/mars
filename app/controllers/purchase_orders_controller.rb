@@ -162,12 +162,31 @@ class PurchaseOrdersController < ApplicationController
     render template: 'events/index' 
   end
 
+  def search
+    if params[:search].present?
+      @lines = PurchaseOrderLine.full_text_search(params[:search]).
+                                reorder("pg_search_rank DESC, updated_at DESC")
+    else
+      @lines = []
+    end
+  end
+
+  def create_from_search
+    lines = PurchaseOrderLine.find(params[:line_ids])
+    lines.each do |line|
+      @purchase_order.purchase_order_lines.create(name: line.name,
+                                                  description: line.description,
+                                                  quantity: 0)
+    end
+    redirect_to @purchase_order
+  end
+
 	private
 	def find_purchase_order
 		@purchase_order = PurchaseOrder.find(params[:id]) if params[:id]
 	end
 
-	def sort_column
+  def sort_column
      %w[purchase_orders.code purchase_orders.name projects.code companies.name issue_date due_date total status].include?(params[:sort]) ? params[:sort] : "purchase_orders.code"
   end
 

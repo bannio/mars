@@ -147,6 +147,10 @@ GEM
       ruby-rc4
       ttfunk
     pg (0.14.1)
+    pg_search (0.7.0)
+      activerecord (>= 3.1)
+      activesupport (>= 3.1)
+      arel
     polyglot (0.3.3)
     prawn (1.0.0.rc2)
       afm
@@ -280,6 +284,7 @@ DEPENDENCIES
   launchy (~> 2.1.2)
   letter_opener
   pg
+  pg_search
   prawn (= 1.0.0.rc2)
   quiet_assets
   rack-mini-profiler
