@@ -23,7 +23,8 @@
       <td class="text-right">
       	<i class="icon-th-list handle"></i> |
 				<%= link_to raw('<i class="icon-edit"></i>'), edit_quotation_line_path(line) %> |
-				<%= link_to raw('<i class="icon-trash"></i>'), quotation_line_path(line), method: :delete, data: { confirm: 'Are you sure?' }, id: "Remove" %>
+				<%= link_to raw('<i class="icon-plus"></i>'), copy_quotation_line_path(@quotation, line), method: :post, data: { confirm: 'Copy this line?' } %> |
+				<%= link_to raw('<i class="icon-trash"></i>'), quotation_line_path(line), method: :delete, data: { confirm: 'Delete line - are you sure?' }, id: "Remove" %>
 				</td>
 			<% else %>
 			  <td></td>

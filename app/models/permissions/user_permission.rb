@@ -29,7 +29,7 @@ module Permissions
       end
       if user.has_role?('sales_quote')
         allow :quotations, [:new, :create, :edit, :update, :destroy, 
-          :import, :issue, :reopen, :cancel, :list_emails, :list_events, :convert]
+          :import, :issue, :reopen, :cancel, :list_emails, :list_events, :convert, :copy_line]
         allow :quotation_lines, [:new, :create, :edit, :update, :destroy, :sort]
         allow_param :quotation, [:code, :address_id, :delivery_address_id,
           :description, :customer_id, :contact_id, :issue_date, :name, :notes, :project_id, :supplier_id,
@@ -38,7 +38,7 @@ module Permissions
       end
       if user.has_role?('sales_order')
         allow :sales_orders, [:new, :create, :edit, :update, :destroy, 
-                              :issue, :reopen, :cancel, :accept, :invoice, :paid, :list_emails, :list_events]
+                              :issue, :reopen, :cancel, :accept, :invoice, :paid, :list_emails, :list_events, :copy_line]
         allow :sales_order_lines, [:new, :create, :edit, :update, :destroy, :sort]
         allow_param :sales_order, [:code, :address_id, :delivery_address_id, :total,
           :description, :customer_id, :contact_id, :issue_date, :name, :notes, :project_id, :supplier_id, :status,
@@ -48,7 +48,7 @@ module Permissions
       if user.has_role?('purchase')
         allow :purchase_orders, [:setup, :new, :create, :edit, :update, :destroy, :show, :import,
                               :issue, :reopen, :cancel, :receipt, :paid, :select_order_lines, :create_order_lines,
-                              :list_emails, :list_events, :search, :create_from_search]
+                              :list_emails, :list_events, :search, :create_from_search, :copy_line]
         allow :purchase_order_lines, [:new, :create, :edit, :update, :destroy, :sort]
         allow_param :purchase_order, [:code, :address_id, :delivery_address_id, :total, :due_date,
           :description, :customer_id, :contact_id, :issue_date, :name, :notes, :project_id, :supplier_id, :client_id, :status,

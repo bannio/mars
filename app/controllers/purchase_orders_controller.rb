@@ -178,10 +178,21 @@ class PurchaseOrdersController < ApplicationController
     if params[:line_ids]
       lines = PurchaseOrderLine.find(params[:line_ids])
       lines.each do |line|
-        @purchase_order.purchase_order_lines.create(name: line.name,
+        @purchase_order.purchase_order_lines.create(name:        line.name,
                                                     description: line.description,
-                                                    quantity: 0)
+                                                    quantity:    0)
       end
+    end
+    redirect_to @purchase_order
+  end
+
+  def copy_line
+    if params[:line_id]
+      line = PurchaseOrderLine.find(params[:line_id])
+      @purchase_order.purchase_order_lines.create(name:         line.name,
+                                                  description:  line.description,
+                                                  unit_price:   line.unit_price, 
+                                                  quantity:      0)
     end
     redirect_to @purchase_order
   end

@@ -15,6 +15,7 @@ describe QuotationsController do
        }
   end
 
+
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # QuotationsController. Be sure to keep this updated too.
@@ -163,6 +164,39 @@ describe QuotationsController do
       delete :destroy, {:id => quotation.to_param}, valid_session
       response.should redirect_to(root_url)
     end
+  end
+
+  describe 'POST copy line' do
+
+    def valid_line_attributes
+      {name: "item",
+      description: "specification",
+      quantity: 1,
+      unit_price: 9.99,
+      total: 0,
+      category: "",
+      position: 1}    
+    end
+
+    before do
+      @quotation = create(:quotation, status: 'open')
+      @quotation_line = @quotation.quotation_lines.create(valid_line_attributes)
+    end
+
+    it "creates a new line" do
+      expect {
+        post :copy_line, {id: @quotation.to_param, line_id: @quotation_line.to_param}, valid_session
+      }.to change(@quotation.quotation_lines, :count).by(1)
+    end
+    it "clears the quanity to zero" do
+      post :copy_line, {id: @quotation.to_param, line_id: @quotation_line.to_param}, valid_session
+      expect(QuotationLine.last.quantity).to eq(0)
+    end
+    it "keeps the unit_price" do
+      post :copy_line, {id: @quotation.to_param, line_id: @quotation_line.to_param}, valid_session
+      expect(QuotationLine.last.unit_price).to eq(9.99)
+    end
+
   end
 
 end

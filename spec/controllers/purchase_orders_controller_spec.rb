@@ -64,4 +64,26 @@ describe PurchaseOrdersController do
       expect(assigns(:lines)).to match_array [po_line]
     end
   end
+
+  describe 'POST copy line' do
+    before do
+      @po = create(:purchase_order, status: 'open')
+      @po_line = @po.purchase_order_lines.create(valid_attributes)
+    end
+
+    it "creates a new line" do
+      expect {
+        post :copy_line, {id: @po.to_param, line_id: @po_line.to_param}, valid_session
+      }.to change(@po.purchase_order_lines, :count).by(1)
+    end
+    it "clears the quanity to zero" do
+      post :copy_line, {id: @po.to_param, line_id: @po_line.to_param}, valid_session
+      expect(PurchaseOrderLine.last.quantity).to eq(0)
+    end
+    it "keeps the unit_price" do
+      post :copy_line, {id: @po.to_param, line_id: @po_line.to_param}, valid_session
+      expect(PurchaseOrderLine.last.unit_price).to eq(9.99)
+    end
+
+  end
 end

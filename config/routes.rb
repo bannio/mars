@@ -15,12 +15,14 @@ Mars::Application.routes.draw do
   put "quotations/:id/issue" => "quotations#issue", as: "issue_quotation"
   put "quotations/:id/reopen" => "quotations#reopen", as: "reopen_quotation"
   put "quotations/:id/cancel" => "quotations#cancel", as: "cancel_quotation"
+  post "quotations/:id/copy_line/:line_id" => "quotations#copy_line", as: "copy_quotation_line"
   put "sales_orders/:id/issue" => "sales_orders#issue", as: "issue_sales_order"
   put "sales_orders/:id/reopen" => "sales_orders#reopen", as: "reopen_sales_order"
   put "sales_orders/:id/cancel" => "sales_orders#cancel", as: "cancel_sales_order"
   put "sales_orders/:id/accept" => "sales_orders#accept", as: "accept_sales_order"
   put "sales_orders/:id/invoice" => "sales_orders#invoice", as: "invoice_sales_order"
   put "sales_orders/:id/paid" => "sales_orders#paid", as: "paid_sales_order"
+  post "sales_orders/:id/copy_line/:line_id" => "sales_orders#copy_line", as: "copy_sales_order_line"
   post "quotations/:id/convert" => "quotations#convert", as: "convert_quotation"
   get "quotations/:id/emails" => "quotations#list_emails", as: "quotation_emails"
   get "quotations/:id/events" => "quotations#list_events", as: "quotation_events"
@@ -39,6 +41,7 @@ Mars::Application.routes.draw do
   post "purchase_orders/:id/create_order_lines" => "purchase_orders#create_order_lines", as: "create_order_lines"
   post "purchase_orders/:id/create_from_search" => "purchase_orders#create_from_search", as: "create_from_search"
   get "purchase_orders/:id/search" => "purchase_orders#search", as: "search_purchase_order_lines"
+  post "purchase_orders/:id/copy_line/:line_id" => "purchase_orders#copy_line", as: "copy_purchase_order_line"
   
   resources :companies do
     resources :contacts

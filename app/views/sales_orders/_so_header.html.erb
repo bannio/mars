@@ -3,11 +3,11 @@
     <td>Title</td>
     <th><%= @sales_order.name %></th>
   <td>Total</td>
-  <th class="text-right"><%= number_to_currency(@sales_order.update_total) %></th>
+  <th><%= number_to_currency(@sales_order.update_total) %></th>
   </tr>
   <tr>
     <td>Description</td>
-    <td><%= simple_format(@sales_order.description) %></td>
+    <td width="50%"><%= simple_format(@sales_order.description) %></td>
   <td>Project</td>
   <td><%= simple_format("#{@sales_order.project.code} - #{@sales_order.project.name}") %></td>
   </tr>
@@ -40,7 +40,7 @@
   </td>
   </tr>
   <tr>
-    <td>Notes</td>
+    <td>Internal Notes</td>
     <td><%= simple_format(@sales_order.notes) %></td>
   <td>Status</td>
   <th><%= @sales_order.status %></th>

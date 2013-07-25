@@ -16,6 +16,7 @@
   <tr>
     <th>Item</th>
     <th width="50%">Specification</th>
+    <th width="10%"></th>
     <th width="10%">Last Used</th>
     <th class="text-right">Unit Price</th>
     <th class="text-right">Copy?</th>
@@ -23,7 +24,8 @@
   <% @lines.each do |line| %>
     <tr>
       <td><%= line.name %></td>
-      <td width="50%"><%= line.description %></td>
+      <td width="40%"><%= line.description %></td>
+      <td width="10%"></td>
       <td width="10%"><%= time_ago_in_words(line.updated_at) %></td>
       <td class="text-right"><%= number_to_currency(line.unit_price) %></td>
       <td class="text-right"><%= check_box_tag "line_ids[]", line.id %></td>

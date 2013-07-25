@@ -22,7 +22,8 @@
 				<% if allow? :purchase_order_lines, :edit %>
 					<i class="icon-th-list handle"></i> |
 					<%= link_to raw('<i class="icon-edit"></i>'), edit_purchase_order_line_path(line) %> |
-	 				<%= link_to raw('<i class="icon-trash"></i>'), purchase_order_line_path(line), method: :delete, data: { confirm: 'Are you sure?' }, id: "Remove" %>
+					<%= link_to raw('<i class="icon-plus"></i>'), copy_purchase_order_line_path(@purchase_order, line), method: :post, data: { confirm: 'Copy this line?' } %> |
+	 				<%= link_to raw('<i class="icon-trash"></i>'), purchase_order_line_path(line), method: :delete, data: { confirm: 'Delete line - are you sure?' }, id: "Remove" %>
 				<% end %>
 			<% end %>
 			</td>

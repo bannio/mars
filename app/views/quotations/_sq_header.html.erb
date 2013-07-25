@@ -3,11 +3,11 @@
     <td>Title</td>
     <th><%= @quotation.name %></th>
 	<td>Total</td>
-	<th class="text-right"><%= number_to_currency(@quotation.update_total) %></th>
+	<th><%= number_to_currency(@quotation.update_total) %></th>
   </tr>
   <tr>
     <td>Description</td>
-    <td><%= simple_format(@quotation.description) %></td>
+    <td width="50%"><%= simple_format(@quotation.description) %></td>
 	<td>Project</td>
 	<td><%= simple_format("#{@quotation.project.code} - #{@quotation.project.name}") %></td>
   </tr>
@@ -40,7 +40,7 @@
 	</td>
   </tr>
   <tr>
-    <td>Notes</td>
+    <td>Internal Notes</td>
     <td><%= simple_format(@quotation.notes) %></td>
 	<td>Status</td>
 	<th><%= @quotation.status %></th>

@@ -3,11 +3,11 @@
     <td>Title</td>
     <th><%= @purchase_order.name %></th>
 	<td>Total</td>
-	<th class="text-right"><%= number_to_currency(@purchase_order.update_total) %></th>
+	<th><%= number_to_currency(@purchase_order.update_total) %></th>
   </tr>
   <tr>
     <td>Instructions</td>
-    <td><%= simple_format(@purchase_order.description) %></td>
+    <td width="50%"><%= simple_format(@purchase_order.description) %></td>
     <td>Due Date</td>
     <td><%= @purchase_order.due_date %></td>
   </tr>
@@ -46,7 +46,7 @@
 	</td>
   </tr>
   <tr>
-    <td>Notes</td>
+    <td>Internal Notes</td>
     <td><%= simple_format(@purchase_order.notes) %></td>
 	<td>Status</td>
 	<th><%= @purchase_order.status %></th>

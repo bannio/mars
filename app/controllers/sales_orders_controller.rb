@@ -155,6 +155,18 @@ class SalesOrdersController < ApplicationController
     render template: 'events/index' 
   end
 
+  def copy_line
+    if params[:line_id]
+      line = SalesOrderLine.find(params[:line_id])
+      @sales_order.sales_order_lines.create(category:     line.category, 
+                                            name:         line.name,
+                                            description:  line.description,
+                                            unit_price:   line.unit_price, 
+                                            quantity:      0)
+    end
+    redirect_to @sales_order
+  end
+
 	private
 	def find_sales_order
 		@sales_order = SalesOrder.find(params[:id]) if params[:id]

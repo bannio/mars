@@ -151,6 +151,18 @@ class QuotationsController < ApplicationController
     end
   end
 
+  def copy_line
+    if params[:line_id]
+      line = QuotationLine.find(params[:line_id])
+      @quotation.quotation_lines.create(category:     line.category,
+                                        name:         line.name,
+                                        description:  line.description,
+                                        unit_price:   line.unit_price, 
+                                        quantity:      0)
+    end
+    redirect_to @quotation
+  end
+
   def list_emails
     @emails = @quotation.emails
     render template: 'emails/index' 
