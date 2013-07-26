@@ -21,6 +21,6 @@ class SalesOrderLine < ActiveRecord::Base
   end
 
   def update_order_total
-    sales_order.update_attributes(total: sales_order.update_total)
+    sales_order.update_total
   end
 end

@@ -27,6 +27,7 @@ class PurchaseOrderLine < ActiveRecord::Base
   end
 
   def update_order_total
-    purchase_order.update_attributes(total: purchase_order.update_total)
+    # purchase_order.update_attributes(total: purchase_order.update_total)
+    purchase_order.update_total
   end
 end

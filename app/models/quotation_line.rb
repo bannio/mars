@@ -17,6 +17,6 @@ class QuotationLine < ActiveRecord::Base
   end
 
   def update_quotation_total
-    quotation.update_attributes(total: quotation.update_total)
+    quotation.update_total
   end
 end

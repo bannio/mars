@@ -22,7 +22,7 @@ class Quotation < ActiveRecord::Base
   delegate :open?, :issued?, :cancelled?, :ordered?, to: :current_state
   
   def update_total
-    quotation_lines.sum(:total)
+    update_attributes(total: quotation_lines.sum(:total))
   end
   
   def import(file)

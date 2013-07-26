@@ -28,7 +28,7 @@ class PurchaseOrder < ActiveRecord::Base
   end
 
   def update_total
-  	purchase_order_lines.sum(:total)
+    update_attributes(total: purchase_order_lines.sum(:total))
   end
 
   def import(file)

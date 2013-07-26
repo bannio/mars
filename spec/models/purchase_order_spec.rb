@@ -38,13 +38,14 @@ describe PurchaseOrder do
   end
 
   it "knows how to update its total" do
-  	po = create(:purchase_order, total: "")
-  	expect(po.update_total).to eq(0)
+  	po = create(:purchase_order, total: 0)
+  	expect(po.total).to eq(0)
   	po.purchase_order_lines.create(name: "1", 
   																description: "test", 
   																quantity: 1, 
   																unit_price: 12.0)
-  	expect(po.update_total).to eq(12.0)
+    po.update_total
+  	expect(po.total).to eq(12.0)
   end
 
   it "creates the correct revison number" do

@@ -42,7 +42,7 @@ class SalesOrder < ActiveRecord::Base
   end
 
   def update_total
-    sales_order_lines.sum(:total)
+    update_attributes(total: sales_order_lines.sum(:total))
   end
   
   def current_state

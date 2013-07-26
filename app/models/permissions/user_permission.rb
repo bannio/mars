@@ -53,7 +53,7 @@ module Permissions
         allow_param :purchase_order, [:code, :address_id, :delivery_address_id, :total, :due_date,
           :description, :customer_id, :contact_id, :issue_date, :name, :notes, :project_id, :supplier_id, :client_id, :status,
           {purchase_order_lines_attributes: [:purchase_order_id, :description, :name, :quantity, :total, :unit_price, :category, :position]}]
-        allow_param :purchase_order_line, [:sales_order_id, :description, :name, :quantity, :total, :unit_price, :category, :position]
+        allow_param :purchase_order_line, [:purchase_order_id, :description, :name, :quantity, :total, :unit_price, :category, :position]
       end
     end
   end
