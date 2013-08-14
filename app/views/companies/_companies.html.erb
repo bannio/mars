@@ -1,21 +1,13 @@
-<table class="table">
+<table class="table table-condensed table-hover">
   <tr>
     <th>Name</th>
     <th>Accounts Ref.</th>
-    <th></th>
-    <th></th>
   </tr>
 
 <% @companies.each do |company| %>
-  <tr>
-    <td><%= link_to company.name, company %></td>
+  <tr onclick="location.href='<%= company_path(company) %>'">
+    <td><%= company.name %></td>
   	<td><%= company.reference %></td>
-  	<% if allow? :companies, :edit %>
-      <td><%= link_to 'Edit', edit_company_path(company) %></td>
-  	   <td><%= link_to 'Destroy', company, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  	<% else %>
-  		<td></td>
-  	<% end %>
   </tr>
 <% end %>
 </table>

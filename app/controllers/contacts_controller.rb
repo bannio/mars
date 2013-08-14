@@ -1,6 +1,7 @@
 class ContactsController < ApplicationController
   
   before_filter :find_company
+  before_filter :find_contact, except: [:new, :create, :index]
   rescue_from ActiveRecord::RecordNotFound, with: :not_found_message
   
   def index
@@ -13,7 +14,6 @@ class ContactsController < ApplicationController
   end
 
   def show
-    @contact = current_resource
   end
 
   def new
@@ -22,7 +22,6 @@ class ContactsController < ApplicationController
   end
   
   def edit
-    @contact = current_resource
     session[:return_to] = request.referer
   end
 
@@ -41,8 +40,6 @@ class ContactsController < ApplicationController
   end
 
   def update
-    @contact = current_resource
-
     respond_to do |format|
       if @contact.update_attributes(params[:contact])
         format.html { redirect_to session[:return_to], flash: {success: 'Contact was successfully updated.'} }
@@ -55,8 +52,11 @@ class ContactsController < ApplicationController
   end
 
   def destroy
-    @contact = current_resource
-    session[:return_to] = request.referer
+    if request.referer.include?("contacts/#{@contact.id}")
+      session[:return_to] = company_contacts_path
+    else
+      session[:return_to] = request.referer
+    end
 
     respond_to do |format|
       if @contact.destroy
@@ -69,16 +69,13 @@ class ContactsController < ApplicationController
   end
   
   private
-    def current_resource
-      @current_resource ||= Contact.find(params[:id]) if params[:id]
+
+    def find_contact
+      @contact = Contact.find(params[:id]) if params[:id]
     end
     
     def find_company
-      if params[:company_id]
-        @company = Company.find(params[:company_id])
-      else
-        @company = Company.find(params[:id]) unless params[:id] == nil
-      end
+      @company = Company.find(params[:company_id]) if params[:company_id]
     end
     
     def not_found_message

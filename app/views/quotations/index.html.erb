@@ -9,10 +9,10 @@
 
 <br><br>
 
-<table class='table table-condensed'>
+<table class='table table-condensed table-hover'>
   <tr>
     <th><%= sortable "quotations.code","Code" %> <%= arrow "quotations.code" %></th>
-	  <th><%= sortable "quotations.name","Title" %> <%= arrow "quotations.name" %></th>
+	<th><%= sortable "quotations.name","Title" %> <%= arrow "quotations.name" %></th>
     <th><%= sortable "projects.code","Project" %> <%= arrow "projects.code" %></th>
     <th><%= sortable "companies.name","Customer" %> <%= arrow "companies.name" %></th>
     <th><%= sortable "issue_date","Issue Date" %> <%= arrow "issue_date" %></th>
@@ -21,9 +21,9 @@
   </tr>
 
 <% @quotations.each do |quotation| %>
-  <tr>
-    <td><%= link_to quotation.code, quotation %></td>
-	  <td><%= quotation.name %></td>
+  <tr onclick="location.href='<%= quotation_path(quotation) %>'">
+    <td><%= quotation.code %></td>
+	<td><%= quotation.name %></td>
     <td><%= quotation.project.code %></td>
     <td><%= quotation.customer.name %></td>
     <td><%= quotation.issue_date %></td>

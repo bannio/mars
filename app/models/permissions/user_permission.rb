@@ -13,7 +13,7 @@ module Permissions
       allow :sales_order_lines, [:index, :show]
       allow :purchase_order_lines, [:index, :show]
       allow 'users/registrations', [:edit, :update]
-      allow :emails, [:new, :create, :index, :show]
+      allow :emails, [:new, :create, :index, :show, :download_attachment]
       allow_param :email, [:attachment, :body, :emailable_id, :emailable_type, :from, :subject, :to]
       if user.has_role?('company')
         allow :companies, [:new, :create, :edit, :update, :destroy] 
@@ -52,8 +52,8 @@ module Permissions
         allow :purchase_order_lines, [:new, :create, :edit, :update, :destroy, :sort]
         allow_param :purchase_order, [:code, :address_id, :delivery_address_id, :total, :due_date,
           :description, :customer_id, :contact_id, :issue_date, :name, :notes, :project_id, :supplier_id, :client_id, :status,
-          {purchase_order_lines_attributes: [:purchase_order_id, :description, :name, :quantity, :total, :unit_price, :category, :position]}]
-        allow_param :purchase_order_line, [:purchase_order_id, :description, :name, :quantity, :total, :unit_price, :category, :position]
+          {purchase_order_lines_attributes: [:purchase_order_id, :description, :name, :quantity, :total, :unit_price, :category, :position, :discount]}]
+        allow_param :purchase_order_line, [:purchase_order_id, :description, :name, :quantity, :total, :unit_price, :category, :position, :discount]
       end
     end
   end

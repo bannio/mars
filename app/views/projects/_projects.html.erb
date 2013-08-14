@@ -1,4 +1,4 @@
-<table class="table">
+<table class="table table-hover table-condensed">
   <tr>
     <th><%= sortable "projects.code","Code" %> <%= arrow "projects.code" %></th>
     <th><%= sortable "projects.name","Name" %> <%= arrow "projects.name" %></th>
@@ -6,23 +6,16 @@
 		<th><%= sortable "start_date", "Start" %> <%= arrow "start_date" %></th>
 		<th><%= sortable "end_date", "End" %> <%= arrow "end_date" %></th>
 		<th><%= sortable "status", "Status" %> <%= arrow "status" %></th>
-		<th></th>
-    <th></th>
   </tr>
 
 <% @projects.each do |project| %>
-  <tr>
-    <td><%= link_to project.code, project %></td>
-	<td><%= project.name %></td>
-	<td><%= project.company.name %></td>
-	<td><%= project.start_date %></td>
-	<td><%= project.end_date %></td>
-	<td><%= project.status %></td>
-	<% if allow? :projects, :destroy %>
-    	<td><%= link_to 'Destroy', [project], method: :delete, data: { confirm: 'Are you sure?' } %></td>
-	<% else %>
-		<td></td>
-	<% end %>
+  <tr onclick="location.href='<%= project_path(project) %>'">
+    <td><%= project.code %></td>
+  	<td><%= project.name %></td>
+  	<td><%= project.company.name %></td>
+  	<td><%= project.start_date %></td>
+  	<td><%= project.end_date %></td>
+  	<td><%= project.status %></td>
   </tr>
 <% end %>
 </table>

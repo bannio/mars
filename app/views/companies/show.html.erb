@@ -1,28 +1,31 @@
-<h1><%= @company.name %></h1>
 <% @title = "MARS - show #{@company.name}" %>
-
+<h1>
+  <%= @company.name %>
+  <div class="btn-group pull-right">
+    <% if allow? :companies, :edit %>
+      <%= link_to "Edit", edit_company_path(@company), class: "btn btn-primary" %>
+    <% end %>
+    <% if allow? :companies, :destroy %>
+        <%= link_to "Delete", @company, method: :delete, 
+                                        data: { confirm: 'Are you sure?' }, 
+                                        class: "btn btn-warning" %>
+    <% end %>
+  </div>
+</h1>
 <table class='table table-condensed'>
   <tr class='grey-header'>
     <th>Name</th>
     <td><%= @company.name %></td>
-	<td></td>
-	<td></td>
-	<% if allow? :companies, :edit %>
-		<td class='text-right'><%= link_to 'Edit', edit_company_path(@company) %></td>
-	<% else %>
+  	<td></td>
+  	<td></td>
 		<td></td>
-	<% end %>
   </tr>
   <tr>
     <td>Accounts Reference</td>
     <td><%= @company.reference %></td>
-	<td></td>
-	<td></td>
-	<% if allow? :companies, :edit %>
-		<td class='text-right'><%= link_to 'Edit', edit_company_path(@company) %></td>
-	<% else %>
+  	<td></td>
+  	<td></td>
 		<td></td>
-	<% end %>
   </tr>
 </table>
 

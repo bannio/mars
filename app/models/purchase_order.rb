@@ -6,7 +6,6 @@ class PurchaseOrder < ActiveRecord::Base
   belongs_to :contact
   belongs_to :address
   belongs_to :delivery_address, class_name: 'Address'
-  # attr_accessible :code, :delivery_address_id, :description, :issue_date, :name, :notes, :status, :total
   has_many  :purchase_order_lines, order: :position, dependent: :destroy
   accepts_nested_attributes_for :purchase_order_lines
   has_many :events, as: :eventable
@@ -21,7 +20,6 @@ class PurchaseOrder < ActiveRecord::Base
 
   scope :current, where(status: ['open','issued','delivered'])
 
-# could change this to use status field now?
   def current_state
     # (events.last.try(:state) || STATES.first).inquiry
     status.inquiry

@@ -1,31 +1,19 @@
-<table class="table">
+<table class="table table-condensed table-hover">
   <tr>
     <th>Name</th>
     <th>Job Title</th>
 		<th>Company</th>
 		<th>Telephone</th>
 		<th>Email</th>
-		<th></th>
-    <th></th>
   </tr>
 
 <% @contacts.each do |contact| %>
-  <tr>
-    <td><%= link_to contact.name, contact %></td>
+  <tr onclick="location.href='<%= company_contact_path(contact.company, contact) %>'">
+    <td><%= contact.name %></td>
 		<td><%= contact.job_title %></td>
 		<td><%= contact.company.name %></td>
 		<td><%= contact.telephone %></td>
 		<td><%= mail_to contact.email %></td>
-		<% if allow? :contacts, :edit %>
-	    	<td><%= link_to 'Edit', edit_company_contact_path(contact.company, contact) %></td>
-		<% else %>
-			<td></td>
-		<% end %>
-		<% if allow? :contacts, :destroy %>
-	    	<td><%= link_to 'Destroy', [contact.company, contact], method: :delete, data: { confirm: 'Are you sure?' } %></td>
-		<% else %>
-			<td></td>
-		<% end %>
-	  </tr>
+	 </tr>
 <% end %>
 </table>

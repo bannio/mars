@@ -22,8 +22,9 @@ class PurchaseOrderLine < ActiveRecord::Base
   protected
   def update_total
   	self.quantity ||= 0
-    self.unit_price ||=0
-    self.total = self.quantity * self.unit_price
+    self.unit_price ||= 0
+    self.discount ||= 0
+    self.total = self.quantity * self.unit_price * (1 - self.discount/100)
   end
 
   def update_order_total

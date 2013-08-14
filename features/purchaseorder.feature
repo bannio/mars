@@ -79,7 +79,7 @@ Feature: Purchase Orders
 		When I select the file "spec/fixtures/testquotelines.csv"
 		And I click button "Import"
 		Then I should see a successfully imported message
-		When I click the first "Remove" link
+		When I click the first "trash" icon
     Then I should see a successfully deleted message
 
   Scenario: Import lines from sales order

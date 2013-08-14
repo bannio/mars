@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130719172825) do
+ActiveRecord::Schema.define(:version => 20130812090720) do
 
   create_table "addresses", :force => true do |t|
     t.integer  "company_id"
@@ -94,6 +94,7 @@ ActiveRecord::Schema.define(:version => 20130719172825) do
     t.datetime "updated_at",                                                        :null => false
     t.string   "category"
     t.integer  "position"
+    t.decimal  "discount",          :precision => 10, :scale => 2
   end
 
   add_index "purchase_order_lines", ["purchase_order_id"], :name => "index_purchase_order_lines_on_purchase_order_id"

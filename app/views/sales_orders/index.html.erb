@@ -9,7 +9,7 @@
 
 <br><br>
 
-<table class='table table-condensed'>
+<table class='table table-condensed table-hover'>
   <tr>
     <th><%= sortable "sales_orders.code", "Code" %> <%= arrow "sales_orders.code" %></th>
 	<th><%= sortable "sales_orders.name", "Title" %> <%= arrow "sales_orders.name" %></th>
@@ -21,8 +21,8 @@
   </tr>
 
 <% @sales_orders.each do |sales_order| %>
-  <tr>
-    <td><%= link_to sales_order.code, sales_order %></td>
+  <tr onclick="location.href='<%= sales_order_path(sales_order) %>'">
+    <td><%= sales_order.code %></td>
 	<td><%= sales_order.name %></td>
     <td><%= sales_order.project.code %></td>
     <td><%= sales_order.customer.name %></td>

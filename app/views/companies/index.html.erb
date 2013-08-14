@@ -1,6 +1,6 @@
 <h1 id="companies-index-page">Companies</h1>
 <% if allow? :companies, :new %>
-	<%= link_to 'New Company', new_company_path, class: "pull-right" %>
+	<%= link_to 'New Company', new_company_path, class: "btn btn-primary pull-right" %>
 <% end %>
 
 <%= form_tag companies_path, method: 'get', class: "navbar-search pull-left", remote: true, id: "companies_search" do %>

@@ -1,4 +1,4 @@
-@contacts
+@contacts 
 Feature: Contacts
 	In order to be able to communicate effectively with suppliers and customers
 	the system needs to hold contact details. A contact belongs to a company.
@@ -18,19 +18,12 @@ Feature: Contacts
 		When  I click on "New" against "Contacts"
 		Then I can create a new contact for "Company X"
 		And I should see a successfully created message
-		
-	Scenario: Edit an existing contact
-		Given the contact "MyContact" exists
-		And I am on the "contacts/index" page
-		When I click "Edit"
-		Then I can change the contact
-		And I should see a successfully updated message
 	
 	Scenario: A user without the "company" role cannot edit contacts
 		Given I am not logged in
 		When I log in as a non-admin user
 		Given the contact "MyContact" exists
-		And I am on the "contacts/index" page
+		And I am on the "companies/1/contacts/1" page
 		Then I should not see "Edit"
 		And if I try by editing the url to "/companies/1/contacts/1/edit"
 		Then I should see "Not authorised"
@@ -40,3 +33,10 @@ Feature: Contacts
 		When  I click on "New" against "Contacts"
 		And I can create a new contact for "Company X"
 		Then I should be on the Company page for "Company X"
+
+	Scenario: Edit an existing contact
+		Given the contact "MyContact" exists
+		And I am on the "companies/1/contacts/1" page
+		And I click "Edit"
+		Then I can change the contact
+		And I should see a successfully updated message

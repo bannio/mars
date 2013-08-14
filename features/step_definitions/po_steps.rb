@@ -79,7 +79,47 @@ Then(/^I should see a successfully deleted message$/) do
   page.should have_content 'successfully deleted'
 end
 
+When(/^I visit an open purchase order page$/) do
+  visit "/purchase_orders/#{@open_po.id}"
+end
 
+When(/^I visit a not open purchase order page$/) do
+  visit "/purchase_orders/#{@not_open_po.id}"
+end
 
+Then(/^I should see a "(.*?)" button$/) do |arg1|
+  page.should have_link('Search')
+end
+
+Then(/^I should not see a "(.*?)" button$/) do |arg1|
+  page.should_not have_link('Search')
+end
+
+Given(/^I have the following purchase order line items/) do |table|
+  # |item      | specification        | PO status |
+  @open_po = FactoryGirl.create(:purchase_order, status: 'open', )
+  @not_open_po = FactoryGirl.create(:purchase_order, status: 'issued')
+  table.hashes.each do |row|
+    @open_po.purchase_order_lines.create(name: row[:item], description: row[:specification])
+  end
+end
+
+When(/^I enter "(.*?)"$/) do |arg1|
+  fill_in('Search', with: arg1)
+  click_on('Search')
+end
+
+Then(/^I see "(.*?)" results$/) do |arg1|
+  page.should have_css('table tr',count: arg1.to_i + 1)
+end
+
+Then(/^I see "(.*?)" before "(.*?)"$/) do |arg1, arg2|
+  rx = /(#{arg1}).*(#{arg2})/
+  page.should have_content rx
+end
+
+When(/^I click the first "(.*?)" icon$/) do |icon|
+  first(:xpath, "//a[i[contains(@class, '#{icon}')]]").click
+end
 
 

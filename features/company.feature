@@ -19,15 +19,15 @@ Feature: Company
 		And I should see a successfully created message
 
 	Scenario: Edit an existing company
-		Given I am on the "companies" page
-		When I click "Edit"
+		Given I am on the "companies/1" page
+		And I click the first "Edit" link
 		Then I can change the company
 		And I should see a successfully updated message
 		
 	Scenario: I cannot edit a Company menu when not authorised
 		Given I am not logged in
 		When I log in as a non-admin user
-		And I am on the "companies" page
+		And I am on the "companies/1" page
 		Then I should not see "Edit"
 		And if I try by editing the url to "/companies/1/edit"
 		Then I should see "Not authorised"

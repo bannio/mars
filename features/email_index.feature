@@ -27,10 +27,10 @@ Feature: In order to find emails
 		And I should not see "SQ002.pdf"
 
 	Scenario: I can view the details
-		When I click the first "show" link 
+		When I am on the "emails/1" page
 		Then I should see "email one body"
 
 	Scenario: I can view the attachment
-		When I click the first "show" link
+		When I am on the "emails/1" page
 		And I click "SQ001.pdf"
 		Then I should be looking at a pdf file

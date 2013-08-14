@@ -1,4 +1,4 @@
-<table class='table table-condensed' id='sortable-table'>
+<table class='table table-condensed table-hover' id='sortable-table'>
 	<thead>
 	<tr>
 		<th>Category</th>
@@ -22,9 +22,9 @@
 			<% if @quotation.open? && allow?(:quotation_lines, :edit) %>
       <td class="text-right">
       	<i class="icon-th-list handle"></i> |
-				<%= link_to raw('<i class="icon-edit"></i>'), edit_quotation_line_path(line) %> |
-				<%= link_to raw('<i class="icon-plus"></i>'), copy_quotation_line_path(@quotation, line), method: :post, data: { confirm: 'Copy this line?' } %> |
-				<%= link_to raw('<i class="icon-trash"></i>'), quotation_line_path(line), method: :delete, data: { confirm: 'Delete line - are you sure?' }, id: "Remove" %>
+				<%= link_to icon(:edit), edit_quotation_line_path(line) %> |
+				<%= link_to icon(:plus), copy_quotation_line_path(@quotation, line), method: :post, data: { confirm: 'Copy this line?' } %> |
+				<%= link_to icon(:trash), quotation_line_path(line), method: :delete, data: { confirm: 'Delete line - are you sure?' }, id: "Remove" %>
 				</td>
 			<% else %>
 			  <td></td>

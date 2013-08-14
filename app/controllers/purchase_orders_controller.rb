@@ -2,14 +2,13 @@ class PurchaseOrdersController < ApplicationController
 	before_filter :find_purchase_order, except: [:new, :create, :index ]
 	helper_method :sort_column, :sort_direction
 
-	def import
+  def import
     if params[:file]
       @purchase_order.import(params[:file])
       redirect_to :back, flash: {success: 'Lines were successfully imported'}
     else
       redirect_to :back, flash: {error: 'You must select a file before import'}
-    end
-    
+    end  
   end
 
 	def index
@@ -180,6 +179,7 @@ class PurchaseOrdersController < ApplicationController
       lines.each do |line|
         @purchase_order.purchase_order_lines.create(name:        line.name,
                                                     description: line.description,
+                                                    discount:    0,
                                                     quantity:    0)
       end
     end
@@ -191,7 +191,8 @@ class PurchaseOrdersController < ApplicationController
       line = PurchaseOrderLine.find(params[:line_id])
       @purchase_order.purchase_order_lines.create(name:         line.name,
                                                   description:  line.description,
-                                                  unit_price:   line.unit_price, 
+                                                  unit_price:   line.unit_price,
+                                                  discount:     line.discount,  
                                                   quantity:      0)
     end
     redirect_to @purchase_order

@@ -1,10 +1,11 @@
-<table class='table table-condensed' id='sortable-table'>
+<table class='table table-condensed table-hover' id='sortable-table'>
 	<thead>
 	<tr>
 		<th>Item</th>
 		<th>Specification</th>
 		<th class="text-right">Quantity</th>
 		<th class="text-right">Unit Price</th>
+		<th class="text-right">Discount</th>
 		<th class="text-right">Total</th>
 		<th></th>
 	</tr>
@@ -16,14 +17,15 @@
 			<td width="350"><%= line.description %></td>
 			<td class="text-right"><%= line.quantity %></td>
 			<td class="text-right"><%= number_to_currency(line.unit_price) %></td>
+			<td class="text-right"><%= number_to_percentage(line.discount, precision: 2, strip_insignificant_zeros: true) %></td>
 			<td class="text-right"><%= number_to_currency(line.total) %></td>
 			<td class="text-right">
 			<% if @purchase_order.open? %>
 				<% if allow? :purchase_order_lines, :edit %>
 					<i class="icon-th-list handle"></i> |
-					<%= link_to raw('<i class="icon-edit"></i>'), edit_purchase_order_line_path(line) %> |
-					<%= link_to raw('<i class="icon-plus"></i>'), copy_purchase_order_line_path(@purchase_order, line), method: :post, data: { confirm: 'Copy this line?' } %> |
-	 				<%= link_to raw('<i class="icon-trash"></i>'), purchase_order_line_path(line), method: :delete, data: { confirm: 'Delete line - are you sure?' }, id: "Remove" %>
+					<%= link_to icon(:edit), edit_purchase_order_line_path(line) %> |
+					<%= link_to icon(:plus), copy_purchase_order_line_path(@purchase_order, line), method: :post, data: { confirm: 'Copy this line?' } %> |
+	 				<%= link_to icon(:trash), purchase_order_line_path(line), method: :delete, data: { confirm: 'Delete line - are you sure?' } %>
 				<% end %>
 			<% end %>
 			</td>

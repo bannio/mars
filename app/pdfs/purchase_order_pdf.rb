@@ -122,29 +122,31 @@ class PurchaseOrderPdf < Prawn::Document
         columns(3).align = :right
         columns(4).align = :right
         columns(5).align = :right
+        columns(6).align = :right
         self.header = true
         cells.borders = []
         row(0).borders = [:bottom]
         row(-1).borders = [:bottom]
         row(0).border_width = 0.5
         row(-1).border_width = 0.5
-        columns(0).width = 20       # row number
-        columns(0).size = 9
-        columns(1).width = 75       # item (name)
-        columns(1).size = 9
         row(0).size = 10
-        columns(2).width = 240      # specification (description)
-        columns(3).width = 55       # quantity
-        columns(4).width = 75       # unit_price
-        columns(5).width = 75       # total
+        columns(0).size = 9
+        columns(1).size = 9
+        columns(0).width = 15       # row number
+        columns(1).width = 70       # item (name)       
+        columns(2).width = 215      # specification (description)
+        columns(3).width = 30       # quantity
+        columns(4).width = 70       # unit_price
+        columns(5).width = 70       # discount
+        columns(6).width = 70       # total
       end
     end
     
     def order_lines
       rowno = 0
-      [["","Item", "Specification", "Quantity", "Unit Price","Total"]] +
+      [["","Item", "Specification", "Qty", "Unit Price","Discount","Total"]] +
       @purchase_order.purchase_order_lines.order(:id).map do |line|
-        [rowno += 1, line.name, line.description, line.quantity, price(line.unit_price), price(line.total)]
+        [rowno += 1, line.name, line.description, line.quantity, price(line.unit_price), percent(line.discount), price(line.total)]
       end
     end
     
@@ -163,6 +165,10 @@ class PurchaseOrderPdf < Prawn::Document
     
     def price(num)
       helpers.number_to_currency(num)
+    end
+
+    def percent(num)
+      helpers.number_to_percentage(num, precision: 2, strip_insignificant_zeros: true)
     end
 
     def poterms

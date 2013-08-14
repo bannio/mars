@@ -1,5 +1,16 @@
-<h1>Contact</h1>
 <% @title = "MARS - show #{@contact.name}"%>
+<h1>
+  Contact
+  <div class="btn-group pull-right">
+  <% if allow? :contacts, :edit %>
+    <%= link_to 'Edit', edit_company_contact_path(@contact.company, @contact), 
+      class: "btn btn-primary" %>
+  <% end %>
+  <% if allow? :contacts, :destroy %>
+        <%= link_to "Delete", [@contact.company, @contact], method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-warning" %>
+  <% end %>
+  </div>
+</h1>
 <table class='table table-condensed'>
   <tr>
     <td>Name</td>

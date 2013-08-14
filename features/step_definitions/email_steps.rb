@@ -25,5 +25,5 @@ Given(/^I have the following emails$/) do |table|
 end
 
 Then(/^I should be looking at a pdf file$/) do
-  pending # some idea of how to test this
+  expect(current_url).to include('emails/1/download_attachment')
 end

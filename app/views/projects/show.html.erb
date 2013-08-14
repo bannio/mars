@@ -2,9 +2,15 @@
 <% @title = "MARS - show #{@project.name}"%>
 <h3><%= @project.code %> 
     <%= @project.name %>
-    <% if allow? :projects, :edit %>
-      <%= link_to 'Edit', edit_project_path(@project), class: 'pull-right btn btn-primary' %>
-    <% end %>
+    <div class="btn-group pull-right">
+      <% if allow? :projects, :edit %>
+        <%= link_to 'Edit', edit_project_path(@project), class: 'btn btn-primary' %>
+      <% end %>
+      <% if allow? :projects, :destroy %>
+        <%= link_to 'Delete', @project, method: :delete, data: { confirm: 'Are you sure?' },
+        class: "btn btn-warning" %>
+      <% end %>
+    </div>
 </h3>
 <table class='table table-condensed'>
   <tr class='grey-header'>
