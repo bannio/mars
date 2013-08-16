@@ -1,3 +1,7 @@
+attachRowLinkHandler =->
+  $('tr.rowlink').click ->
+    window.location = $(this).data("rowlink")
+    
 jQuery ->
   $('#sortable-table tbody').sortable(
     axis: 'y'
@@ -5,3 +9,5 @@ jQuery ->
     update: ->
       $.post($(this).data('update-url'), $(this).sortable('serialize'))
   )
+  $(document).ready attachRowLinkHandler
+

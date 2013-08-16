@@ -1,4 +1,6 @@
 class Email < ActiveRecord::Base
+
+  serialize :cc
   # attr_accessible :attachment, :body, :emailable_id, :emailable_type, :from, :subject, :to
   belongs_to :emailable, polymorphic: true
   validates :to, :from, :subject, :emailable_type, :emailable_id, :attachment, presence: true
@@ -27,4 +29,5 @@ class Email < ActiveRecord::Base
       scoped
     end
   end
+
 end

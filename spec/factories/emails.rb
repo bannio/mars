@@ -7,6 +7,7 @@ FactoryGirl.define do
     subject "MyString"
     body "MyText"
     attachment "MyString"
+    cc ["","Copy@Recipients"]
     emailable_id 1
     emailable_type "MyString"
   end

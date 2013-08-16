@@ -9,7 +9,7 @@
   </tr>
 
 <% @projects.each do |project| %>
-  <tr onclick="location.href='<%= project_path(project) %>'">
+  <tr title="Click to view details" class="rowlink" data-rowlink="<%= project_path(project) %>">
     <td><%= project.code %></td>
   	<td><%= project.name %></td>
   	<td><%= project.company.name %></td>

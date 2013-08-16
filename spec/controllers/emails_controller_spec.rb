@@ -8,6 +8,7 @@ describe EmailsController do
 			subject: 	'My Email',
 			body:    	'Email text here',
 			attachment: File.join(Rails.root, 'spec/fixtures/SQ001.pdf'),
+      cc:        '',
 			emailable_type: 'Quotation',
 			emailable_id: 1
 		}
@@ -27,9 +28,9 @@ describe EmailsController do
         end
       end
       @quotation = FactoryGirl.create(:quotation)
-      @company = FactoryGirl.create(:company)
-      params = {}
-      params[:company] = @company
+      # @company = FactoryGirl.create(:company)
+      # params = {}
+      # params[:company] = @company
 	end
 
 	describe 'GET index' do
@@ -39,4 +40,29 @@ describe EmailsController do
 			assigns(:emails).should eq([email])
 		end
 	end
+
+  describe 'POST create' do
+
+    it "copes with multiple cc emails" do
+      email = valid_attributes.merge(cc: ["","one@example.com","two@example.com"])
+
+      post :create, {email: email}, valid_session
+      @email = Email.last.reload
+      expect(@email.cc).to eq(["","one@example.com","two@example.com"])
+    end
+
+    it "copes with a single cc email address" do
+      email = valid_attributes.merge(cc: ["","one@example.com"])
+      post :create, {email: email}, valid_session
+      @email = Email.last.reload
+      expect(@email.cc).to eq(["","one@example.com"])
+    end
+
+    it "copes with an empty cc array" do
+      email = valid_attributes.merge(cc: [""])
+      post :create, {email: email}, valid_session
+      @email = Email.last.reload
+      expect(@email.cc).to eq([""])
+    end
+  end
 end

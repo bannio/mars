@@ -22,3 +22,8 @@ input[readonly], textarea[readonly], select[readonly] {
 {
   cursor: move
 }
+
+.vertical-divider
+{
+  border-right: 1px solid #dddddd;
+}

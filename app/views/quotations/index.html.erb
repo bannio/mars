@@ -21,7 +21,7 @@
   </tr>
 
 <% @quotations.each do |quotation| %>
-  <tr onclick="location.href='<%= quotation_path(quotation) %>'">
+  <tr title="Click to view details" class="rowlink" data-rowlink="<%= quotation_path(quotation) %>">
     <td><%= quotation.code %></td>
 	<td><%= quotation.name %></td>
     <td><%= quotation.project.code %></td>

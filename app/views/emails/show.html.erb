@@ -10,6 +10,10 @@
 		<td><%= @email.to %></td>
 	</tr>
 	<tr>
+		<td>cc:</td>
+		<td><%= cc_list(@email.cc) %></td>
+	</tr>
+	<tr>
 		<td>Date:</td>
 		<td><%= @email.created_at.strftime('%F') %></td>
 	</tr>

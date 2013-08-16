@@ -10,7 +10,9 @@ describe Email do
 					from: 'bloggs@example.com',
 					subject: 'My test email',
 					body: 'Hello',
-					attachment: 'spec/fixtures/SQ001.pdf'}
+					attachment: 'spec/fixtures/SQ001.pdf',
+					cc: ["","joe@example.com","j.d@example.com"]
+					}
 	end
 
 
@@ -63,4 +65,10 @@ describe Email do
   	email = Email.create(@attr.merge(to: 'save@example.com'))
   	expect(last_email.to).to include('save@example.com')
   end
+
+  it "is valid with missing cc" do
+		email = Email.new(@attr.merge(cc: ''))
+		expect(email).to be_valid
+	end
+
 end

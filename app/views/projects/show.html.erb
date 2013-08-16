@@ -15,48 +15,54 @@
 <table class='table table-condensed'>
   <tr class='grey-header'>
     <th>Summary</th>
+    <td class="vertical-divider"></td>
     <td></td>
-    <td></td>
+    <th>Status</th>
     <th class="text-right">Quotes</th>
     <th class="text-right">Sales</th>
     <th class="text-right">Purchase</th>
   </tr>
   <tr>
     <td>Start Date</td>
-    <td class="text-right"><%= @project.start_date %></td>
-    <td class="text-right">Open</td>
+    <td class="text-right vertical-divider"><%= @project.start_date %></td>
+    <td></td>
+    <td>Open</td>
     <td class="text-right"><%= number_to_currency(@project.quotes_total('open')) %></td>
     <td class="text-right"><%= number_to_currency(@project.sales_total('open')) %></td>
     <td class="text-right"><%= number_to_currency(@project.purchase_total('open')) %></td>
   </tr>
   <tr>
     <td>End date</td>
-    <td class="text-right"><%= @project.end_date %></td>
-    <td class="text-right">Issued</td>
+    <td class="text-right vertical-divider"><%= @project.end_date %></td>
+    <td></td>
+    <td>Issued</td>
     <td class="text-right"><%= number_to_currency(@project.quotes_total('issued')) %></td>
     <td class="text-right"><%= number_to_currency(@project.sales_total('issued')) %></td>
     <td class="text-right"><%= number_to_currency(@project.purchase_total('issued')) %></td>
   </tr>
 	<tr>
     <td>Completion date</td>
-    <td class="text-right"><%= @project.completion_date %></td>
-    <td class="text-right">Accepted</td>
+    <td class="text-right vertical-divider"><%= @project.completion_date %></td>
+    <td></td>
+    <td>Accepted</td>
     <td></td>
     <td class="text-right"><%= number_to_currency(@project.sales_total('accepted')) %></td>
     <td class="text-right"></td>
   </tr>
   <tr>
     <td>Status</td>
-    <td class="text-right"><%= @project.status %></td>
-    <td class="text-right">Invoiced</td>
+    <td class="text-right vertical-divider"><%= @project.status %></td>
+    <td></td>
+    <td>Invoiced</td>
     <td></td>
     <td class="text-right"><%= number_to_currency(@project.sales_total('invoiced')) %></td>
     <td class="text-right"></td>
   </tr>
   <tr>
     <td>Value</td>
-    <td class="text-right"><%= number_to_currency(@project.value) %></td>
-    <td class="text-right">Paid</td>
+    <td class="text-right vertical-divider"><%= number_to_currency(@project.value) %></td>
+    <td></td>
+    <td>Paid</td>
     <td></td>
     <td class="text-right"><%= number_to_currency(@project.sales_total('paid')) %></td>
     <td class="text-right"><%= number_to_currency(@project.purchase_total('paid')) %></td>
@@ -64,7 +70,8 @@
   <tr>
     <th>Total Sales</th>
     <th class="text-right"><%= number_to_currency(@project.quotes_total_total + @project.sales_total_total) %></th>
-    <th class="text-right">Total</th>
+    <td></td>
+    <th>Total</th>
     <th class="text-right"><%= number_to_currency(@project.quotes_total_total) %></th>
     <th class="text-right"><%= number_to_currency(@project.sales_total_total) %></th>
     <th class="text-right"><%= number_to_currency(@project.purchase_total_total) %></th>

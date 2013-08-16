@@ -21,7 +21,7 @@
   </tr>
 
 <% @sales_orders.each do |sales_order| %>
-  <tr onclick="location.href='<%= sales_order_path(sales_order) %>'">
+  <tr title="Click to view details" class="rowlink" data-rowlink="<%= sales_order_path(sales_order) %>">
     <td><%= sales_order.code %></td>
 	<td><%= sales_order.name %></td>
     <td><%= sales_order.project.code %></td>

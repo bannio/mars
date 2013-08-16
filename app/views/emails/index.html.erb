@@ -17,7 +17,7 @@
 		<th>Date</th>
 	</tr>
 	<% @emails.each do |email| %>
-		<tr onclick="location.href='<%= email_path(email) %>'">
+		<tr title="Click to view details" class="rowlink" data-rowlink="<%= email_path(email) %>">
 			<td><%= email.emailable_type %></td>
 			<td><%= email.from %></td>
 			<td><%= email.to %></td>

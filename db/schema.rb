@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130812090720) do
+ActiveRecord::Schema.define(:version => 20130816094406) do
 
   create_table "addresses", :force => true do |t|
     t.integer  "company_id"
@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(:version => 20130812090720) do
     t.string   "emailable_type"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
+    t.text     "cc"
   end
 
   create_table "events", :force => true do |t|

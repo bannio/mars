@@ -5,7 +5,7 @@
   </tr>
 
 <% @companies.each do |company| %>
-  <tr onclick="location.href='<%= company_path(company) %>'">
+  <tr title="Click to view Company details" class="rowlink" data-rowlink="<%= company_path(company) %>">
     <td><%= company.name %></td>
   	<td><%= company.reference %></td>
   </tr>

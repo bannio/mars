@@ -24,19 +24,20 @@ class EmailsController < ApplicationController
   
   def create
     @email = Email.new(params[:email])
+    # @email.cc.reject(&:empty?) if @email.cc
     
     respond_to do |format|
       if @email.save
         format.html { redirect_to @email.emailable, flash: { success: 'Email was successfully created.'} }
       else
         @user = current_user
-        format.html { render action: "new" }
-        # format.html { render action: "new", params: params[:email] }
+        # format.html { render action: "new" }
+        format.html { render action: "new", params: params[:email] }
       end
     end
   end
 
-  private
+private
 
 
 end

@@ -14,7 +14,8 @@ module Permissions
       allow :purchase_order_lines, [:index, :show]
       allow 'users/registrations', [:edit, :update]
       allow :emails, [:new, :create, :index, :show, :download_attachment]
-      allow_param :email, [:attachment, :body, :emailable_id, :emailable_type, :from, :subject, :to]
+      allow_param :email, [:attachment, :body, :emailable_id, :emailable_type, :from, :subject, 
+                            :to, cc: []]
       if user.has_role?('company')
         allow :companies, [:new, :create, :edit, :update, :destroy] 
         allow_param :company, [:name, :reference]

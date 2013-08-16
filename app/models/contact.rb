@@ -13,6 +13,10 @@ class Contact < ActiveRecord::Base
                     email_format: {message: 'format looks invalid'}
                     
   scope :with_email, where('email like :e', e: "%@%" )
+
+  def formatted_email
+    name + ' <' + email + '>' unless email.empty?
+  end
                     
 private
 

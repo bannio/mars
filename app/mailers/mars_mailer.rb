@@ -6,6 +6,6 @@ class MarsMailer < ActionMailer::Base
     @body = obj.body
     file = File.basename(obj.attachment)
     attachments[file] = File.read(obj.attachment)
-    mail from: obj.from, to: obj.to, subject: obj.subject
+    mail from: obj.from, to: obj.to, cc: obj.cc, subject: obj.subject
   end
 end

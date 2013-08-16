@@ -2,7 +2,7 @@ module EmailHelper
 	def format_attachment(email)
 		file = "#{email.emailable.code}.pdf"
 		folder = email.emailable_type.downcase
-		attachment = File.join(ENV["MARS_DATA"], folder, file)
+		File.join(ENV["MARS_DATA"], folder, file)
 	end
 
 	def format_owner_link(email)
@@ -24,5 +24,15 @@ module EmailHelper
 		else
 			:back
 		end
+	end
+
+	def cc_list(cc)
+		# the cc is an array with an empty first member that comes from a multiple select 
+		# e.g. ["","fred@bloggs.com","joe@bloggs.com"]
+		# This method converts it to a string for display
+		# e.g. "fred@bloggs.com, joe@blogs.com"
+
+		cc_list = cc * ','
+		cc_list.gsub(/^,/,"").gsub(/,/,", ")
 	end
 end
