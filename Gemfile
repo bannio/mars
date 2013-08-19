@@ -25,6 +25,7 @@ gem 'strong_parameters'
 gem 'validates_email_format_of'
 gem 'acts_as_list'
 gem 'pg_search'
+gem 'kaminari'
 
 group :development do
 # Deploy with Capistrano
@@ -48,7 +49,7 @@ group :test, :development do
   gem 'launchy','~> 2.1.2'
   gem 'rack-mini-profiler'
   gem 'selenium-client'
-  gem "selenium-webdriver", "~> 2.30.0"
+  gem "selenium-webdriver", "~> 2.35.0"
   gem 'simplecov', :require => false
   gem 'rb-fsevent', :require => false
   gem 'guard-rspec'

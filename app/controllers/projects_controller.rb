@@ -7,7 +7,8 @@ class ProjectsController < ApplicationController
   def index
     @projects = Project.includes(:company).
                 order(sort_column + " " + sort_direction).
-                search(params[:search])
+                search(params[:search]).
+                page(params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

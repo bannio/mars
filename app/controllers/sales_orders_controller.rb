@@ -33,7 +33,8 @@ class SalesOrdersController < ApplicationController
     @sales_orders = SalesOrder.current.
                     includes(:project, :customer).
                     order(sort_column + " " + sort_direction).
-                    search(params[:search])
+                    search(params[:search]).
+                    page(params[:page])
   end
 
 	def new
@@ -146,7 +147,7 @@ class SalesOrdersController < ApplicationController
   end
 
   def list_emails
-    @emails = @sales_order.emails
+    @emails = @sales_order.emails.page(params[:page])
     render template: 'emails/index' 
   end
 

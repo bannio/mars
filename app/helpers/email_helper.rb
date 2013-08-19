@@ -31,8 +31,9 @@ module EmailHelper
 		# e.g. ["","fred@bloggs.com","joe@bloggs.com"]
 		# This method converts it to a string for display
 		# e.g. "fred@bloggs.com, joe@blogs.com"
-
-		cc_list = cc * ','
-		cc_list.gsub(/^,/,"").gsub(/,/,", ")
+		if cc
+			cc_list = cc * ','
+			cc_list.gsub(/^,/,"").gsub(/,/,", ")
+		end
 	end
 end

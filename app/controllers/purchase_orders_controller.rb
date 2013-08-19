@@ -15,7 +15,8 @@ class PurchaseOrdersController < ApplicationController
 		@purchase_orders = PurchaseOrder.current.
 		                   includes(:project, :supplier).
 		                   order(sort_column + " " + sort_direction).
-		                   search(params[:search])
+		                   search(params[:search]).
+                       page(params[:page])
 	end
 
   def show
@@ -155,7 +156,7 @@ class PurchaseOrdersController < ApplicationController
   end
 
   def list_emails
-    @emails = @purchase_order.emails
+    @emails = @purchase_order.emails.page(params[:page])
     render template: 'emails/index' 
   end
 

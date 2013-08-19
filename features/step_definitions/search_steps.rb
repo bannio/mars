@@ -19,5 +19,13 @@ Then(/^I should see the (.*?) in this order:$/) do |name, table|
 end
 
 When(/^I submit with enter$/) do
-  click_on('Search')
+  find('.search-query').native.send_keys(:return)
+end
+
+When(/^I click on the "(.*?)" row$/) do |arg1|
+  find(:xpath, "//tr[@data-rowlink]").click()
+end
+
+Then(/^I should be on the "(.*?)" show page$/) do |arg1|
+  page.should have_content("Project for")
 end

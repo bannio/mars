@@ -1,4 +1,4 @@
-@search
+@search @selenium
 Feature: Search
 	In order to make finding a company easier
 	as a user I expect the companies to be sorted by name 

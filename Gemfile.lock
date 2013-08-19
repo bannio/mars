@@ -91,7 +91,7 @@ GEM
     factory_girl_rails (4.1.0)
       factory_girl (~> 4.1.0)
       railties (>= 3.0.0)
-    ffi (1.8.1)
+    ffi (1.9.0)
     figaro (0.6.1)
       rails (>= 3, < 5)
     gherkin (2.11.6)
@@ -117,6 +117,9 @@ GEM
       jquery-rails
       railties (>= 3.1.0)
     json (1.7.7)
+    kaminari (0.14.1)
+      actionpack (>= 3.0.0)
+      activesupport (>= 3.0.0)
     kgio (2.8.0)
     launchy (2.1.2)
       addressable (~> 2.3)
@@ -130,7 +133,7 @@ GEM
       treetop (~> 1.4.8)
     method_source (0.8.1)
     mime-types (1.21)
-    multi_json (1.7.3)
+    multi_json (1.7.9)
     net-scp (1.1.0)
       net-ssh (>= 2.6.5)
     net-sftp (2.1.1)
@@ -219,7 +222,7 @@ GEM
     select2-rails (3.2.1)
       thor (~> 0.14)
     selenium-client (1.2.18)
-    selenium-webdriver (2.30.0)
+    selenium-webdriver (2.35.0)
       childprocess (>= 0.2.5)
       multi_json (~> 1.0)
       rubyzip
@@ -281,6 +284,7 @@ DEPENDENCIES
   guard-rspec
   jquery-rails
   jquery-ui-rails
+  kaminari
   launchy (~> 2.1.2)
   letter_opener
   pg
@@ -295,7 +299,7 @@ DEPENDENCIES
   sass-rails (~> 3.2.3)
   select2-rails (~> 3.2.1)
   selenium-client
-  selenium-webdriver (~> 2.30.0)
+  selenium-webdriver (~> 2.35.0)
   simple_form (~> 2.0.4)
   simplecov
   strong_parameters

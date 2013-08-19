@@ -1,4 +1,4 @@
-@search_projects
+@search_projects @selenium
 Feature: Search
 	In order to make finding a project easier
 	as a user I expect the projects to be sorted by code 
@@ -37,3 +37,10 @@ Feature: Search
 		And I submit with enter
 		Then I should see "P003"
 		And I should not see "P001"
+
+	Scenario: I can select a project from the search set by clicking on the row
+		When I type "th" into the "search" field
+		And I submit with enter
+		Then I should see "P003"
+		When I click on the "P003" row
+		Then I should be on the "P003" show page

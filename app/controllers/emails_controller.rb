@@ -2,7 +2,7 @@ class EmailsController < ApplicationController
 
 
   def index
-    @emails = Email.search(params[:search]).order("created_at DESC")
+    @emails = Email.search(params[:search]).order("created_at DESC").page(params[:page])
   end
 
   def show

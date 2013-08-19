@@ -9,5 +9,8 @@ jQuery ->
     update: ->
       $.post($(this).data('update-url'), $(this).sortable('serialize'))
   )
-  $(document).ready attachRowLinkHandler
 
+jQuery ->
+  $(document).on "page:load", attachRowLinkHandler
+  $(document).ready attachRowLinkHandler
+  

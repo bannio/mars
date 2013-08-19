@@ -14,6 +14,8 @@
 <br><br>
 <div id="projects"><%= render 'projects' %></div>
 
+<%= paginate @projects %>
+
 <% if allow? :projects, :new %>
 	<%= link_to 'New Project', new_project_path %>
 <% end %>

@@ -1,4 +1,4 @@
-@search_contacts
+@search_contacts @selenium
 Feature: Search
 	In order to make finding a contact easier
 	as a user I expect the contacts to be sorted by name 

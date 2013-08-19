@@ -18,7 +18,8 @@ class QuotationsController < ApplicationController
     @quotations = Quotation.current.
                   includes(:project, :customer).
                   order(sort_column + " " + sort_direction).
-                  search(params[:search])
+                  search(params[:search]).
+                  page(params[:page])
 
     respond_to do |format|
       format.html 
@@ -164,7 +165,7 @@ class QuotationsController < ApplicationController
   end
 
   def list_emails
-    @emails = @quotation.emails
+    @emails = @quotation.emails.page(params[:page])
     render template: 'emails/index' 
   end
 

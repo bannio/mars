@@ -28,9 +28,9 @@ Given(/^I have the following contacts$/) do |table|
   end
 end
 
-When(/^I click the first clickable row$/) do
-  first(:xpath, "//tr[@onclick]").click()
-end
+# When(/^I click the first clickable row$/) do   # NOTE that onclick is not used now!
+#   first(:xpath, "//tr[@onclick]").click()
+# end
 
 When(/^I click the "(.*?)" button$/) do |button|
   click_button(button)
