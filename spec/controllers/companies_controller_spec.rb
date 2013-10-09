@@ -186,6 +186,7 @@ describe CompaniesController do
         delete :destroy, {:id => company.to_param}, valid_session
       }.to_not change(Company, :count)
     end
+
   end
 
 end

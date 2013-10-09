@@ -58,13 +58,15 @@ class CompaniesController < ApplicationController
   end
 
   def destroy    
-    respond_to do |format|
-      if @company.destroy
-        format.html { redirect_to companies_url, flash: {success: 'Company was successfully deleted.'} }
-      else
-        format.html { redirect_to companies_url, flash: {error: 'Company not deleted. Maybe contacts or addresses exist'} }
+      begin
+        @company.destroy
+        flash[:success] = 'Company was successfully deleted.'
+      rescue ActiveRecord::DeleteRestrictionError => e
+        @company.errors.add(:base, e)
+        flash[:error] = "#{e}"
+      ensure
+        @company ? (redirect_to @company) : (redirect_to companies_url)
       end
-    end
   end
 
   private
