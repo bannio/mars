@@ -19,13 +19,13 @@
   </tr>
   <tr>
     <td>Customer</td>
-    <td><%= @purchase_order.customer.name %><br />
+    <td><%= @purchase_order.customer_name %><br />
 		<% if !@purchase_order.customer.addresses.empty? %>
 		<%= simple_format("#{@purchase_order.customer.addresses.first.body}\n#{@purchase_order.customer.addresses.first.post_code}") %>
 		<% end %>
 	</td>
 	<td>Supplier</td>
-	<td><%= @purchase_order.supplier.name %><br />
+	<td><%= @purchase_order.supplier_name %><br />
 	<% if @purchase_order.address %>
 	<%= simple_format("#{@purchase_order.address.body}\n#{@purchase_order.address.post_code}") %>
 	<% end %>
@@ -38,11 +38,10 @@
 	<%= simple_format("#{@purchase_order.delivery_address.body}\n#{@purchase_order.delivery_address.post_code}") %>
 	<% end %></td>
 	<td>Contact</td>
-	<td><% if @purchase_order.contact %>
-		<%= @purchase_order.contact.name %><br />
-		<%=	@purchase_order.contact.telephone %><br />
-		<%= mail_to(@purchase_order.contact.email, nil, encode: :javascript) %>
-		<% end %>
+	<td>
+		<%= @purchase_order.contact_name %><br />
+		<%=	@purchase_order.contact_telephone %><br />
+		<%= mail_to(@purchase_order.contact_email, nil, encode: :javascript) %>
 	</td>
   </tr>
   <tr>

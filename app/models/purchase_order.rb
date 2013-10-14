@@ -17,6 +17,21 @@ class PurchaseOrder < ActiveRecord::Base
 
   STATES = %w[open issued cancelled delivered paid]
   delegate :open?, :issued?, :cancelled?, :delivered?, :paid?, to: :current_state
+  # These delegations below were driven by a nil supplier breaking the view.
+  # By delegating, the view is insulated by the allow_nil 
+  # BUT the end result is a long list of delegations for ever item
+  # that the view needs to display which is not in the purchase order. 
+  # Why shouldn't the view ask the customer directly for its name?
+  # Isn't it better to ensure that the purchase order has a customer and
+  # that the customer has a name so there is no nil object?
+
+  # One advantage is that it can reduce the if statements in the view.
+  
+  delegate :name, to: :supplier, prefix: :supplier, allow_nil: :true
+  delegate :name, to: :customer, prefix: :customer, allow_nil: :true
+  delegate :name, to: :contact, prefix: :contact, allow_nil: :true
+  delegate :telephone, to: :contact, prefix: :contact, allow_nil: :true
+  delegate :email, to: :contact, prefix: :contact, allow_nil: :true
 
   scope :current, where(status: ['open','issued','delivered'])
 
@@ -66,6 +81,7 @@ class PurchaseOrder < ActiveRecord::Base
       'No delivery address'
     end
   end
+
 
   def issue(user)
     errors.add(:base, "Only open purchase orders may be issued.") if !open? 

@@ -13,5 +13,19 @@ describe Company do
     company = Company.new(@attr.merge(name: ''))
     company.should_not be_valid
   end
-  
+
+  describe '#destroy' do
+
+    it "checks purchase orders exist before destroy" do
+      company = create(:company)
+      purchase_order = create(:purchase_order, supplier_id: company.id)
+      expect{company.destroy}.to_not change(Company, :count)
+    end
+    
+    it "checks sales orders exist before destroy" do
+      company = create(:company)
+      sales_order = create(:sales_order, customer_id: company.id)
+      expect{company.destroy}.to_not change(Company, :count)
+    end
+  end
 end

@@ -57,17 +57,26 @@ class CompaniesController < ApplicationController
     end
   end
 
-  def destroy    
-      begin
-        @company.destroy
-        flash[:success] = 'Company was successfully deleted.'
-      rescue ActiveRecord::DeleteRestrictionError => e
-        @company.errors.add(:base, e)
-        flash[:error] = "#{e}"
-      ensure
-        @company ? (redirect_to @company) : (redirect_to companies_url)
-      end
+  def destroy
+    if @company.destroy
+      redirect_to companies_url, flash: {success: 'Company successfully removed'}
+    else
+      redirect_to @company, flash: {error: 'The company has dependents'}
+    end
+    
   end
+
+  # def destroy    
+  #     begin
+  #       @company.destroy
+  #       flash[:success] = 'Company was successfully deleted.'
+  #     rescue ActiveRecord::DeleteRestrictionError => e
+  #       @company.errors.add(:base, e)
+  #       flash[:error] = "#{e}"
+  #     ensure
+  #       @company ? (redirect_to @company) : (redirect_to companies_url)
+  #     end
+  # end
 
   private
     
