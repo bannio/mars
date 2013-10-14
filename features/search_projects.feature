@@ -11,10 +11,10 @@ Feature: Search
 			|G Company|
 			|A Company|
 		And I have the following projects
-			| code |name| company |
-			| P003 |Third project |Z Company |
-			| P002 |Second project |G Company |
-			| P001 |First project | G Company |
+			| code |name| company | status |
+			| P003 |Third project |Z Company | open |
+			| P002 |Second project |G Company | open |
+			| P001 |First project | G Company | open |
 		And I am logged in as a user with a role "project"
 		And I am on the "projects" page
 		

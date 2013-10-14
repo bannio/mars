@@ -39,4 +39,22 @@ describe Event do
 			user_id: 1)
 		expect(Event.with_last_state('open')).to eq []
   end
+
+  it "validates state for purchase orders" do
+    event = Event.new(
+      eventable_id: 1,
+      eventable_type: 'PurchaseOrder',
+      state: 'fred',
+      user_id: 1)
+    expect(event).to be_invalid
+  end
+
+  it "validates state for sales orders" do
+    event = Event.new(
+      eventable_id: 1,
+      eventable_type: 'SalesOrder',
+      state: 'fred',
+      user_id: 1)
+    expect(event).to be_invalid
+  end
 end

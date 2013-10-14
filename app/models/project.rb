@@ -10,7 +10,7 @@ class Project < ActiveRecord::Base
   
   validates_presence_of :company_id, :code, :name
   validate :valid_dates
-  before_destroy :check_for_children
+  before_destroy :check_associations
 
   scope :current, where(status: 'open')
 
@@ -18,7 +18,8 @@ class Project < ActiveRecord::Base
   delegate :open?, :issued?, :cancelled?, :ordered?, to: :current_state
 
   def current_state
-    (events.last.try(:state) || STATES.first).inquiry
+    status.inquiry
+    # (events.last.try(:state) || STATES.first).inquiry
   end
 
   def quotes_total(status)
@@ -63,9 +64,13 @@ class Project < ActiveRecord::Base
     end
   end
 
-  def check_for_children
-    unless (quotations.empty? && sales_orders.empty?)
-    false
+  def check_associations
+    if !quotations.empty? ||
+      !sales_orders.empty? ||
+      !purchase_orders.empty?
+      return false
+    else
+      return true
     end 
   end
   

@@ -15,8 +15,7 @@
 		<td><%= project.status %></td>
 		<td class='text-right'>
 		<% if allow? :projects, :edit %>
-	    <%= link_to 'Edit', edit_project_path(project) %> |
-			<%= link_to 'Destroy', [project], method: :delete, data: { confirm: 'Are you sure?' } %>
+	    <%= link_to 'Edit', edit_project_path(project) %>
 		</td>
 		<% end %>
 	  </tr>

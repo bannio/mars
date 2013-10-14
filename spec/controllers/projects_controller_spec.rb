@@ -153,21 +153,30 @@ describe ProjectsController do
       response.should redirect_to(projects_url)
     end
     
-    # it "does not destroy when a contact exists" do
-    #   project = Project.create! valid_attributes
-    #   contact = project.contacts.build(name: "MyContact").save
-    #   expect {
-    #     delete :destroy, {:id => project.to_param}, valid_session
-    #   }.to_not change(Project, :count)
-    # end
-    # 
-    # it "does not destroy when an address exists" do
-    #   project = Project.create! valid_attributes
-    #   contact = project.addresses.build(name: "MyAddress").save
-    #   expect {
-    #     delete :destroy, {:id => project.to_param}, valid_session
-    #   }.to_not change(Project, :count)
-    # end
+    it "does not destroy when a sales_order exists" do
+      project = Project.create! valid_attributes
+      sales_order = create(:sales_order, project_id: project.id)
+      project.reload
+      expect {
+        delete :destroy, {:id => project.to_param}, valid_session
+      }.to_not change(Project, :count)
+    end
+    it "does not destroy when a purchase_order exists" do
+      project = Project.create! valid_attributes
+      purchase_order = create(:purchase_order, project_id: project.id)
+      project.reload
+      expect {
+        delete :destroy, {:id => project.to_param}, valid_session
+      }.to_not change(Project, :count)
+    end
+    it "does not destroy when a quotation exists" do
+      project = Project.create! valid_attributes
+      quotation = create(:quotation, project_id: project.id)
+      project.reload
+      expect {
+        delete :destroy, {:id => project.to_param}, valid_session
+      }.to_not change(Project, :count)
+    end
   end
 
 end

@@ -14,6 +14,8 @@ class Contact < ActiveRecord::Base
                     
   scope :with_email, where('email like :e', e: "%@%" )
 
+  before_destroy :check_associations
+
   def formatted_email
     name + ' <' + email + '>' unless email.empty?
   end
@@ -25,6 +27,14 @@ private
       where('name ilike :q', q: "%#{search}%")
     else
       scoped
+    end
+  end
+
+  def check_associations
+    if !quotations.empty?
+      return false
+    else
+      return true
     end
   end
 

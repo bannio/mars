@@ -5,8 +5,8 @@ Feature: To help manage the projects I want to be able to see running totals
 	Background:
 		Given the company "A Company" exists
 		Given I have the following projects
-			|name | code | company |
-			|Project1 | P001 | A Company |
+			|name | code | company | status |
+			|Project1 | P001 | A Company | open |
 		And I have the following project quotations
 			|code | name | project | customer | issue_date | total | status |
 			|SQ01 | 1order1 | P001 | A Company | 2013-05-01 | 1000 | open |

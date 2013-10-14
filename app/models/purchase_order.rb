@@ -28,10 +28,13 @@ class PurchaseOrder < ActiveRecord::Base
   # One advantage is that it can reduce the if statements in the view.
   
   delegate :name, to: :supplier, prefix: :supplier, allow_nil: :true
+  delegate :name, to: :client, prefix: :client, allow_nil: :true
   delegate :name, to: :customer, prefix: :customer, allow_nil: :true
   delegate :name, to: :contact, prefix: :contact, allow_nil: :true
+  delegate :name, to: :project, prefix: :project, allow_nil: :true
   delegate :telephone, to: :contact, prefix: :contact, allow_nil: :true
   delegate :email, to: :contact, prefix: :contact, allow_nil: :true
+  delegate :code, to: :project, prefix: :project, allow_nil: :true
 
   scope :current, where(status: ['open','issued','delivered'])
 

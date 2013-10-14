@@ -68,7 +68,7 @@ class ProjectsController < ApplicationController
       if @project.destroy
         format.html { redirect_to projects_url, flash: {success: 'Project was successfully deleted.'} }
       else
-        format.html { redirect_to request.referer, flash: {error: 'Project not deleted. Maybe sales or purchase orders exist'} }
+        format.html { redirect_to @project, flash: {error: 'Project not deleted. Maybe sales or purchase orders exist'} }
       end
     end
   end
