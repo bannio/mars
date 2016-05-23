@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe QuotationsController do
+describe QuotationsController, :type => :controller do
 
   # This should return the minimal set of attributes required to create a valid
   # Quotation. As you add validations to Quotation, be sure to
@@ -22,28 +22,34 @@ describe QuotationsController do
   def valid_session
     {"warden.user.user.key" => session["warden.user.user.key"]}
   end
-  
+
   before do
-    user = double('user')
-    user.stub id: 1
-    request.env['warden'].stub :authenticate! => user
-    controller.stub :current_user => user
-    user.stub(:has_role?) do |role|
-      if role == 'sales_quote'
-        true
-      end
-    end
-    @company = FactoryGirl.create(:company)                           # so company 1 exists for valid attributes
+    # user = double('user')
+    # user.stub id: 1
+    # request.env['warden'].stub :authenticate! => user
+    # controller.stub :current_user => user
+    # user.stub(:has_role?) do |role|
+    #   if role == 'sales_quote'
+    #     true
+    #   end
+    # end
+    user = instance_double('user', :id => 1)
+    allow(request.env['warden']).to receive(:authenticate!).and_return(user)
+    allow(controller).to receive(:current_user).and_return(user)
+    allow(user).to receive(:has_role?).and_return(true)
+
+    @company = FactoryGirl.create(:company)  # so company exists for valid attributes
+    # puts @company.inspect
     # @customer = @company
     @project = @company.projects.create(code: 'P001', name: 'my project')
-    request.env["HTTP_REFERER"] = root_url  # for redirects to return_to path
+    request.env["HTTP_REFERER"] = root_path  # for redirects to return_to path
   end
 
   describe "GET index" do
     it "assigns all current quotations as @quotations" do
       quotation = Quotation.create! valid_attributes
       get :index, {}, valid_session
-      assigns(:quotations).should eq([quotation])
+      expect(assigns(:quotations)).to eq([quotation])
     end
   end
 
@@ -51,22 +57,23 @@ describe QuotationsController do
     it "assigns the requested quotation as @quotation" do
       quotation = Quotation.create! valid_attributes
       get :show, {:id => quotation.to_param}, valid_session
-      assigns(:quotation).should eq(quotation)
+      expect(assigns(:quotation)).to eq(quotation)
     end
   end
 
   describe "GET new" do
     it "assigns a new quotation as @quotation" do
-      get :new, {customer_id: 1}, valid_session
-      assigns(:quotation).should be_a_new(Quotation)
+      get :new, {customer_id: @company.id}, valid_session
+      expect(assigns(:quotation)).to be_a_new(Quotation)
     end
   end
 
   describe "GET edit" do
     it "assigns the requested quotation as @quotation" do
-      quotation = Quotation.create! valid_attributes
+      quotation = Quotation.create! valid_attributes.merge(customer_id: @company.id)
       get :edit, {:id => quotation.to_param}, valid_session
-      assigns(:quotation).should eq(quotation)
+      expect(assigns(:quotation)).to eq(quotation)
+      true
     end
   end
 
@@ -80,29 +87,29 @@ describe QuotationsController do
 
       it "assigns a newly created quotation as @quotation" do
         post :create, {:quotation => valid_attributes}, valid_session
-        assigns(:quotation).should be_a(Quotation)
-        assigns(:quotation).should be_persisted
+        expect(assigns(:quotation)).to be_a(Quotation)
+        expect(assigns(:quotation)).to be_persisted
       end
 
       it "redirects to the created quotation" do
         post :create, {:quotation => valid_attributes}, valid_session
-        response.should redirect_to(Quotation.last)
+        expect(response).to redirect_to(Quotation.last)
       end
     end
 
     describe "with invalid params" do
       it "assigns a newly created but unsaved quotation as @quotation" do
         # Trigger the behavior that occurs when invalid params are submitted
-        Quotation.any_instance.stub(:save).and_return(false)
+        allow_any_instance_of(Quotation).to receive(:save).and_return(false)
         post :create, {:quotation => { "name" => "invalid value" }}, valid_session
-        assigns(:quotation).should be_a_new(Quotation)
+        expect(assigns(:quotation)).to be_a_new(Quotation)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
-        Quotation.any_instance.stub(:save).and_return(false)
+        allow_any_instance_of(Quotation).to receive(:save).and_return(false)
         post :create, {:quotation => { "name" => "invalid value" }}, valid_session
-        response.should render_template("new")
+        expect(response).to render_template("new")
       end
     end
   end
@@ -115,20 +122,20 @@ describe QuotationsController do
         # specifies that the Quotation created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Quotation.any_instance.should_receive(:update_attributes).with({ "name" => "MyString" })
+        expect_any_instance_of(Quotation).to receive(:update_attributes).with({ "name" => "MyString" })
         put :update, {:id => quotation.to_param, :quotation => { "name" => "MyString" }}, valid_session
       end
 
       it "assigns the requested quotation as @quotation" do
         quotation = Quotation.create! valid_attributes
         put :update, {:id => quotation.to_param, :quotation => valid_attributes}, valid_session
-        assigns(:quotation).should eq(quotation)
+        expect(assigns(:quotation)).to eq(quotation)
       end
 
       it "redirects to the quotation" do
         quotation = Quotation.create! valid_attributes
         put :update, {:id => quotation.to_param, :quotation => valid_attributes}, valid_session
-        response.should redirect_to(quotation)
+        expect(response).to redirect_to(quotation)
       end
     end
 
@@ -136,17 +143,17 @@ describe QuotationsController do
       it "assigns the quotation as @quotation" do
         quotation = Quotation.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
-        Quotation.any_instance.stub(:save).and_return(false)
+        allow_any_instance_of(Quotation).to receive(:save).and_return(false)
         put :update, {:id => quotation.to_param, :quotation => { "name" => "invalid value" }}, valid_session
-        assigns(:quotation).should eq(quotation)
+        expect(assigns(:quotation)).to eq(quotation)
       end
 
       it "re-renders the 'edit' template" do
         quotation = Quotation.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
-        Quotation.any_instance.stub(:save).and_return(false)
+        allow_any_instance_of(Quotation).to receive(:save).and_return(false)
         put :update, {:id => quotation.to_param, :quotation => { "name" => "invalid value" }}, valid_session
-        response.should render_template("edit")
+        expect(response).to render_template("edit")
       end
     end
   end
@@ -162,7 +169,7 @@ describe QuotationsController do
     it "redirects to the calling page" do
       quotation = Quotation.create! valid_attributes
       delete :destroy, {:id => quotation.to_param}, valid_session
-      response.should redirect_to(root_url)
+      expect(response).to redirect_to(root_path)
     end
   end
 
@@ -175,7 +182,7 @@ describe QuotationsController do
       unit_price: 9.99,
       total: 0,
       category: "",
-      position: 1}    
+      position: 1}
     end
 
     before do

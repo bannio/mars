@@ -6,11 +6,11 @@ class Email < ActiveRecord::Base
   validates :to, :from, :subject, :emailable_type, :emailable_id, :attachment, presence: true
   validate :attachment_exists?
   before_save :send_email
-  
+
   private
 
   def send_email
-    MarsMailer.standard_email(self).deliver
+    MarsMailer.standard_email(self).deliver_now
   end
 
   def attachment_exists?
@@ -26,7 +26,7 @@ class Email < ActiveRecord::Base
     if search.present?
       where('emails.attachment ilike :q', q: "%#{search}%")
     else
-      scoped
+      all
     end
   end
 

@@ -2,15 +2,15 @@ class PurchaseOrderPdf < Prawn::Document
 	def initialize(purchase_order)
     super(bottom_margin: 50)
     @purchase_order = purchase_order
-    
+
     define_grid(columns: 3, rows: 6, gutter: 0)
-    #grid.show_all
+    # grid.show_all
     font_size 10
-    
+
     grid([0,1],[0,2]).bounding_box do
       logo
     end
-    
+
     grid([0,0],[0,1]).bounding_box do
       purchase_order_heading
     end
@@ -38,34 +38,34 @@ class PurchaseOrderPdf < Prawn::Document
     our_address
     purchase_order_number
     purchase_order_page_number
-    
-    
+
+
   end
-  
+
   def fold_mark
     repeat([1]) do         # only on first page
       transparent(0.5){stroke_horizontal_line -20, -10, at: 464 }
     end
   end
-  
+
   def address_box
     if @purchase_order.address
     text_box "#{@purchase_order.supplier.name}
               #{@purchase_order.address.body}
               #{@purchase_order.address.post_code}",
-              size: 10 
+              size: 10
     else
       text_box "MISSING AN ADDRESS!"
     end
   end
-  
+
   def delivery_address
     if @purchase_order.delivery_address
       move_down 6
       text_box "#{@purchase_order.delivery_name}
                 #{@purchase_order.delivery_address.body}
                 #{@purchase_order.delivery_address.post_code}",
-                size: 10 
+                size: 10
     else
       text_box "MISSING AN ADDRESS!"
     end
@@ -73,11 +73,11 @@ class PurchaseOrderPdf < Prawn::Document
 
   def purchase_order_heading
     move_down 50
-    text "Purchase Order", 
-          size: 20, 
+    text "Purchase Order",
+          size: 20,
           style: :bold
   end
-  
+
   def logo
     if @purchase_order.customer.name.include? "Roger"
       image "#{Rails.root}/app/assets/images/RBDC_logo.png",
@@ -90,11 +90,11 @@ class PurchaseOrderPdf < Prawn::Document
       fit: [70,70]
     end
   end
-  
+
   def order_number_and_dates
     date = @purchase_order.issue_date ? @purchase_order.issue_date.strftime("%d %B %Y") : "NOT ISSUED"
     due_date = @purchase_order.due_date ? @purchase_order.due_date.strftime("%d %B %Y") : "NOT SET"
-    data = [["Order No.:","#{@purchase_order.code}","Date", date],["Delivery Date:", due_date,"",""]]
+    data = [["Order No.:","#{@purchase_order.code}","Date", date],["Delivery Date:", due_date,"Project","PXXXX"]]
     table(data) do
       cells.borders = []
       columns(2).align = :right
@@ -106,14 +106,14 @@ class PurchaseOrderPdf < Prawn::Document
       columns(3).width = 100
     end
   end
-    
+
     def order_comment
       move_down 15
       text "#{@purchase_order.name}\n", style: :bold, size: 12
       move_down 6
       text "#{@purchase_order.description}", style: :italic
     end
-     
+
     def order_table
       move_down 15
       table order_lines do
@@ -133,7 +133,7 @@ class PurchaseOrderPdf < Prawn::Document
         columns(0).size = 9
         columns(1).size = 9
         columns(0).width = 15       # row number
-        columns(1).width = 70       # item (name)       
+        columns(1).width = 70       # item (name)
         columns(2).width = 215      # specification (description)
         columns(3).width = 30       # quantity
         columns(4).width = 70       # unit_price
@@ -141,7 +141,7 @@ class PurchaseOrderPdf < Prawn::Document
         columns(6).width = 70       # total
       end
     end
-    
+
     def order_lines
       rowno = 0
       [["","Item", "Specification", "Qty", "Unit Price","Discount","Total"]] +
@@ -149,7 +149,7 @@ class PurchaseOrderPdf < Prawn::Document
         [rowno += 1, line.name, line.description, line.quantity, price(line.unit_price), percent(line.discount), price(line.total)]
       end
     end
-    
+
     def order_total
       move_down 15
       data = [["","Total (excluding VAT):", "#{price(@purchase_order.total)}"]]
@@ -162,7 +162,7 @@ class PurchaseOrderPdf < Prawn::Document
         columns(2).width = 80
       end
     end
-    
+
     def price(num)
       helpers.number_to_currency(num)
     end
@@ -182,7 +182,7 @@ class PurchaseOrderPdf < Prawn::Document
                 "enable them to reach their destination in good condition"
       text content, style: :italic, size: 8
     end
-    
+
     def our_address
       if @purchase_order.customer.addresses.first
         addr = "#{@purchase_order.customer.addresses.first.body.gsub(/\n/,', ')}, #{@purchase_order.customer.addresses.first.post_code}"
@@ -203,7 +203,7 @@ class PurchaseOrderPdf < Prawn::Document
         end
       end
     end
-    
+
     def purchase_order_page_number
       string = "page <page> of <total>"
       options = { at: [500, 20],
@@ -230,7 +230,7 @@ class PurchaseOrderPdf < Prawn::Document
         end
       end
     end
-    
+
     def helpers
       ActionController::Base.helpers
     end

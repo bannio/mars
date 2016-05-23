@@ -1,5 +1,7 @@
 Mars::Application.routes.draw do
 
+  # default_url_options :host => "localhost"
+
   get "events/index"
 
   root :to => 'home#index'
@@ -42,14 +44,14 @@ Mars::Application.routes.draw do
   post "purchase_orders/:id/create_from_search" => "purchase_orders#create_from_search", as: "create_from_search"
   get "purchase_orders/:id/search" => "purchase_orders#search", as: "search_purchase_order_lines"
   post "purchase_orders/:id/copy_line/:line_id" => "purchase_orders#copy_line", as: "copy_purchase_order_line"
-  
+
   resources :companies do
     resources :contacts
     resources :addresses
   end
   resources :projects
   resources :emails
-  
+
   resources :quotations do
     collection {post :import }
   end
@@ -63,12 +65,12 @@ Mars::Application.routes.draw do
   end
 
   # devise_for :users , :controllers => {:registrations => "users/registrations", :passwords => "users/passwords"}
-  devise_for :users, :skip => [:registrations]                                          
+  devise_for :users, :skip => [:registrations]
       as :user do
-        get 'users/edit' => 'users/registrations#edit', :as => 'edit_user_registration'    
-        put 'users' => 'users/registrations#update', :as => 'user_registration'            
+        get 'users/edit' => 'users/registrations#edit', :as => 'edit_user_registration'
+        put 'users' => 'users/registrations#update', :as => 'user_registration'
       end
-  
+
   scope "admin/" do
     resources :users
   end
