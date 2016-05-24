@@ -1,5 +1,5 @@
 class QuotationLinesController < ApplicationController
-  
+
   before_filter :find_quotation_line
   rescue_from ActiveRecord::RecordNotFound, with: :not_found_message
 
@@ -27,7 +27,7 @@ class QuotationLinesController < ApplicationController
 
   def sort
     params[:quotation_line].each_with_index do |id, index|
-      QuotationLine.update_all({position: index+1}, {id: id})
+      QuotationLine.where(:id => id).update_all(position: index+1)
     end
     render nothing: true
   end
@@ -36,10 +36,9 @@ class QuotationLinesController < ApplicationController
   def find_quotation_line
     @quotation_line = QuotationLine.find(params[:id]) unless params[:id] == nil
   end
-  
+
   def not_found_message
     session[:return_to]||= root_url
     redirect_to session[:return_to], flash: {error: 'Not authorised or no record found'}
   end
 end
-

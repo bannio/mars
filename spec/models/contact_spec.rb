@@ -1,9 +1,9 @@
 require 'spec_helper'
 
 describe Contact do
-  
+
   before(:each) do
-    @attr = { 
+    @attr = {
       name: "My contact",
       job_title: "dogsbody",
       company_id: create(:company).id,
@@ -13,29 +13,29 @@ describe Contact do
       mobile: '0765432189',
       fax: '012341234',
       email: 'contact@example.com',
-      notes: 'some words' 
+      notes: 'some words'
     }
   end
-  
+
   it "should require a name" do
     contact = Contact.new(@attr.merge(name: ''))
-    contact.should_not be_valid
+    expect(contact).to_not be_valid
   end
-  
+
   it "does not require an email" do
     contact = Contact.new(@attr.merge(email: ''))
-    contact.should be_valid
+    expect(contact).to be_valid
   end
-  
+
   it "should validate email if given" do
     contact = Contact.new(@attr.merge(email: 'bad-email'))
-    contact.should_not be_valid
+    expect(contact).to_not be_valid
   end
-  
+
   it "should require a company_id" do
     contact = Contact.new(@attr.merge(company_id: ''))
-    contact.should_not be_valid
+    expect(contact).to_not be_valid
   end
-  
-  
+
+
 end

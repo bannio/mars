@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe PurchaseOrdersController do
+describe PurchaseOrdersController, :type => :controller do
 
 	def valid_session
 	    {"warden.user.user.key" => session["warden.user.user.key"]}.merge(return_to: home_index_path)
@@ -13,18 +13,22 @@ describe PurchaseOrdersController do
     unit_price: 9.99,
     total: 0,
     category: "",
-    position: 1}    
+    position: 1}
   end
 
 	before do
-    user = double('user')
-    request.env['warden'].stub :authenticate! => user
-    controller.stub :current_user => user
-    user.stub(:has_role?) do |role|
-      if role == 'purchase'
-        true
-      end
-    end
+    # user = double('user')
+    # request.env['warden'].stub :authenticate! => user
+    # controller.stub :current_user => user
+    # user.stub(:has_role?) do |role|
+    #   if role == 'purchase'
+    #     true
+    #   end
+    # end
+		user = instance_double('user', :id => 1)
+		allow(request.env['warden']).to receive(:authenticate!).and_return(user)
+		allow(controller).to receive(:current_user).and_return(user)
+		allow(user).to receive(:has_role?).and_return(true)
 	end
 
 	describe 'GET #index' do

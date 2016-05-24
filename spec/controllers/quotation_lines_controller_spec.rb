@@ -18,7 +18,7 @@ require 'spec_helper'
 # Message expectations are only used when there is no simpler way to specify
 # that an instance is receiving a specific message.
 
-describe QuotationLinesController do
+describe QuotationLinesController, :type => :controller do
 
   # This should return the minimal set of attributes required to create a valid
   # QuotationLine. As you add validations to QuotationLine, be sure to
@@ -39,109 +39,115 @@ describe QuotationLinesController do
   def valid_session
     {"warden.user.user.key" => session["warden.user.user.key"]}
   end
-  
+
   before do
-    user = double('user')
-    request.env['warden'].stub :authenticate! => user
+    # user = double('user')
+    # request.env['warden'].stub :authenticate! => user
     request.env['HTTP_REFERER'] = '/'
-    controller.stub :current_user => user
-    user.stub(:has_role?) do |role|
-      if role == 'sales_quote'
-        true
-      end
-    end
-    @quotation = FactoryGirl.create(:quotation)                           # so quotation 1 exists for valid attributes
+    # controller.stub :current_user => user
+    # user.stub(:has_role?) do |role|
+    #   if role == 'sales_quote'
+    #     true
+    #   end
+    # end
+    user = instance_double('user', :id => 1)
+    allow(request.env['warden']).to receive(:authenticate!).and_return(user)
+    allow(controller).to receive(:current_user).and_return(user)
+    allow(user).to receive(:has_role?).and_return(true)
+
+    @quotation = FactoryGirl.create(:quotation)   # so quotation 1 exists for valid attributes
     params = {}
     params[:quotation] = @quotation
-    controller.stub(:session).and_return({return_to: quotations_path})  # for redirects to return_to path
+    allow(controller).to receive(:session).and_return({return_to: quotations_path})  # for redirects to return_to path
   end
 
   describe "GET show" do
     it "assigns the requested quotation_line as @quotation_line" do
-      quotation_line = QuotationLine.create! valid_attributes
+      quotation_line = QuotationLine.create! valid_attributes.merge(quotation_id: @quotation.id)
       get :show, {quotation_id: @quotation, quotation: @quotation.id, :id => quotation_line.to_param}, valid_session
-      assigns(:quotation_line).should eq(quotation_line)
+      expect(assigns(:quotation_line)).to eq(quotation_line)
     end
   end
 
   describe "GET edit" do
     it "assigns the requested quotation_line as @quotation_line" do
-      quotation_line = QuotationLine.create! valid_attributes
+      quotation_line = QuotationLine.create! valid_attributes.merge(quotation_id: @quotation.id)
       get :edit, {quotation_id: @quotation, :id => quotation_line.to_param}, valid_session
-      assigns(:quotation_line).should eq(quotation_line)
+      expect(assigns(:quotation_line)).to eq(quotation_line)
     end
   end
 
   describe "PUT update" do
     describe "with valid params" do
       it "updates the requested quotation_line" do
-        quotation_line = QuotationLine.create! valid_attributes
+        quotation_line = QuotationLine.create! valid_attributes.merge(quotation_id: @quotation.id)
         # Assuming there are no other quotation_lines in the database, this
         # specifies that the QuotationLine created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        QuotationLine.any_instance.should_receive(:update_attributes).with({ "name" => "MyString" })
+        allow_any_instance_of(QuotationLine).to receive(:update_attributes).with({ "name" => "MyString" })
         put :update, {quotation_id: @quotation, :id => quotation_line.to_param, :quotation_line => { "name" => "MyString" }}, valid_session
       end
 
       it "assigns the requested quotation_line as @quotation_line" do
-        quotation_line = QuotationLine.create! valid_attributes
-        put :update, {quotation_id: @quotation, :id => quotation_line.to_param, :quotation_line => valid_attributes}, valid_session
-        assigns(:quotation_line).should eq(quotation_line)
+        quotation_line = QuotationLine.create! valid_attributes.merge(quotation_id: @quotation.id)
+        put :update, {quotation_id: @quotation, :id => quotation_line.to_param, :quotation_line => valid_attributes.merge(quotation_id: @quotation.id)}, valid_session
+        expect(assigns(:quotation_line)).to eq(quotation_line)
       end
 
       it "redirects to the quotation_line" do
-        quotation_line = QuotationLine.create! valid_attributes
-        put :update, {quotation_id: @quotation, :id => quotation_line.to_param, :quotation_line => valid_attributes}, valid_session
-        response.should redirect_to(quotations_path)
+        quotation_line = QuotationLine.create! valid_attributes.merge(quotation_id: @quotation.id)
+        put :update, {quotation_id: @quotation, :id => quotation_line.to_param, :quotation_line => valid_attributes.merge(quotation_id: @quotation.id)}, valid_session
+        expect(response).to redirect_to(quotations_path)
       end
     end
 
     describe "with invalid params" do
       it "assigns the quotation_line as @quotation_line" do
-        quotation_line = QuotationLine.create! valid_attributes
+        quotation_line = QuotationLine.create! valid_attributes.merge(quotation_id: @quotation.id)
         # Trigger the behavior that occurs when invalid params are submitted
-        QuotationLine.any_instance.stub(:save).and_return(false)
+        allow_any_instance_of(QuotationLine).to receive(:save).and_return(false)
         put :update, {quotation_id: @quotation, :id => quotation_line.to_param, :quotation_line => { "name" => "invalid value" }}, valid_session
-        assigns(:quotation_line).should eq(quotation_line)
+        expect(assigns(:quotation_line)).to eq(quotation_line)
       end
 
       it "re-renders the 'edit' template" do
-        quotation_line = QuotationLine.create! valid_attributes
+        quotation_line = QuotationLine.create! valid_attributes.merge(quotation_id: @quotation.id)
         # Trigger the behavior that occurs when invalid params are submitted
-        QuotationLine.any_instance.stub(:save).and_return(false)
+        allow_any_instance_of(QuotationLine).to receive(:save).and_return(false)
         put :update, {quotation_id: @quotation,:id => quotation_line.to_param, :quotation_line => { "name" => "invalid value" }}, valid_session
-        response.should render_template("edit")
+        expect(response).to render_template("edit")
       end
     end
   end
 
   describe "DELETE destroy" do
     # before do
-    #   controller.request.stub(:referer).and_return quotation_lines_index_url
+    #   controller.request.stub(:referer).and_return quotation_lines_index_path
     # end
     it "destroys the requested quotation_line" do
-      quotation_line = QuotationLine.create! valid_attributes
+      quotation_line = QuotationLine.create! valid_attributes.merge(quotation_id: @quotation.id)
       expect {
         delete :destroy, {quotation_id: @quotation, id: quotation_line.to_param}, valid_session
       }.to change(QuotationLine, :count).by(-1)
     end
 
     it "redirects to the referer" do
-      quotation_line = QuotationLine.create! valid_attributes
+      quotation_line = QuotationLine.create! valid_attributes.merge(quotation_id: @quotation.id)
       delete :destroy, {quotation_id: @quotation, id: quotation_line.to_param}, valid_session
-      response.should redirect_to(root_url)
+      expect(response).to redirect_to(root_path)
     end
   end
 
   describe "POST sort" do
     it "sorts by an array of ids" do
-      @line1 = QuotationLine.create! valid_attributes.merge({position: 1})
-      @line2 = QuotationLine.create! valid_attributes.merge({position: 2})
-      @line3 = QuotationLine.create! valid_attributes.merge({position: 3})
-      @line4 = QuotationLine.create! valid_attributes.merge({position: 4})
-      
-      quote_lines = ["4","3","1","2"]
+      @line1 = QuotationLine.create! valid_attributes.merge({position: 1, quotation_id: @quotation.id})
+      @line2 = QuotationLine.create! valid_attributes.merge({position: 2, quotation_id: @quotation.id})
+      @line3 = QuotationLine.create! valid_attributes.merge({position: 3, quotation_id: @quotation.id})
+      @line4 = QuotationLine.create! valid_attributes.merge({position: 4, quotation_id: @quotation.id})
+
+      # quote_lines = ["4","3","1","2"]
+      quote_lines = [@line4.id,@line3.id,@line1.id,@line2.id]
 
       post :sort, {quotation_line: quote_lines}, valid_session
       @line1.reload

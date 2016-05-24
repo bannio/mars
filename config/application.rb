@@ -4,18 +4,20 @@ require File.expand_path('../boot', __FILE__)
 require "active_record/railtie"
 require "action_controller/railtie"
 require "action_mailer/railtie"
-require "active_resource/railtie"
+# require "active_resource/railtie"
 require "sprockets/railtie"
 # require "rails/test_unit/railtie"
 
 require 'csv'
 
-if defined?(Bundler)
-  # If you precompile assets before deploying to production, use this line
-  Bundler.require(*Rails.groups(:assets => %w(development test)))
-  # If you want your assets lazily compiled in production, use this line
-  # Bundler.require(:default, :assets, Rails.env)
-end
+Bundler.require(:default, Rails.env)
+
+# if defined?(Bundler)
+#   # If you precompile assets before deploying to production, use this line
+#   Bundler.require(*Rails.groups(:assets => %w(development test)))
+#   # If you want your assets lazily compiled in production, use this line
+#   # Bundler.require(:default, :assets, Rails.env)
+# end
 
 module Mars
   class Application < Rails::Application
@@ -53,7 +55,7 @@ module Mars
     # Use SQL instead of Active Record's schema dumper when creating the database.
     # This is necessary if your schema can't be completely dumped by the schema dumper,
     # like if you have constraints or database-specific column types
-    # config.active_record.schema_format = :sql
+    config.active_record.schema_format = :sql
 
     # Enforce whitelist mode for mass assignment.
     # This will create an empty whitelist of attributes available for mass-assignment for all models
@@ -66,7 +68,7 @@ module Mars
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
-    
+
     # added for Rspec based on tutorial at http://railsapps.github.com/tutorial-rails-devise-rspec-cucumber.html
     config.generators do |g|
         g.test_framework :rspec, fixture: true

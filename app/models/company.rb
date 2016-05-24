@@ -8,32 +8,32 @@ class Company < ActiveRecord::Base
   has_many :requested_sales_orders, class_name: 'SalesOrder', foreign_key: :customer_id
   has_many :requested_purchase_orders, class_name: 'PurchaseOrder', foreign_key: :customer_id
   has_many :offered_purchase_orders, class_name: 'PurchaseOrder', foreign_key: :supplier_id
-  
+
   validates_presence_of :name
 
   before_destroy :check_associations
 
-  scope :owned, where(name: ENV["OUR_COMPANY_NAMES"].split(/,/))
+  scope :owned, -> {where(name: ENV["OUR_COMPANY_NAMES"].split(/,/))}
   # scope :primary, where(name: ENV["OUR_COMPANY_NAMES"].split(/,/)).first
-  
+
 private
-  
+
   def self.search(search)
     if search.present?
       where('name ilike :q', q: "%#{search}%")
     else
-      scoped
+      all
     end
   end
 
   def check_associations
     if !contacts.empty? ||
-      !offered_quotations.empty? || 
-      !offered_purchase_orders.empty? || 
-      !offered_sales_orders.empty? || 
-      !requested_quotations.empty? || 
-      !requested_purchase_orders.empty? || 
-      !requested_sales_orders.empty? || 
+      !offered_quotations.empty? ||
+      !offered_purchase_orders.empty? ||
+      !offered_sales_orders.empty? ||
+      !requested_quotations.empty? ||
+      !requested_purchase_orders.empty? ||
+      !requested_sales_orders.empty? ||
       !addresses.empty? ||
       !projects.empty?
       return false

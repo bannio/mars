@@ -6,27 +6,27 @@ class PurchaseOrder < ActiveRecord::Base
   belongs_to :contact
   belongs_to :address
   belongs_to :delivery_address, class_name: 'Address'
-  has_many  :purchase_order_lines, order: :position, dependent: :destroy
+  has_many  :purchase_order_lines, -> {order "position"}, dependent: :destroy
   accepts_nested_attributes_for :purchase_order_lines
   has_many :events, as: :eventable
   has_many :emails, as: :emailable
   accepts_nested_attributes_for :emails
 
-  validates :customer_id, :supplier_id, :project_id, :name, 
+  validates :customer_id, :supplier_id, :project_id, :name,
             :contact_id, :client_id, :due_date, presence: true
 
   STATES = %w[open issued cancelled delivered paid]
   delegate :open?, :issued?, :cancelled?, :delivered?, :paid?, to: :current_state
   # These delegations below were driven by a nil supplier breaking the view.
-  # By delegating, the view is insulated by the allow_nil 
+  # By delegating, the view is insulated by the allow_nil
   # BUT the end result is a long list of delegations for ever item
-  # that the view needs to display which is not in the purchase order. 
+  # that the view needs to display which is not in the purchase order.
   # Why shouldn't the view ask the customer directly for its name?
   # Isn't it better to ensure that the purchase order has a customer and
   # that the customer has a name so there is no nil object?
 
   # One advantage is that it can reduce the if statements in the view.
-  
+
   delegate :name, to: :supplier, prefix: :supplier, allow_nil: :true
   delegate :name, to: :client, prefix: :client, allow_nil: :true
   delegate :name, to: :customer, prefix: :customer, allow_nil: :true
@@ -36,7 +36,7 @@ class PurchaseOrder < ActiveRecord::Base
   delegate :email, to: :contact, prefix: :contact, allow_nil: :true
   delegate :code, to: :project, prefix: :project, allow_nil: :true
 
-  scope :current, where(status: ['open','issued','delivered'])
+  scope :current, ->{where(status: ['open','issued','delivered'])}
 
   def current_state
     # (events.last.try(:state) || STATES.first).inquiry
@@ -87,7 +87,7 @@ class PurchaseOrder < ActiveRecord::Base
 
 
   def issue(user)
-    errors.add(:base, "Only open purchase orders may be issued.") if !open? 
+    errors.add(:base, "Only open purchase orders may be issued.") if !open?
     errors.add(:base, "There are no lines on this order.") if purchase_order_lines.empty?
     if errors.size == 0
       events.create!(state: "issued", user_id: user.id)
@@ -106,7 +106,7 @@ class PurchaseOrder < ActiveRecord::Base
   end
 
   def receipt(user)
-    events.create!(state: "delivered", user_id: user.id) if issued? 
+    events.create!(state: "delivered", user_id: user.id) if issued?
   end
 
   def cancel(user)
@@ -114,7 +114,7 @@ class PurchaseOrder < ActiveRecord::Base
   end
 
   def paid(user)
-    events.create!(state: "paid", user_id: user.id) if delivered? 
+    events.create!(state: "paid", user_id: user.id) if delivered?
   end
 
   def create_pdf
@@ -128,7 +128,7 @@ class PurchaseOrder < ActiveRecord::Base
     if search.present?
       where('purchase_orders.name ilike :q', q: "%#{search}%")
     else
-      scoped
+      all
     end
   end
 end
