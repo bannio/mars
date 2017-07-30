@@ -4,7 +4,7 @@ FactoryGirl.define do
   factory :project do
     code "ProjCode"
     name "ProjName"
-    company_id 1
+    association :company
     start_date "2013-04-11"
     end_date "2013-04-12"
     completion_date "2013-04-13"

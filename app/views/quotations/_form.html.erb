@@ -1,37 +1,35 @@
-<%= simple_form_for(@quotation, :html => { :class => 'form-horizontal'}) do |f| %>
+<%= simple_form_for(@quotation, wrapper: :horizontal_form) do |f| %>
   <%= f.error_notification %>
 
-  <div class="form-inputs">
-	<div class="row">
-		<div class="span6">
+  <div class="col-sm-6">
 		<%= f.association :supplier, collection: Company.owned, selected: Company.owned.first %>
 	    <%= f.hidden_field :customer_id %>
 	    <%= f.association :project, collection: @quotation.customer.projects.current %>
 		<%= f.hidden_field :code, value: @quotation.code %>
 	    <%= f.input :name, label: 'Title' %>
 		<%= f.association :contact, collection: @quotation.customer.contacts %>
-		</div>
-		<div class="span6">
+
 	    <%= f.association :address, collection: @quotation.customer.addresses, label: 'Contact address' %>
 		<%= f.association :delivery_address, collection: @quotation.customer.addresses %>
-		<div class="control-group string optional"><label class="string optional control-label">Date Issued </label>
-		<div class="controls string optional"><label class="string optional control-label">
-		<%= @quotation.issue_date %></label> </div></div>
-	    <div class="control-group string optional"><label class="string optional control-label">Status </label>
-		<div class="controls string optional"><label class="string optional control-label">
-		<%= @quotation.status %></label> </div></div>
-		</div>
-	<div class="row">
-		<div class="span12">
-		<%= f.input :description, placeholder: 'visible to customer', input_html: {rows: 4, class: 'span9'} %>
-	    <%= f.input :notes, label: 'Internal Notes', input_html: {rows: 6, class: 'span9'} %>
-		</div>
-	</div>
-  </div>
-  </div>
+		<div class="control-group string optional">
+    <label class="string optional control-label">Date Issued </label>
+		<div class="controls string optional">
+    <label class="string optional control-label">
+		<%= @quotation.issue_date %></label>
+    </div>
+    </div>
+	    <div class="control-group string optional">
+      <label class="string optional control-label">Status </label>
+		<div class="controls string optional">
+    <label class="string optional control-label"><%= @quotation.status %></label> </div>
+    </div>
 
-  <div class="form-actions">
-    <%= f.button :submit %>
+
+
+		<%= f.input :description, placeholder: 'visible to customer', input_html: {rows: 4 } %>
+	    <%= f.input :notes, label: 'Internal Notes', input_html: {rows: 6} %>
+
+    <%= f.button :submit, class: "btn btn-primary offset-sm-4" %>
     <%= link_to 'Cancel', :back, class: 'btn btn-warning'  %>
   </div>
 <% end %>

@@ -1,55 +1,52 @@
 <h1 id='sales-order-show-page'>Sales Order for <%= @sales_order.customer.name %></h1>
 <% @title = "MARS - show #{@sales_order.name}" %>
-<h3><%= @sales_order.code %> 
+<h3><%= @sales_order.code %>
 <% if @sales_order.open? %>
-	<%= link_to 'Edit', edit_sales_order_path(@sales_order), class: 'pull-right btn btn-primary' %>
+	<%= link_to 'Edit', edit_sales_order_path(@sales_order), class: 'float-right btn btn-primary' %>
 <% elsif @sales_order.issued? %>
 	<%= link_to 'Email sales_order', new_email_path(type: 'SalesOrder', id: @sales_order.id),
-		class: 'pull-right btn btn-primary' %>
+		class: 'float-right btn btn-primary' %>
 <% end %></h3>
 
 <%= render 'so_header' %>
+
+<% if @sales_order.open? %>
+	<%= render 'so_line_card' %>
+<% end %>
 
 <h3>Detail</h3>
 
 <%= render 'so_detail' %>
 
 <% if @sales_order.open? %>
-	<div class="form-actions">
-		Add line:
-		<%= form_for @sales_order, class: 'form-inline' do |f| %>
-			<%= f.fields_for :sales_order_lines, @sales_order.sales_order_lines.new do |builder| %>
-				<%= render 'shared/qlines', f: builder %>
-			<% end %>
-		<% end %>
-	</div>
-		<%= link_to "Issue Sales Order", issue_sales_order_path(@sales_order), method: :put, 
-		data: { confirm: 'Are you sure? This will prevent further changes' }, class: "btn btn-warning" %>
-		<%= link_to "Cancel", cancel_sales_order_path(@sales_order), method: :put, 
-		data: {confirm: 'WARNING - this will close the order for good, you might want to add a comment first'}, class: "btn btn-danger" %>
-		<br />
+	<%= link_to "Issue Sales Order", issue_sales_order_path(@sales_order), method: :put,
+    data: { confirm: 'Are you sure? This will prevent further changes' }, class: "btn btn-warning" %>
+  <%= link_to "Cancel", cancel_sales_order_path(@sales_order), method: :put,
+    data: {confirm: 'WARNING - this will close the order for good, you might want to add a comment first'}, class: "btn btn-danger" %>
+    <br />
 <% end %>
+
 <% if @sales_order.issued? %>
-		<%= link_to "Accept", accept_sales_order_path(@sales_order), method: :put, 
+		<%= link_to "Accept", accept_sales_order_path(@sales_order), method: :put,
 		data: {confirm: 'The customer has confirmed the order?'}, class: "btn btn-success" %>
-		<%= link_to 'Re-open', reopen_sales_order_path(@sales_order), method: :put,  
-		data: { confirm: 'The customer wants you to change the order?'}, class: 'btn btn-warning' %> 
-		<%= link_to "Cancel", cancel_sales_order_path(@sales_order), method: :put, 
+		<%= link_to 'Re-open', reopen_sales_order_path(@sales_order), method: :put,
+		data: { confirm: 'The customer wants you to change the order?'}, class: 'btn btn-warning' %>
+		<%= link_to "Cancel", cancel_sales_order_path(@sales_order), method: :put,
 		data: {confirm: 'WARNING - this will close the order for good'}, class: "btn btn-danger" %>
 		<br />
 <% end %>
 <% if @sales_order.accepted? %>
-		<%= link_to "Invoice", invoice_sales_order_path(@sales_order), method: :put, 
+		<%= link_to "Invoice", invoice_sales_order_path(@sales_order), method: :put,
 		data: {confirm: 'The customer has been invoiced?'}, class: "btn btn-success" %>
 		<br />
 <% end %>
 <% if @sales_order.invoiced? %>
-		<%= link_to "Paid", paid_sales_order_path(@sales_order), method: :put, 
+		<%= link_to "Paid", paid_sales_order_path(@sales_order), method: :put,
 		data: {confirm: 'The customer has paid?'}, class: "btn btn-success" %>
 		<br />
 <% end %>
 <%= link_to 'Customer', company_path(@sales_order.customer_id) %> |
-<%= link_to 'Project', project_path(@sales_order.project_id) %> | 
+<%= link_to 'Project', project_path(@sales_order.project_id) %> |
 <%= link_to "Printable Sales Order (PDF)", sales_order_path(@sales_order, format: "pdf") %> |
 <%= link_to 'Email history', sales_order_emails_path(@sales_order) %> |
 <%= link_to 'Event history', sales_order_events_path(@sales_order) %> |

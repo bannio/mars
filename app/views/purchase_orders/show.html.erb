@@ -1,68 +1,60 @@
 <h1 id='purchase-order-show-page'>Purchase Order for <%= @purchase_order.supplier_name %></h1>
 <% @title = "MARS - show #{@purchase_order.name}" %>
-<h3><%= @purchase_order.code %> 
+<h3><%= @purchase_order.code %>
 <% if @purchase_order.open? %>
-	<%= link_to 'Edit', edit_purchase_order_path(@purchase_order), class: 'pull-right btn btn-primary' %>
+	<%= link_to 'Edit', edit_purchase_order_path(@purchase_order), class: 'float-right btn btn-primary' %>
 <% elsif @purchase_order.issued? %>
 	<%= link_to 'Email purchase_order', new_email_path(type: 'PurchaseOrder', id: @purchase_order.id),
-		class: 'pull-right btn btn-primary' %>
+		class: 'float-right btn btn-primary' %>
 <% end %></h3>
 <%= render 'po_header' %>
+
+<% if @purchase_order.open? %>
+  <%= render 'po_line_card' %>
+<% end %>
 
 <h3>Detail</h3>
 
 <%= render 'po_detail' %>
-<% if @purchase_order.open? %>
-	<div class="form-actions">
-		Add line:
-		<%= form_for @purchase_order, class: 'form-inline' do |f| %>
-			<%= f.fields_for :purchase_order_lines, @purchase_order.purchase_order_lines.new do |builder| %>
-				<%= render 'shared/lines', f: builder %>
-			<% end %>
-		<% end %>
-		<div class='row'>
-			<div class='span3'>
-				or select CSV file to upload:
-			</div>
-			<div class='span4'>
-				<%= form_tag import_purchase_orders_path, multipart: true do %>
-				<%= file_field_tag :file %>
-				<%= hidden_field_tag :id, @purchase_order.id %>
-				<%= submit_tag "Import",class: "btn btn-primary" %>
-				<% end%>
-			</div>
-			<div class='span3 pull-right'>
-				<%= link_to "Copy Sales Order Lines", select_order_lines_path(@purchase_order),
-							class: "btn btn-primary" %> 
 
-				<%= link_to "Search", search_purchase_order_lines_path(@purchase_order),
-							class: "btn btn-primary" %>
-			</div>
-		</div>
-	</div>
-		<%= link_to "Issue Purchase Order", issue_purchase_order_path(@purchase_order), method: :put, 
+<!-- <hr> -->
+	<!-- <h5>Purchase order actions</h5> -->
+	<div class='form-group row'>
+	<% if @purchase_order.open? %>
+		<div class='col-3'>
+		<%= link_to "Issue Purchase Order", issue_purchase_order_path(@purchase_order), method: :put,
 		data: { confirm: 'Are you sure? This will prevent further changes' }, class: "btn btn-warning" %>
-		<%= link_to "Cancel", cancel_purchase_order_path(@purchase_order), method: :put, 
+		</div>
+		<div class='col-3'>
+		<%= link_to "Cancel", cancel_purchase_order_path(@purchase_order), method: :put,
 		data: {confirm: 'WARNING - this will close the order for good, you might want to add a comment first'}, class: "btn btn-danger" %>
-		<br />
+		</div>
 <% end %>
 <% if @purchase_order.issued? %>
-		<%= link_to "Receipt", receipt_purchase_order_path(@purchase_order), method: :put, 
+		<div class='col-3'>
+		<%= link_to "Receipt", receipt_purchase_order_path(@purchase_order), method: :put,
 		data: {confirm: 'The supplier has delivered the order?'}, class: "btn btn-success" %>
-		<%= link_to 'Re-open', reopen_purchase_order_path(@purchase_order), method: :put,  
-		data: { confirm: 'You need to change the order?'}, class: 'btn btn-warning' %> 
-		<%= link_to "Cancel", cancel_purchase_order_path(@purchase_order), method: :put, 
+		</div>
+		<div class='col-3'>
+		<%= link_to 'Re-open', reopen_purchase_order_path(@purchase_order), method: :put,
+		data: { confirm: 'You need to change the order?'}, class: 'btn btn-warning' %>
+		</div>
+		<div class='col-3'>
+		<%= link_to "Cancel", cancel_purchase_order_path(@purchase_order), method: :put,
 		data: {confirm: 'WARNING - this will close the order for good'}, class: "btn btn-danger" %>
-		<br />
+		</div>
 <% end %>
 <% if @purchase_order.delivered? %>
-		<%= link_to "Paid", paid_purchase_order_path(@purchase_order), method: :put, 
+		<div class='col-3'>
+		<%= link_to "Paid", paid_purchase_order_path(@purchase_order), method: :put,
 		data: {confirm: 'The supplier has been paid?'}, class: "btn btn-success" %>
-		<br />
+		</div>
 <% end %>
+</div>
+
 <%= link_to 'Supplier', company_path(@purchase_order.supplier_id) %> |
 <%= link_to 'Client', company_path(@purchase_order.client_id) %> |
-<%= link_to 'Project', project_path(@purchase_order.project_id) %> | 
+<%= link_to 'Project', project_path(@purchase_order.project_id) %> |
 <%= link_to "Printable purchase Order (PDF)", purchase_order_path(@purchase_order, format: "pdf") %> |
 <%= link_to 'Email history', purchase_order_emails_path(@purchase_order) %> |
 <%= link_to 'Event history', purchase_order_events_path(@purchase_order) %> |

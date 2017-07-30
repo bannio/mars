@@ -4,12 +4,22 @@ require 'simplecov'
 SimpleCov.start
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
-require 'rspec/autorun'
-# require 'capybara/rspec'
+# require 'rspec/autorun'
+require 'capybara/rspec'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
+
+# Added for rails-controller-testing gem as solution to Rails 5 deprecating
+# assigns
+RSpec.configure do |config|
+  [:controller, :view, :request].each do |type|
+    config.include ::Rails::Controller::Testing::TestProcess, :type => type
+    config.include ::Rails::Controller::Testing::TemplateAssertions, :type => type
+    config.include ::Rails::Controller::Testing::Integration, :type => type
+  end
+end
 
 RSpec.configure do |config|
   # ## Mock Framework
@@ -19,13 +29,20 @@ RSpec.configure do |config|
   # config.mock_with :mocha
   # config.mock_with :flexmock
   # config.mock_with :rr
-  
+
   config.include FactoryGirl::Syntax::Methods
-  config.include Devise::TestHelpers, :type => :controller
+  # config.include Devise::TestHelpers, :type => :controller
+  config.include Devise::Test::ControllerHelpers, type: :controller
+  config.include Devise::Test::ControllerHelpers, type: :view
+  config.include Warden::Test::Helpers
   config.extend ControllerMacros, :type => :controller
   config.include RequestMacros, :type => :request
   config.include MailerMacros
   config.include Capybara::DSL
+
+  config.include Rails.application.routes.url_helpers
+
+  # config.raise_errors_for_deprecations!
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   # config.fixture_path = "#{::Rails.root}/spec/fixtures"
@@ -33,6 +50,7 @@ RSpec.configure do |config|
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
+  # config.use_transactional_fixtures = true - changed based on Avdi Grimm
   config.use_transactional_fixtures = true
 
   # If true, the base class of anonymous controllers will be inferred
@@ -45,17 +63,43 @@ RSpec.configure do |config|
   # the seed, which is printed after each run.
   #     --seed 1234
   config.order = "random"
-  
+
+# Swapped this config 8/7/2017 to add linting
+  # config.before(:suite) do
+  #   DatabaseCleaner.strategy = :truncation
+  # end
+
+# for:
   config.before(:suite) do
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
+
+    begin
+      DatabaseCleaner.start
+      FactoryGirl.lint
+    ensure
+      DatabaseCleaner.clean
+    end
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.strategy = :transaction
+  end
+
+  config.before(:each, :js => true) do
     DatabaseCleaner.strategy = :truncation
   end
+
   config.before(:each) do
     DatabaseCleaner.start
     reset_email
   end
+
   config.after(:each) do
     DatabaseCleaner.clean
   end
-  
-end
 
+# end
+  # config.render_views
+
+end

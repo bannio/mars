@@ -11,7 +11,8 @@ FactoryGirl.define do
     issue_date "2013-04-14"
     notes "MyNote"
     association :address
-    delivery_address_id 1
+    association :delivery_address
+    # delivery_address_id 1
     description "more text"
     status "open"
     total 0.0

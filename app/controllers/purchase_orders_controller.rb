@@ -1,14 +1,14 @@
 class PurchaseOrdersController < ApplicationController
-	before_filter :find_purchase_order, except: [:new, :create, :index ]
+	before_action :find_purchase_order, except: [:new, :create, :index ]
 	helper_method :sort_column, :sort_direction
 
   def import
     if params[:file]
       @purchase_order.import(params[:file])
-      redirect_to :back, flash: {success: 'Lines were successfully imported'}
+      redirect_back(fallback_location: root_url, flash: {success: 'Lines were successfully imported'})
     else
-      redirect_to :back, flash: {error: 'You must select a file before import'}
-    end  
+      redirect_back(fallback_location: root_url, flash: {error: 'You must select a file before import'})
+    end
   end
 
 	def index
@@ -21,7 +21,7 @@ class PurchaseOrdersController < ApplicationController
 
   def show
     flash[:notice] = params[:warning] if params[:warning]
-    
+
     respond_to do |format|
       format.html
       format.pdf do
@@ -49,10 +49,10 @@ class PurchaseOrdersController < ApplicationController
 	def new
 		@purchase_order = PurchaseOrder.new(params[:purchase_order])
 		if !@purchase_order.supplier || !@purchase_order.client || !@purchase_order.customer
-			redirect_to setup_purchase_order_path(project_id: @purchase_order.project_id, 
+			redirect_to setup_purchase_order_path(project_id: @purchase_order.project_id,
 																						client_id: @purchase_order.client_id,
 																						supplier_id: @purchase_order.supplier_id,
-																						customer_id: @purchase_order.customer_id), 
+																						customer_id: @purchase_order.customer_id),
 																						flash: {error: "All fields must be selected"}
 		else
 			@purchase_order.name = 'Notes' # set as default value
@@ -75,7 +75,7 @@ class PurchaseOrdersController < ApplicationController
 
 	def edit
 		session[:return_to] = request.referer
-		
+
 	end
 
 	def select_order_lines
@@ -93,7 +93,7 @@ class PurchaseOrdersController < ApplicationController
   		end
     end
 		redirect_to @purchase_order
-  
+
 	end
 
 	def update
@@ -149,7 +149,7 @@ class PurchaseOrdersController < ApplicationController
   def paid
     if @purchase_order.paid(current_user)
     	@purchase_order.update_attributes(status: 'paid')
-      redirect_to @purchase_order, flash: {success: 'purchase order status changed to paid'} 
+      redirect_to @purchase_order, flash: {success: 'purchase order status changed to paid'}
     else
       redirect_to @purchase_order, flash: {error: @purchase_order.errors.full_messages.join(' ')}
     end
@@ -157,17 +157,18 @@ class PurchaseOrdersController < ApplicationController
 
   def list_emails
     @emails = @purchase_order.emails.page(params[:page])
-    render template: 'emails/index' 
+    render template: 'emails/index'
   end
 
   def list_events
     @events = @purchase_order.events
-    render template: 'events/index' 
+    render template: 'events/index'
   end
 
   def search
     if params[:search].present?
       @lines = PurchaseOrderLine.full_text_search(params[:search]).
+																with_pg_search_rank.
                                 reorder("pg_search_rank DESC, updated_at DESC")
     else
       @lines = []
@@ -193,7 +194,7 @@ class PurchaseOrdersController < ApplicationController
       @purchase_order.purchase_order_lines.create(name:         line.name,
                                                   description:  line.description,
                                                   unit_price:   line.unit_price,
-                                                  discount:     line.discount,  
+                                                  discount:     line.discount,
                                                   quantity:      0)
     end
     redirect_to @purchase_order

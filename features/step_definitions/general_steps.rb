@@ -1,6 +1,6 @@
 def create_user_with_role(role)
   create_visitor
-  delete_user 
+  delete_user
   @user = FactoryGirl.create(:user, name: @visitor[:name], email: @visitor[:email], roles_mask: role)
 end
 
@@ -25,11 +25,11 @@ Given(/^I visit the home page$/) do
 end
 
 Then(/^I should see "(.*?)"$/) do |arg1|
-  page.has_content?(arg1).should be_true
+  page.has_content?(arg1).should be_truthy
 end
 
 Then(/^I should not see "(.*?)"$/) do |arg1|
-  page.has_content?(arg1).should_not be_true
+  page.has_content?(arg1).should_not be_truthy
 end
 
 Given(/^I am logged in as a user with a role "(.*?)"$/) do |role|
@@ -39,6 +39,7 @@ Given(/^I am logged in as a user with a role "(.*?)"$/) do |role|
   create_user_with_role(8) if role == 'sales_quote'
   create_user_with_role(16) if role == 'sales_order'
   create_user_with_role(32) if role == 'purchase'
+  create_user_with_role(24) if role == 'sales' # quote + order
   sign_in
 end
 

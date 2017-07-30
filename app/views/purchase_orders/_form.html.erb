@@ -1,9 +1,9 @@
-<%= simple_form_for(@purchase_order, :html => { :class => 'form-horizontal'}) do |f| %>
+<%= simple_form_for(@purchase_order, wrapper: :horizontal_form) do |f| %>
   <%= f.error_notification %>
 
   <div class="form-inputs">
 		<div class="row">
-			<div class="span6">
+			<div class="col-6">
 			<%= f.association :customer, disabled: true %> <%= f.hidden_field :customer_id %>
 			<%= f.association :client, disabled: true %> <%= f.hidden_field :client_id %>
 			<%= f.association :supplier, disabled: true %> <%= f.hidden_field :supplier_id %>
@@ -12,32 +12,22 @@
 			<%= f.hidden_field :code, value: @purchase_order.code %>
 			<%= f.input :due_date, as: :string, input_html: {class: 'date_picker'} %>
 			</div>
-			<div class="span6">
+			<div class="col-6">
 				<%= f.association :contact, collection: @purchase_order.supplier.contacts, label: "Supplier Contact" %>
 		    <%= f.association :address, label: 'Supplier address', collection:  @purchase_order.supplier.addresses %>
 				<%= f.association :delivery_address, collection: delivery_addresses(@purchase_order) %>
-				<div class="control-group string optional"><label class="string optional control-label">Date Issued </label>
-					<div class="controls string optional"><label class="string optional control-label">
-					<%= @purchase_order.issue_date %></label> 
-					</div>
-				</div>
-		    <div class="control-group string optional"><label class="string optional control-label">Status </label>
-					<div class="controls string optional"><label class="string optional control-label">
-						<%= @purchase_order.status %></label> 
-					</div>
-				</div>
+				<%= f.input :issue_date, as: :string, disabled: true, label: 'Date Issued' %>
+				<%= f.input :status, disabled: true %>
 			</div>
-			<div class="row">
-				<div class="span12">
-				<%= f.input :description, label: 'Instructions', placeholder: 'visible to supplier', input_html: {rows: 4, class: 'span9'} %>
-			    <%= f.input :notes, placeholder: 'For internal notes - not printed on the PDF', input_html: {rows: 6, class: 'span9'} %>
-				</div>
+			<div class="col-12">
+				<%= f.input :description, label: 'Instructions', placeholder: 'visible to supplier', input_html: {rows: 4} %>
+			    <%= f.input :notes, placeholder: 'For internal notes - not printed on the PDF', input_html: {rows: 6} %>
 			</div>
 	  </div>
   </div>
 
   <div class="form-actions">
-    <%= f.button :submit %>
+    <%= f.button :submit, class: 'btn btn-primary' %>
     <%= link_to 'Cancel', session.delete(:return_to), class: 'btn btn-warning'  %>
   </div>
 <% end %>

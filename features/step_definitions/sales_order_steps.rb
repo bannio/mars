@@ -1,14 +1,17 @@
 
 Given(/^I have the following sales orders$/) do |table|
   table.hashes.each do |r|
-    SalesOrder.create!(name: r[:name], 
-                      code: r[:code],
-                      customer_id: Company.find_by_name(r[:customer]).id,
-                      supplier_id: Company.find_by_name(r[:supplier]).id,
-                      project_id: Project.find_by_code(r[:project]).id,
-                      contact_id: Contact.find_by_name(r[:contact]).id,
-                      status: 'open'
-                      )
+    create(:sales_order,
+          name: r[:name],
+          code: r[:code],
+          customer_id: Company.find_by_name(r[:customer]).id,
+          supplier_id: Company.find_by_name(r[:supplier]).id,
+          project_id: Project.find_by_code(r[:project]).id,
+          contact_id: Contact.find_by_name(r[:contact]).id,
+          # association: delivery_address,
+          # association: address,
+          status: 'open'
+          )
   end
 end
 
@@ -43,14 +46,22 @@ And (/^"(.*?)" has an address$/) do |name|
   address = FactoryGirl.create(:address, company_id: Company.find_by_name(name).id)
 end
 
+When(/^I select sales contact address "(.*?)"$/) do |address|
+  select( address, from: 'sales_order[address_id]' )
+end
+
+When(/^I select sales delivery address "(.*?)"$/) do |address|
+  select( address, from: 'sales_order[delivery_address_id]' )
+end
+
 Given(/^I have the following sales orders to index$/) do |table|
   table.hashes.each do |r|
     customer = FactoryGirl.create(:customer, name: r[:customer])
     project = FactoryGirl.create(:project, code: r[:project], company_id: customer.id)
-    sales_order = FactoryGirl.create(:sales_order, code: r[:code], 
+    sales_order = FactoryGirl.create(:sales_order, code: r[:code],
                                     customer: customer, issue_date: r[:issue_date],
                                     name: r[:name], project: project)
-    sales_order_lines = FactoryGirl.create(:sales_order_line, sales_order_id: sales_order.id, 
+    sales_order_lines = FactoryGirl.create(:sales_order_line, sales_order_id: sales_order.id,
                                     unit_price: r[:total])
     event = FactoryGirl.create(:event, eventable_type: 'SalesOrder',
                           eventable_id: sales_order.id,

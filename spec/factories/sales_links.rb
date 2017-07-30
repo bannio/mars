@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :sales_link do
-    purchase_order_line nil
-    sales_order_line nil
+    association :purchase_order_line
+    association :sales_order_line
   end
 end

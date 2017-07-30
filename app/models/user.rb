@@ -1,19 +1,19 @@
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable, :recoverableand :omniauthable
   devise :database_authenticatable, :registerable,
          :rememberable, :trackable, :validatable
 
-  has_many :events 
-  
+  has_many :events
+
   validates_uniqueness_of :name, :email
   validates_presence_of :name, :email, :case_sensitive => false
-  
+
   def admin?
     has_role?('admin')
   end
-  
+
   scope :with_role, lambda { |role| {:conditions => "roles_mask & #{2**ROLES.index(role.to_s)} > 0"} }
 
   ROLES = %w[admin company project sales_quote sales_order purchase]
@@ -25,7 +25,7 @@ class User < ActiveRecord::Base
   def roles
     ROLES.reject { |r| ((roles_mask || 0) & 2**ROLES.index(r)).zero? }
   end
-  
+
   def has_role?(role)
     roles.include?(role)
   end

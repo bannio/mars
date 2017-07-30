@@ -14,6 +14,20 @@ FactoryGirl.define do
 
 	  factory :client do
 	  	name "MyClient"
-	  end
+    end
+  end
+
+  factory :company_with_project, class: "Company" do
+    after(:create) do |company|
+      create(:project, company: company)
+    end
+    name "Company with project"
+  end
+
+  factory :company_with_po, class: "Company" do
+    after(:create) do |company|
+      create(:purchase_order, supplier: company)
+    end
+    name "Company with PO"
   end
 end

@@ -1,28 +1,18 @@
-<%= simple_form_for [@company, @contact], :html => { :class => 'form-horizontal'} do |f| %>
+<%= simple_form_for [@company, @contact], wrapper: :horizontal_form do |f| %>
   <%= f.error_notification %>
 
-	<div class="row">
-		<div class="span6">
-			<div class="form-inputs">
+	<div class="form-group row">
+		<div class="col-6">
 			<%= f.input :name %>
 			<%= f.input :job_title %>
 			<%= f.association :address, collection: @company.addresses %>
 			<%= f.input :telephone %>
 			<%= f.input :mobile %>
 			<%= f.hidden_field :company_id, value: @company.id %>
-			</div>
-		</div>
-	<div class="row">
-		<div class="span6">
-			<div class="form-inputs">
 			<%= f.input :fax %>
 			<%= f.input :email %>
-			<%= f.input :notes, input_html: {rows: 6, cols: 60} %>
-			</div>
-		</div>
-	</div>
-
-  <div class="form-actions">
-    <%= f.button :submit %>
+			<%= f.input :notes, input_html: {rows: 6} %>
+	    <%= f.button :submit, class: 'btn btn-primary offset-4' %>
+    </div>
   </div>
 <% end %>

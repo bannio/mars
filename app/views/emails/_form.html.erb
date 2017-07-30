@@ -1,8 +1,7 @@
-<%= simple_form_for @email, :html => { :class => 'form-horizontal'} do |f| %>
+<%= simple_form_for @email, wrapper: :horizontal_form do |f| %>
   <%= f.error_notification %>
 
-  <div class="form-inputs">
-	<div class="row">
+	<div class="form-group col-9">
 		<% if @email.emailable_type == 'PurchaseOrder' %>
 			<%= f.input :to,
 						collection: @email.emailable.supplier.contacts.with_email,
@@ -14,7 +13,7 @@
 		<% end %>
 			<%= f.hidden_field :from, value: @user.email %>
       <%= f.input :cc,
-            collection: Contact.with_email, 
+            collection: Contact.with_email,
             value_method: :email,
             input_html: {multiple: true} %>
 			<%= f.input :subject, input_html: {value: "#{@email.emailable_type} - #{@email.emailable.code}"} %>
@@ -22,12 +21,9 @@
 			<%= f.hidden_field :attachment, value: format_attachment(@email) %>
 			<%= f.hidden_field :emailable_type, value: @email.emailable_type %>
 			<%= f.hidden_field :emailable_id, value: @email.emailable.id %>
-	</div>
-  </div>
 
-  <div class="form-actions">
-    <%= f.submit 'Send Email', class: 'btn btn-primary' %>
-		<%= link_to 'Cancel', cancel_path(@email), class: 'btn btn-warning', 
+    <%= f.submit 'Send Email', class: 'btn btn-primary offset-4' %>
+		<%= link_to 'Cancel', cancel_path(@email), class: 'btn btn-warning',
 													data: {confirm: 'No email will be sent. Note that the document is and will stay issued'} %>
   </div>
 <% end %>

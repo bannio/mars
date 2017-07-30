@@ -1,6 +1,6 @@
 Given(/^I have the following quotations$/) do |table|
   table.hashes.each do |r|
-    Quotation.create!(name: r[:name], 
+    create(:quotation, name: r[:name],
                       code: r[:code],
                       customer_id: Company.find_by_name(r[:customer]).id,
                       supplier_id: Company.find_by_name(r[:supplier]).id,
@@ -13,7 +13,7 @@ end
 
 Given(/^I have the following addresses$/) do |table|
   table.hashes.each do |r|
-    Address.create!(name: r[:name], 
+    Address.create!(name: r[:name],
                     body: r[:body],
                     post_code: r[:post_code],
                     company_id: Company.find_by_name(r[:company]).id

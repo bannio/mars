@@ -1,16 +1,13 @@
-<%= simple_form_for @quotation_line, :html => { :class => 'form-horizontal'} do |f| %>
+<%= simple_form_for @quotation_line, :html => { :class => 'form-horizontal'}, wrapper: :horizontal_form do |f| %>
   <%= f.error_notification %>
 
-  <div class="form-inputs">
+  <div class="form-inputs col-6">
 	<%= f.hidden_field :quotation_id, value: @quotation_line.quotation_id %>
     <%= f.input :category, input_html: {autofocus: 'autofocus'} %>
     <%= f.input :name %>
-    <%= f.input :description, input_html: {rows: 4, class: 'span8'} %>
+    <%= f.input :description, input_html: {rows: 4} %>
     <%= f.input :quantity %>
     <%= f.input :unit_price %>
-  </div>
-
-  <div class="form-actions">
-    <%= f.button :submit %>
+    <%= f.button :submit, "Update", class: 'btn btn-primary offset-4' %>
   </div>
 <% end %>

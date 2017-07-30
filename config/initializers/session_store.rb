@@ -1,6 +1,8 @@
 # Be sure to restart your server when you modify this file.
 
-Mars::Application.config.session_store :cookie_store, key: '_mars_session'
+Mars::Application.config.session_store :cookie_store, key: '_mars_session'#, domain: {
+#   test: 'www.example.com'
+# }.fetch(Rails.env.to_sym, :all)
 
 # Use the database for sessions instead of the cookie-based default,
 # which shouldn't be used to store highly confidential information

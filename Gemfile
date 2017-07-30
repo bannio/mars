@@ -1,57 +1,75 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.12'
+# gem 'rails', '3.2.12'
+# gem 'rails', '4.2.6'
+gem 'rails', '5.1.1'
 gem 'pg'
+
+# gems added under guidance from Railscasts upgrading to Rails 4
+# gem 'protected_attributes'
+# gem 'rails-observers'
+# gem 'actionpack-page_caching'
+# gem 'actionpack-action_caching'
+# gem 'activerecord-deprecated_finders'
 
 # Gems used only for assets and not required
 # in production environments by default.
-group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
-  gem 'coffee-rails', '~> 3.2.1'
-  gem 'bootstrap-sass'
-  gem 'uglifier', '>= 1.0.3'
-  gem 'jquery-ui-rails'
-end
+
+gem 'sass-rails'
+gem 'coffee-rails'
+# gem 'bootstrap-sass'
+gem 'bootstrap'
+gem 'popper_js'
+gem 'uglifier'
+gem 'jquery-ui-rails'
+
 
 gem 'jquery-rails'
-gem 'select2-rails', '~> 3.2.1'
-gem 'simple_form', '~> 2.0.4'
+gem 'select2-rails'
+gem 'simple_form'
 gem 'devise'
 # gem 'cancan' - replaced by scratch built authorisation
 gem 'figaro'
-gem 'prawn', '1.0.0.rc2'
+gem 'prawn', '~> 2.1.0'
+gem 'prawn-table'
 gem 'unicorn'
-gem 'strong_parameters'
+# gem 'strong_parameters'
 gem 'validates_email_format_of'
 gem 'acts_as_list'
 gem 'pg_search'
 gem 'kaminari'
+# gem required to support content_tag_for
+gem 'record_tag_helper'
 
 group :development do
 # Deploy with Capistrano
-  gem 'capistrano'
-  gem 'rvm-capistrano'
-  gem "better_errors", ">= 0.3.2"
+  # gem 'capistrano', '~> 3.4.0'
+  # gem 'rvm-capistrano','~> 1.5.6'
+  gem 'capistrano-rails',   '~> 1.1', require: false
+  gem 'capistrano-bundler', '~> 1.1', require: false
+  gem 'capistrano-rvm',   '~> 0.1', require: false
+  gem "better_errors"
   gem "binding_of_caller"
-  gem 'quiet_assets'        # turns off asset pipeline log
-  gem 'letter_opener'
+  # gem 'quiet_assets'        # turns off asset pipeline log - not rails 5 ready
 end
 
 group :test do
-  gem 'cucumber-rails','~> 1.3.0', :require => false
+  gem 'cucumber-rails', :require => false
 end
 
 group :test, :development do
-  gem 'rspec-rails','~> 2.12.0'
-  gem 'database_cleaner','~> 0.9.1'
+  gem 'rails-controller-testing'  #required to keep assigns in controller tests
+  gem 'rspec-rails'
+  gem 'rspec-collection_matchers'
+  gem 'database_cleaner'
   # gem 'capybara','~> 2.0.1'         installed as part of cucumber-rails
-  gem 'factory_girl_rails','~> 4.1.0'
-  gem 'launchy','~> 2.1.2'
+  gem 'factory_girl_rails'
+  gem 'launchy'
   gem 'rack-mini-profiler'
   gem 'selenium-client'
-  gem "selenium-webdriver", "~> 2.35.0"
+  gem "selenium-webdriver"
   gem 'simplecov', :require => false
   gem 'rb-fsevent', :require => false
   gem 'guard-rspec'
+  gem "letter_opener"
 end
-

@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :purchase_order_line do
-    purchase_order nil
+    association :purchase_order
     name "MyString"
     description "MyText"
     quantity 1

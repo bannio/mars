@@ -1,4 +1,4 @@
-<table class='table table-condensed'>
+<table class='table table-sm'>
   <tr class = 'grey-header'>
   <th>Contacts</th><th></th><th></th><th></th>
 	<% if allow? :contacts, :new %>
@@ -15,7 +15,7 @@
 		<td></td>
 		<% if allow? :contacts, :edit %>
 			<td class='text-right'>
-			<%= link_to 'Edit', edit_company_contact_path(@company, contact)%> | 
+			<%= link_to 'Edit', edit_company_contact_path(@company, contact)%> |
 			<%= link_to 'Remove', [@company, contact], method: :delete, data: { confirm: 'Are you sure?'}%>
 			</td>
 		<% else %>

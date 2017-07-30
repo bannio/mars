@@ -1,15 +1,12 @@
-<%= simple_form_for(@company, :html => { :class => 'form-horizontal'}) do |f| %>
+<%= simple_form_for(@company, wrapper: :horizontal_form) do |f| %>
   <%= f.error_notification %>
-  <div class="form-inputs">
+  <div class="form-inputs col-6">
 	<% if allow_param? :company, :name %>
     	<%= f.input :name %>
 	<% end %>
 	<% if allow_param? :company, :reference %>
     	<%= f.input :reference, label: 'Accounts Reference' %>
 	<% end %>
-  </div>
-  
-  <div class="form-actions">
-    <%= f.button :submit, class: "btn btn-primary" %>
+    <%= f.button :submit, class: "btn btn-primary offset-4" %>
   </div>
 <% end %>

@@ -1,7 +1,7 @@
-@search_contacts @selenium
+@search_contacts @javascript
 Feature: Search
 	In order to make finding a contact easier
-	as a user I expect the contacts to be sorted by name 
+	as a user I expect the contacts to be sorted by name
 	and I want a search utility
 
 	Background:
@@ -17,13 +17,13 @@ Feature: Search
 			| Bob  |bob@example.com | G Company |
 		And I am logged in as a user with a role "company"
 		And I am on the "contacts/index" page
-		
+
 	Scenario: Contacts are sorted by contact name ascending
 		Then I should see the contacts in this order:
 			| Adam  |
 			| Bob   |
 			| Zach  |
-			
+
 	Scenario: I can search by contact name
 		Then I should see a search input field
 		When I type "Z" into the "search" field

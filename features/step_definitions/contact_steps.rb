@@ -6,6 +6,7 @@ Then(/^I can create a new contact for "(.*?)"$/) do |company|
   # select(company, from: 'Company')
   # select(company, from: 'Address')
   fill_in('Name', with: 'My Contact')
+  select('Primary', from: 'Address')
   click_button('Create Contact')
 end
 
@@ -24,8 +25,13 @@ end
 
 Given(/^I have the following contacts$/) do |table|
   table.hashes.each do |a|
-    Contact.create!(name: a[:name], email: a[:email], company_id: Company.find_by_name(a[:company]).id)
+    create(:contact, name: a[:name], email: a[:email], company_id: Company.find_by_name(a[:company]).id)
   end
+end
+
+Given(/^"([^"]*)" has at least one address$/) do |arg1|
+  company = Company.find_by_name(arg1)
+  address = create(:address, company_id: company.id, name: 'Primary')
 end
 
 # When(/^I click the first clickable row$/) do   # NOTE that onclick is not used now!
@@ -34,4 +40,10 @@ end
 
 When(/^I click the "(.*?)" button$/) do |button|
   click_button(button)
+end
+
+Given(/^I am on the contacts page for "(.*?)"$/) do |contact|
+  @contact = create_contact(contact)
+  visit company_contact_path(@company, @contact)
+  page.should have_content(contact)
 end

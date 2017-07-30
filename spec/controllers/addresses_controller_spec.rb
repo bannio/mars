@@ -18,13 +18,17 @@ require 'spec_helper'
 # Message expectations are only used when there is no simpler way to specify
 # that an instance is receiving a specific message.
 
-describe AddressesController do
+describe AddressesController, :type => :controller do
 
   # This should return the minimal set of attributes required to create a valid
   # Address. As you add validations to Address, be sure to
   # update the return value of this method accordingly.
+
+  let(:company) { create(:company) }
+  let(:user) { create(:user) }
+
   def valid_attributes
-    { company_id: 1,
+    { company_id: company.id,
       name: 'My Address',
       body: 'My address body',
       post_code: 'ABC 123'}
@@ -34,50 +38,49 @@ describe AddressesController do
   # in order to pass any filters (e.g. authentication) defined in
   # AddressesController. Be sure to keep this updated too.
   def valid_session
-    {"warden.user.user.key" => session["warden.user.user.key"]}.merge(return_to: addresses_index_path)
+    {"warden.user.user.key" => session["warden.user.user.key"]}.merge(return_to: company_addresses_path(company.id))
+    # {"warden.user.user.key" => session["warden.user.user.key"]}.merge(return_to: addresses_index_path)
   end
 
   before do
         user = double('user')
-        request.env['warden'].stub :authenticate! => user
-        controller.stub :current_user => user
-        user.stub(:has_role?) do |role|
-          if role == 'company'
-            true
-          end
-        end
-        @company = FactoryGirl.create(:company)
+        allow(request.env['warden']).to receive(:authenticate!).and_return(user)
+        allow(controller).to receive(:current_user).and_return(user)
+        allow(user).to receive(:has_role?).and_return(true)
+        # allow(session).to receive(:return_to).and_return(company_addresses_path(company))
+        allow(request).to receive(:referer).and_return(company_addresses_path(company))
         params = {}
-        params[:company] = @company
+        params[:company] = company
   end
   describe "GET index" do
     it "assigns all addresses as @addresses" do
       address = Address.create! valid_attributes
-      get :index, {}, valid_session
-      assigns(:addresses).should eq([address])
+      get :index, params: {}
+      expect(assigns(:addresses)).to eq([address])
     end
   end
 
   describe "GET show" do
     it "assigns the requested address as @address" do
       address = Address.create! valid_attributes
-      get :show, {company_id: @company, :id => address.to_param}, valid_session
-      assigns(:address).should eq(address)
+      get :show, params: {company_id: company, :id => address.to_param}
+      expect(assigns(:address)).to eq(address)
     end
   end
 
   describe "GET new" do
     it "assigns a new address as @address" do
-      get :new, {company_id: @company}, valid_session
-      assigns(:address).should be_a_new(Address)
+      get :new, params: {company_id: company}
+      expect(assigns(:address)).to be_a_new(Address)
     end
   end
 
   describe "GET edit" do
     it "assigns the requested address as @address" do
       address = Address.create! valid_attributes
-      get :edit, {company_id: @company, :id => address.to_param}, valid_session
-      assigns(:address).should eq(address)
+      get :edit, params: {company_id: company, :id => address.to_param}
+      # assigns(:address).should eq(address)
+      expect(assigns(:address)).to eq(address)
     end
   end
 
@@ -85,36 +88,36 @@ describe AddressesController do
     describe "with valid params" do
       it "creates a new Address" do
         expect {
-          post :create, {company_id: @company, :address => valid_attributes}, valid_session
+          post :create, params: {company_id: company, :address => valid_attributes}, session: valid_session
         }.to change(Address, :count).by(1)
       end
 
       it "assigns a newly created address as @address" do
-        post :create, {company_id: @company, :address => valid_attributes}, valid_session
-        assigns(:address).should be_a(Address)
-        assigns(:address).should be_persisted
+        post :create, params: {company_id: company, :address => valid_attributes}, session: valid_session
+        expect(assigns(:address)).to be_a(Address)
+        expect(assigns(:address)).to be_persisted
       end
 
       it "redirects to the calling page on create address" do
-        post :create, {company_id: @company, :address => valid_attributes}, valid_session
+        post :create, params: {company_id: company, :address => valid_attributes}, session: valid_session
         #response.should redirect_to(Address.last)
-        response.should redirect_to(addresses_index_path)
+        expect(response).to redirect_to(company_addresses_path(company))
       end
     end
 
     describe "with invalid params" do
       it "assigns a newly created but unsaved address as @address" do
         # Trigger the behavior that occurs when invalid params are submitted
-        Address.any_instance.stub(:save).and_return(false)
-        post :create, {company_id: @company, :address => { "company_id" => "invalid value" }}, valid_session
-        assigns(:address).should be_a_new(Address)
+        allow_any_instance_of(Address).to receive(:save).and_return(false)
+        post :create, params: {company_id: company, :address => { "company_id" => "invalid value" }}, session: valid_session
+        expect(assigns(:address)).to be_a_new(Address)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
-        Address.any_instance.stub(:save).and_return(false)
-        post :create, {company_id: @company, :address => { "company_id" => "invalid value" }}, valid_session
-        response.should render_template("new")
+        allow_any_instance_of(Address).to receive(:save).and_return(false)
+        post :create, params: {company_id: company, :address => { "company_id" => "invalid value" }}, session: valid_session
+        expect(response).to render_template("new")
       end
     end
   end
@@ -127,20 +130,21 @@ describe AddressesController do
         # specifies that the Address created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Address.any_instance.should_receive(:update_attributes).with({ "company_id" => "1" })
-        put :update, {company_id: @company, :id => address.to_param, :address => { "company_id" => "1" }}, valid_session
+        allow_any_instance_of(Address).to receive(:update_attributes).with({ "company_id" => "1" })
+        put :update, params: {company_id: company, :id => address.to_param, :address => { "company_id" => "1" }}
       end
 
       it "assigns the requested address as @address" do
         address = Address.create! valid_attributes
-        put :update, {company_id: @company, :id => address.to_param, :address => valid_attributes}, valid_session
-        assigns(:address).should eq(address)
+        put :update, params: {company_id: company, :id => address.to_param, :address => valid_attributes}, session: valid_session
+        # assigns(:address).should eq(address)
+        expect(assigns(:address)).to eq(address)
       end
 
       it "redirects to the calling page on update address" do
         address = Address.create! valid_attributes
-        put :update, {company_id: @company, :id => address.to_param, :address => valid_attributes}, valid_session
-        response.should redirect_to(addresses_index_path)
+        put :update, params: {company_id: company, :id => address.to_param, :address => valid_attributes}, session: valid_session
+        expect(response).to redirect_to(company_addresses_path(company))
       end
     end
 
@@ -148,44 +152,49 @@ describe AddressesController do
       it "assigns the address as @address" do
         address = Address.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
-        Address.any_instance.stub(:save).and_return(false)
-        put :update, {company_id: @company, :id => address.to_param, :address => { "company_id" => "invalid value" }}, valid_session
-        assigns(:address).should eq(address)
+        allow_any_instance_of(Address).to receive(:save).and_return(false)
+        put :update, params: {company_id: company, :id => address.to_param, :address => { "company_id" => "invalid value" }}
+        expect(assigns(:address)).to eq(address)
       end
 
       it "re-renders the 'edit' template" do
         address = Address.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
-        Address.any_instance.stub(:save).and_return(false)
-        put :update, {company_id: @company, :id => address.to_param, :address => { "company_id" => "invalid value" }}, valid_session
-        response.should render_template("edit")
+        allow_any_instance_of(Address).to receive(:save).and_return(false)
+        put :update, params: {company_id: company, :id => address.to_param, :address => { "company_id" => "invalid value" }}
+        expect(response).to render_template("edit")
       end
     end
   end
 
   describe "DELETE destroy" do
     before do
-      controller.request.stub(:referer).and_return addresses_index_url
+      #  set the request.referer as the controller uses this to redirect.
+      # @request.env['HTTP_REFERER'] = "http://test.host/companies/#{company.id}/addresses"
+      @request.env['HTTP_REFERER'] = company_addresses_path(company)
     end
-    
+
     it "destroys the requested address" do
       address = Address.create! valid_attributes
       expect {
-        delete :destroy, {company_id: @company, :id => address.to_param}, valid_session
+        delete :destroy, params: {company_id: company, :id => address.id}, session: valid_session
       }.to change(Address, :count).by(-1)
     end
 
     it "redirects to the calling page" do
       address = Address.create! valid_attributes
-      delete :destroy, {company_id: @company, :id => address.to_param}, valid_session
-      response.should redirect_to(addresses_index_url)
+      delete :destroy, params: {company_id: company, :id => address.id}, session: valid_session
+      # response.should redirect_to(addresses_index_path)
+      expect(response).to redirect_to(company_addresses_path(company))
     end
-    
+
     it "does not delete if contacts still use the address" do
       address = Address.create! valid_attributes
-      contact = Contact.create! address_id: address.id, name: 'address contact', company_id: 1
+      # contact = Contact.create! address_id: address.id, name: 'address contact', company_id: company.id
+      contact = create(:contact, company: company, address: address)
       expect {
-        delete :destroy, {company_id: @company, :id => address.to_param}, valid_session
+        delete :destroy, params: {company_id: company.id, :id => address.id} #, session: valid_session
+        # delete :destroy, params: {company_id: company.id, :id => address.to_param}, session: valid_session
       }.to_not change(Address, :count)
     end
   end

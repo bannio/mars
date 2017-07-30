@@ -1,60 +1,61 @@
-<header class="navbar navbar-fixed-top navbar-inverse">
-      <div class="navbar-inner">
-        <div class="container">
-			<a type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-			        <span class="icon-bar"></span>
-			        <span class="icon-bar"></span>
-			        <span class="icon-bar"></span>
-			      </a>
-			      <a class="brand" href="/">MARS <small>- an MS Access Replacement System</small></a>
-			      <div class="nav-collapse collapse">
-			        <ul class="pull-right nav">					
-					<% if user_signed_in? %>
-						<% if allow? :projects, :index %>
-							 <li><%= link_to "Projects", projects_path %></li>
-						<% end %>
-						<% if allow? :quotations, :index %>
-						  <li><%= link_to "Quotes", quotations_path %></li>
-						<% end %>
-						<% if allow? :sales_orders, :index %>
-							<li><%= link_to "Sales", sales_orders_path %></li>
-						<% end %>
-						<% if allow? :purchase_orders, :index %>
-						  <li><%= link_to "Purchases", purchase_orders_path %></li>
-						<% end %>
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-								Resources
-								<b class="caret"></b>
-							</a>
-							<ul class="dropdown-menu">
-								<% if allow? :companies, :index %>
-						  		<li><%= link_to "Companies", companies_path %></li>
-								<% end %>
-								<% if allow? :contacts, :index %>
-								  <li><%= link_to "Contacts", contacts_path %></li>
-								<% end %>
-								<% if allow? :users, :index %>
-								  <li><%= link_to "Users", users_path %></li>
-								<% end %>
-								<% if allow? :emails, :index %>
-									<li><%= link_to "Emails", emails_path %></li>
-								<% end %>
-							  <li><%= link_to 'Change Password', edit_user_registration_path %></li>
-							</ul>
-						</li>
-						<li><%= link_to "Logout", destroy_user_session_path, method: :delete %></li>
-					<% else %>
-						<li><%= link_to "Login", new_user_session_path %></li>
-					<% end %>
-			        </ul>
-			      </div>
+<!-- <header class="navbar navbar-fixed-top navbar-inverse bg-inverse"> -->
+<header >
+  <!-- <div class="navbar-inner"> -->
+    <div class="container">
+      <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse">
+      <!-- <nav class="navbar navbar-toggleable-md navbar-light bg-faded navbar-inverse bg-inverse"> -->
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="/">MARS</a>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <ul class="navbar-nav mr-auto justify-content-end">
+            <!-- <ul class="float-right navbar-nav"> -->
+            <% if user_signed_in? %>
+              <% if allow? :projects, :index %>
+                <li class="nav-item"><%= link_to "Projects", projects_path, class: "nav-link" %></li>
+              <% end %>
+              <% if allow? :quotations, :index %>
+                <li class="nav-item"><%= link_to "Quotes", quotations_path, class: "nav-link" %></li>
+              <% end %>
+              <% if allow? :sales_orders, :index %>
+                <li class="nav-item"><%= link_to "Sales", sales_orders_path, class: "nav-link" %></li>
+              <% end %>
+              <% if allow? :purchase_orders, :index %>
+                <li class="nav-item"><%= link_to "Purchases", purchase_orders_path, class: "nav-link" %></li>
+              <% end %>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Resources
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <% if allow? :companies, :index %>
+                    <a class="dropdown-item"><%= link_to "Companies", companies_path %></a>
+                  <% end %>
+                  <% if allow? :contacts, :index %>
+                    <a class="dropdown-item"><%= link_to "Contacts", contacts_path %></a>
+                  <% end %>
+                  <% if allow? :users, :index %>
+                    <a class="dropdown-item"><%= link_to "Users", users_path %></a>
+                  <% end %>
+                  <% if allow? :emails, :index %>
+                    <a class="dropdown-item"><%= link_to "Emails", emails_path %></a>
+                  <% end %>
+                </div>
+              </li>
+              <li class="nav-item"><%= link_to "Logout", destroy_user_session_path, class: "nav-link", method: :delete %></li>
+            <% else %>
+              <li class="nav-item"><%= link_to "Login", new_user_session_path, class: "nav-link" %></li>
+            <% end %>
+            </ul>
+          </div>
         </div>
-	</div>
-		<% if user_signed_in? %>
-		<div class="container" style="text-align: right">
-			<p class="muted"><small>Logged in as <%= current_user.name %></small></p>
-		</div>
-		<% end %>
-      
+      </nav>
+    </div>
+    <% if user_signed_in? %>
+      <div class="container" style="text-align: right">
+        <p><small>Logged in as <%= current_user.name %></small></p>
+      </div>
+    <% end %>
 </header>

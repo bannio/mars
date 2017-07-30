@@ -1,7 +1,7 @@
-@search_projects @selenium
+@javascript @search_projects @selenium
 Feature: Search
 	In order to make finding a project easier
-	as a user I expect the projects to be sorted by code 
+	as a user I expect the projects to be sorted by code
 	and I want a search utility by name
 
 	Background:
@@ -17,13 +17,13 @@ Feature: Search
 			| P001 |First project | G Company | open |
 		And I am logged in as a user with a role "project"
 		And I am on the "projects" page
-		
+
 	Scenario: Projects are sorted by code ascending
 		Then I should see the projects in this order:
 			| P001  |
 			| P002  |
 			| P003  |
-			
+
 	Scenario: I can search by project name
 		Then I should see a search input field
 		When I type "Th" into the "search" field

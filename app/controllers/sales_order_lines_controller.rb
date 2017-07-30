@@ -1,5 +1,5 @@
 class SalesOrderLinesController < ApplicationController
-	before_filter :find_model
+	before_action :find_model
 	rescue_from ActiveRecord::RecordNotFound, with: :not_found_message
 
 	def edit
@@ -7,7 +7,7 @@ class SalesOrderLinesController < ApplicationController
 	end
 
 	def update
-		
+
 		respond_to do |format|
 			if @sales_order_line.update_attributes(params[:sales_order_line])
 				format.html {redirect_to session[:return_to], flash: {success: 'Order line was successfully updated.'}}
@@ -21,7 +21,7 @@ class SalesOrderLinesController < ApplicationController
 		@sales_order_line.destroy
 
 		respond_to do |format|
-			format.html { redirect_to :back }
+			format.html { redirect_back(fallback_location: root_url) }
 		end
 	end
 

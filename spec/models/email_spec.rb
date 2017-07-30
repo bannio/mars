@@ -2,10 +2,12 @@ require 'spec_helper'
 
 describe Email do
 
+	let(:quote) { create(:quotation)}
+
 	before(:each) do
 		@attr = {
 					emailable_type: 'Quotation',
-					emailable_id: 1,
+					emailable_id: quote.id,
 					to: 'fred@example.com',
 					from: 'bloggs@example.com',
 					subject: 'My test email',
@@ -60,7 +62,7 @@ describe Email do
 		email = Email.new(@attr.merge(attachment: 'dummy'))
 		expect(email).to be_invalid
 	end
-  
+
   it "sends an email on save" do
   	email = Email.create(@attr.merge(to: 'save@example.com'))
   	expect(last_email.to).to include('save@example.com')

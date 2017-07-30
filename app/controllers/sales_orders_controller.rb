@@ -1,20 +1,20 @@
 class SalesOrdersController < ApplicationController
-	before_filter :find_sales_order, except: [:new, :create, :index ]
+	before_action :find_sales_order, except: [:new, :create, :index ]
   helper_method :sort_column, :sort_direction
 
   def import
     if params[:file]
       @sales_order.import(params[:file])
-      redirect_to :back, flash: {success: 'Lines were successfully imported'}
+      redirect_back(fallback_location: root_url, flash: {success: 'Lines were successfully imported'})
     else
-      redirect_to :back, flash: {error: 'You must select a file before import'}
+      redirect_back(fallback_location: root_url, flash: {error: 'You must select a file before import'})
     end
-    
+
   end
 
   def show
     flash[:notice] = params[:warning] if params[:warning]
-    
+
     respond_to do |format|
       format.html
       format.pdf do
@@ -45,9 +45,9 @@ class SalesOrdersController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render json: @sales_order }	
-     end	
-	end	
+      format.json { render json: @sales_order }
+     end
+	end
 
   def create
     @sales_order = SalesOrder.new(params[:sales_order])
@@ -93,7 +93,7 @@ class SalesOrdersController < ApplicationController
   end
 
   def reopen
-    # create event to 'open' 
+    # create event to 'open'
     # Add or increment the revision number
     # redirect to sales order which now has a new number
     respond_to do |format|
@@ -148,21 +148,21 @@ class SalesOrdersController < ApplicationController
 
   def list_emails
     @emails = @sales_order.emails.page(params[:page])
-    render template: 'emails/index' 
+    render template: 'emails/index'
   end
 
   def list_events
     @events = @sales_order.events
-    render template: 'events/index' 
+    render template: 'events/index'
   end
 
   def copy_line
     if params[:line_id]
       line = SalesOrderLine.find(params[:line_id])
-      @sales_order.sales_order_lines.create(category:     line.category, 
+      @sales_order.sales_order_lines.create(category:     line.category,
                                             name:         line.name,
                                             description:  line.description,
-                                            unit_price:   line.unit_price, 
+                                            unit_price:   line.unit_price,
                                             quantity:      0)
     end
     redirect_to @sales_order

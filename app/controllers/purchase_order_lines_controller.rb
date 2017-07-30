@@ -1,5 +1,5 @@
 class PurchaseOrderLinesController < ApplicationController
-	before_filter :find_model
+	before_action :find_model
 	rescue_from ActiveRecord::RecordNotFound, with: :not_found_message
 
 	def edit
@@ -7,7 +7,7 @@ class PurchaseOrderLinesController < ApplicationController
 	end
 
 	def update
-		
+
 		respond_to do |format|
 			if @purchase_order_line.update_attributes(params[:purchase_order_line])
 				format.html {redirect_to session[:return_to], flash: {success: 'Order line was successfully updated.'}}
@@ -21,15 +21,16 @@ class PurchaseOrderLinesController < ApplicationController
 		@purchase_order_line.destroy
 
 		respond_to do |format|
-			format.html { redirect_to :back, flash: {success: 'Order line was successfully deleted.'} }
+			format.html { redirect_back(fallback_location: root_url, flash: {success: 'Order line was successfully deleted.'} )}
 		end
 	end
 
 	def sort
+		# puts params[:purchase_order_line]
     params[:purchase_order_line].each_with_index do |id, index|
-      PurchaseOrderLine.update_all({position: index+1}, {id: id})
+			PurchaseOrderLine.where(:id => id).update_all({position: index+1})
     end
-    render nothing: true
+    render body: nil
 	end
 
 	private

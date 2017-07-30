@@ -1,9 +1,9 @@
-<div class="hero-unit">
-<%= image_tag "Sml_Grey_logo.jpg", class: "pull-right" %>
+<div class="jumbotron">
+<%= image_tag "Sml_Grey_logo.jpg", class: "float-right" %>
 <h1>MARS</h1>
 <p>an MS Access Replacement System for Elderberry</p>
 <% unless user_signed_in? %>
-<p>	
+<p>
 <%= link_to "Login", new_user_session_path, class: "btn btn-primary" %>
 </p>
 <% end %>

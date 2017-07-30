@@ -1,4 +1,4 @@
-<table class='table table-condensed' id="sq-header-table">
+<table class='table table-sm' id="sq-header-table">
   <tr>
     <td>Title</td>
     <th><%= @sales_order.name %></th>
@@ -7,7 +7,7 @@
   </tr>
   <tr>
     <td>Description</td>
-    <td width="50%"><%= simple_format(@sales_order.description) %></td>
+    <td width="40%"><%= simple_format(@sales_order.description) %></td>
   <td>Project</td>
   <td><%= simple_format("#{@sales_order.project.code} - #{@sales_order.project.name}") %></td>
   </tr>

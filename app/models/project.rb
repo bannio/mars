@@ -1,18 +1,20 @@
-class Project < ActiveRecord::Base
-  
+class Project < ApplicationRecord
+
   belongs_to :company
   has_many  :quotations
   has_many  :sales_orders
-  has_many  :sales_order_lines, through: :sales_orders, 
-              conditions: "sales_orders.status in ('accepted','invoiced')"  
+  has_many  :sales_order_lines,
+    -> {where "sales_orders.status in ('accepted','invoiced')"},
+    # -> {conditions "sales_orders.status in ('accepted','invoiced')"},
+    through: :sales_orders
   has_many  :purchase_orders
   has_many  :events, as: :eventable
-  
+
   validates_presence_of :company_id, :code, :name
   validate :valid_dates
   before_destroy :check_associations
 
-  scope :current, where(status: 'open')
+  scope :current, ->{where(status: 'open')}
 
     STATES = %w[open closed]
   delegate :open?, :issued?, :cancelled?, :ordered?, to: :current_state
@@ -49,18 +51,18 @@ class Project < ActiveRecord::Base
   def close(user)
     events.create!(state: "closed", user_id: user.id)
   end
-  
+
   private
 
   def valid_dates
     errors.add(:end_date, 'must be after start') unless !self.end_date || self.start_date && self.end_date && self.end_date > self.start_date
   end
-  
+
   def self.search(search)
     if search.present?
       where('projects.name ilike :q', q: "%#{search}%")
     else
-      scoped
+      all
     end
   end
 
@@ -68,10 +70,10 @@ class Project < ActiveRecord::Base
     if !quotations.empty? ||
       !sales_orders.empty? ||
       !purchase_orders.empty?
-      return false
+      throw(:abort)
     else
       return true
-    end 
+    end
   end
-  
+
 end

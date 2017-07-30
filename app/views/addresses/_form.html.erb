@@ -1,14 +1,11 @@
-<%= simple_form_for [@company, @address] do |f| %>
+<%= simple_form_for [@company, @address], wrapper: :horizontal_form do |f| %>
   <%= f.error_notification %>
 
-  <div class="form-inputs">
+  <div class="form-group col-9">
     <%= f.hidden_field :company_id, value: @company.id %>
     <%= f.input :name, placeholder: 'name of address NOT person' %>
     <%= f.input :body, label: 'Address', input_html: {rows: 6}, placeholder: 'The full address, the line above is not included as part of an address.'%>
     <%= f.input :post_code %>
-  </div>
-
-  <div class="form-actions">
-    <%= f.button :submit %>
+    <%= f.button :submit, class: "btn btn-primary offset-4" %>
   </div>
 <% end %>

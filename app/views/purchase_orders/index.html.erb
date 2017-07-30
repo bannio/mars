@@ -4,12 +4,12 @@
     <%= hidden_field_tag :direction, params[:direction] %>
     <%= hidden_field_tag :sort, params[:sort] %>
     <%= text_field_tag :search, params[:search], class: "search-query", placeholder: 'Search in Title', autofocus: "autofocus" %>
-    <%= submit_tag "Search", name: nil, class: "hidden" %>
+    <%= submit_tag "Search", name: nil, class: "invisible" %>
 <% end %>
 
 <br><br>
 
-<table class='table table-condensed table-hover'>
+<table class='table table-sm table-hover'>
   <tr>
     <th><%= sortable "purchase_orders.code", "Code" %> <%= arrow "purchase_orders.code" %></th>
 	<th><%= sortable "purchase_orders.name", "Title" %> <%= arrow "purchase_orders.name" %></th>

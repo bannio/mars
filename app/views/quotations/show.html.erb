@@ -1,60 +1,53 @@
 <h1 id='quotation-show-page'>Sales Quotation for <%= @quotation.customer.name %></h1>
 <% @title = "MARS - show #{@quotation.name}" %>
-<h3><%= @quotation.code %> 
+<h3><%= @quotation.code %>
 <% if @quotation.open? %>
-	<%= link_to 'Edit', edit_quotation_path(@quotation), class: 'pull-right btn btn-primary' %>
+	<%= link_to 'Edit', edit_quotation_path(@quotation), class: 'float-right btn btn-primary' %>
 <% elsif @quotation.issued? %>
-	<%= link_to 'Re-open', reopen_quotation_path(@quotation), method: :put, 
-		class: 'pull-right btn btn-warning',data: { confirm: 'Are you sure?'} %> 
+	<%= link_to 'Re-open', reopen_quotation_path(@quotation), method: :put,
+		class: 'float-right btn btn-warning',data: { confirm: 'Are you sure?'} %>
 	<%= link_to 'Email quotation', new_email_path(type: 'Quotation', id: @quotation.id),
-		class: 'pull-right btn btn-primary' %>
+		class: 'float-right btn btn-primary' %>
 <% end %></h3>
 
 <%= render 'sq_header' %>
+
+<% if @quotation.open? %>
+	<%= render 'sq_line_card' %>
+<% end %>
 
 <h3>Detail</h3>
 
 <%= render 'sq_detail' %>
 
+
+<div class='form-group row'>
 <% if @quotation.issued? && (allow? :sales_orders, :create) %>
+<div class='col-3'>
 	<%= link_to 'Make Order', convert_quotation_path(@quotation), method: :post,
-				class: 'pull-right btn btn-primary',data: { confirm: 'Are you sure?'} %>
+			class: 'float-right btn btn-primary',data: { confirm: 'Are you sure?'} %>
+</div>
 <% end %>
 <% if @quotation.issued? %>
-	<%= link_to "Cancel Quotation", cancel_quotation_path(@quotation), method: :put, 
-						data: { confirm: 'Are you sure? This cannot be undone.' }, class: "pull-right btn btn-danger" %>
+	<div class='col-3'>
+		<%= link_to "Cancel Quotation", cancel_quotation_path(@quotation), method: :put,
+			data: { confirm: 'Are you sure? This cannot be undone.' },
+			class: "float-right btn btn-danger" %>
+	</div>
 <% end %>
 <% if @quotation.open? %>
-	<div class="form-actions">
-		Add line:
-		<%= form_for @quotation, class: 'form-inline' do |f| %>
-			<%= f.fields_for :quotation_lines, @quotation.quotation_lines.new do |builder| %>
-			<%= render 'shared/qlines', f: builder %>
-			<% end %>
-		<% end %>
-		<div class='row'>
-			<div class='span3'>
-				or select CSV file to upload:
-			</div>
-			<div class='span6'>
-				<%= form_tag import_quotations_path, multipart: true do %>
-				<%= file_field_tag :file %>
-				<%= hidden_field_tag :id, @quotation.id %>
-				<%= submit_tag "Import",class: "btn btn-primary" %>
-				<% end%>
-			</div>
-		</div>
-	</div>
-					<%= link_to "Issue Quotation", issue_quotation_path(@quotation), method: :put, #id: @quotation.id, 
-					data: { confirm: 'The quotation is ready to send to customer?' }, class: "btn btn-warning" %>
-					<% if @quotation.open? %>
-						<%= link_to "Cancel Quotation", cancel_quotation_path(@quotation), method: :put, 
-						data: { confirm: 'Are you sure? This cannot be undone.' }, class: "btn btn-danger" %>
-					<% end %>
-					<br />
+<div class='col-3'>
+	<%= link_to "Issue Quotation", issue_quotation_path(@quotation), method: :put, #id: @quotation.id,
+	data: { confirm: 'The quotation is ready to send to customer?' }, class: "btn btn-warning" %>
+</div>
+<div class='col-3'>
+		<%= link_to "Cancel Quotation", cancel_quotation_path(@quotation), method: :put,
+		data: { confirm: 'Are you sure? This cannot be undone.' }, class: "btn btn-danger" %>
+</div>
 <% end %>
+</div>
 <%= link_to 'Customer', company_path(@quotation.customer_id) %> |
-<%= link_to 'Project', project_path(@quotation.project_id) %> | 
+<%= link_to 'Project', project_path(@quotation.project_id) %> |
 <%= link_to "Printable Quote (PDF)", quotation_path(@quotation, format: "pdf") %> |
 <%= link_to 'Email history', quotation_emails_path(@quotation) %> |
 <%= link_to 'Event history', quotation_events_path(@quotation) %> |

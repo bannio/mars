@@ -1,17 +1,27 @@
 require 'spec_helper'
 
-describe QuotationsController do
+describe QuotationsController, :type => :controller do
 
   # This should return the minimal set of attributes required to create a valid
   # Quotation. As you add validations to Quotation, be sure to
   # update the return value of this method accordingly.
+
+  let(:customer) { create(:customer) }
+  let(:project)  { create(:project) }
+  let(:supplier) { create(:supplier) }
+  let(:contact)  { create(:contact) }
+  let(:address)  { create(:address, company_id: customer.id) }
+  let(:user)     { create(:user) }
+
   def valid_attributes
     { name: "MyQuoteString",
-      customer_id: 1,
-      project_id: 1,
-      supplier_id: 1,
-      contact_id: 1,
-      status: 'open'
+      customer_id:         customer.id,
+      project_id:          project.id,
+      supplier_id:         supplier.id,
+      contact_id:          contact.id,
+      status:              'open',
+      delivery_address_id: address.id,
+      address_id:          address.id
        }
   end
 
@@ -19,54 +29,47 @@ describe QuotationsController do
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # QuotationsController. Be sure to keep this updated too.
-  def valid_session
-    {"warden.user.user.key" => session["warden.user.user.key"]}
-  end
-  
+  # def valid_session
+  #   {"warden.user.user.key" => session["warden.user.user.key"]}
+  # end
+
   before do
-    user = double('user')
-    user.stub id: 1
-    request.env['warden'].stub :authenticate! => user
-    controller.stub :current_user => user
-    user.stub(:has_role?) do |role|
-      if role == 'sales_quote'
-        true
-      end
-    end
-    @company = FactoryGirl.create(:company)                           # so company 1 exists for valid attributes
-    # @customer = @company
-    @project = @company.projects.create(code: 'P001', name: 'my project')
-    request.env["HTTP_REFERER"] = root_url  # for redirects to return_to path
+    # user = instance_double('user', :id => 1)
+    allow(request.env['warden']).to receive(:authenticate!).and_return(user)
+    allow(controller).to receive(:current_user).and_return(user)
+    allow(user).to receive(:has_role?).and_return(true)
+    request.env["HTTP_REFERER"] = root_path  # for redirects to return_to path
   end
 
   describe "GET index" do
     it "assigns all current quotations as @quotations" do
       quotation = Quotation.create! valid_attributes
-      get :index, {}, valid_session
-      assigns(:quotations).should eq([quotation])
+      get :index, params: {}
+      expect(assigns(:quotations)).to eq([quotation])
     end
   end
 
   describe "GET show" do
     it "assigns the requested quotation as @quotation" do
       quotation = Quotation.create! valid_attributes
-      get :show, {:id => quotation.to_param}, valid_session
-      assigns(:quotation).should eq(quotation)
+      get :show, params: {:id => quotation.to_param}
+      expect(assigns(:quotation)).to eq(quotation)
     end
   end
 
   describe "GET new" do
     it "assigns a new quotation as @quotation" do
-      get :new, {customer_id: 1}, valid_session
-      assigns(:quotation).should be_a_new(Quotation)
+      get :new, params: {customer_id: customer.id}
+      expect(assigns(:quotation)).to be_a_new(Quotation)
     end
   end
 
   describe "GET edit" do
     it "assigns the requested quotation as @quotation" do
-      quotation = Quotation.create! valid_attributes
-      get :edit, {:id => quotation.to_param}, valid_session
-      assigns(:quotation).should eq(quotation)
+      quotation = Quotation.create! valid_attributes.merge(customer_id: customer.id)
+      get :edit, params: {:id => quotation.to_param}
+      expect(assigns(:quotation)).to eq(quotation)
+      true
     end
   end
 
@@ -74,35 +77,35 @@ describe QuotationsController do
     describe "with valid params" do
       it "creates a new Quotation" do
         expect {
-          post :create, {:quotation => valid_attributes}, valid_session
+          post :create, params: {:quotation => valid_attributes}
         }.to change(Quotation, :count).by(1)
       end
 
       it "assigns a newly created quotation as @quotation" do
-        post :create, {:quotation => valid_attributes}, valid_session
-        assigns(:quotation).should be_a(Quotation)
-        assigns(:quotation).should be_persisted
+        post :create, params: {:quotation => valid_attributes}
+        expect(assigns(:quotation)).to be_a(Quotation)
+        expect(assigns(:quotation)).to be_persisted
       end
 
       it "redirects to the created quotation" do
-        post :create, {:quotation => valid_attributes}, valid_session
-        response.should redirect_to(Quotation.last)
+        post :create, params: {:quotation => valid_attributes}
+        expect(response).to redirect_to(Quotation.last)
       end
     end
 
     describe "with invalid params" do
       it "assigns a newly created but unsaved quotation as @quotation" do
         # Trigger the behavior that occurs when invalid params are submitted
-        Quotation.any_instance.stub(:save).and_return(false)
-        post :create, {:quotation => { "name" => "invalid value" }}, valid_session
-        assigns(:quotation).should be_a_new(Quotation)
+        allow_any_instance_of(Quotation).to receive(:save).and_return(false)
+        post :create, params: {:quotation => { "name" => "invalid value" }}
+        expect(assigns(:quotation)).to be_a_new(Quotation)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
-        Quotation.any_instance.stub(:save).and_return(false)
-        post :create, {:quotation => { "name" => "invalid value" }}, valid_session
-        response.should render_template("new")
+        allow_any_instance_of(Quotation).to receive(:save).and_return(false)
+        post :create, params: {:quotation => { "name" => "invalid value" }}
+        expect(response).to render_template("new")
       end
     end
   end
@@ -115,20 +118,20 @@ describe QuotationsController do
         # specifies that the Quotation created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Quotation.any_instance.should_receive(:update_attributes).with({ "name" => "MyString" })
-        put :update, {:id => quotation.to_param, :quotation => { "name" => "MyString" }}, valid_session
+        expect_any_instance_of(Quotation).to receive(:update_attributes).with({ "name" => "MyString" })
+        put :update, params: {:id => quotation.to_param, :quotation => { "name" => "MyString" }}
       end
 
       it "assigns the requested quotation as @quotation" do
         quotation = Quotation.create! valid_attributes
-        put :update, {:id => quotation.to_param, :quotation => valid_attributes}, valid_session
-        assigns(:quotation).should eq(quotation)
+        put :update, params: {:id => quotation.to_param, :quotation => valid_attributes}
+        expect(assigns(:quotation)).to eq(quotation)
       end
 
       it "redirects to the quotation" do
         quotation = Quotation.create! valid_attributes
-        put :update, {:id => quotation.to_param, :quotation => valid_attributes}, valid_session
-        response.should redirect_to(quotation)
+        put :update, params: {:id => quotation.to_param, :quotation => valid_attributes}
+        expect(response).to redirect_to(quotation)
       end
     end
 
@@ -136,17 +139,17 @@ describe QuotationsController do
       it "assigns the quotation as @quotation" do
         quotation = Quotation.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
-        Quotation.any_instance.stub(:save).and_return(false)
-        put :update, {:id => quotation.to_param, :quotation => { "name" => "invalid value" }}, valid_session
-        assigns(:quotation).should eq(quotation)
+        allow_any_instance_of(Quotation).to receive(:save).and_return(false)
+        put :update, params: {:id => quotation.to_param, :quotation => { "name" => "invalid value" }}
+        expect(assigns(:quotation)).to eq(quotation)
       end
 
       it "re-renders the 'edit' template" do
         quotation = Quotation.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
-        Quotation.any_instance.stub(:save).and_return(false)
-        put :update, {:id => quotation.to_param, :quotation => { "name" => "invalid value" }}, valid_session
-        response.should render_template("edit")
+        allow_any_instance_of(Quotation).to receive(:save).and_return(false)
+        put :update, params: {:id => quotation.to_param, :quotation => { "name" => "invalid value" }}
+        expect(response).to render_template("edit")
       end
     end
   end
@@ -155,14 +158,14 @@ describe QuotationsController do
     it "destroys the requested quotation" do
       quotation = Quotation.create! valid_attributes
       expect {
-        delete :destroy, {:id => quotation.to_param}, valid_session
+        delete :destroy, params: {:id => quotation.to_param}
       }.to change(Quotation, :count).by(-1)
     end
 
     it "redirects to the calling page" do
       quotation = Quotation.create! valid_attributes
-      delete :destroy, {:id => quotation.to_param}, valid_session
-      response.should redirect_to(root_url)
+      delete :destroy, params: {:id => quotation.to_param}
+      expect(response).to redirect_to(root_path)
     end
   end
 
@@ -175,7 +178,7 @@ describe QuotationsController do
       unit_price: 9.99,
       total: 0,
       category: "",
-      position: 1}    
+      position: 1}
     end
 
     before do
@@ -185,15 +188,15 @@ describe QuotationsController do
 
     it "creates a new line" do
       expect {
-        post :copy_line, {id: @quotation.to_param, line_id: @quotation_line.to_param}, valid_session
+        post :copy_line, params: {id: @quotation.to_param, line_id: @quotation_line.to_param}
       }.to change(@quotation.quotation_lines, :count).by(1)
     end
     it "clears the quanity to zero" do
-      post :copy_line, {id: @quotation.to_param, line_id: @quotation_line.to_param}, valid_session
+      post :copy_line, params: {id: @quotation.to_param, line_id: @quotation_line.to_param}
       expect(QuotationLine.last.quantity).to eq(0)
     end
     it "keeps the unit_price" do
-      post :copy_line, {id: @quotation.to_param, line_id: @quotation_line.to_param}, valid_session
+      post :copy_line, params: {id: @quotation.to_param, line_id: @quotation_line.to_param}
       expect(QuotationLine.last.unit_price).to eq(9.99)
     end
 

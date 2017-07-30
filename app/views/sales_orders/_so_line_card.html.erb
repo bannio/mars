@@ -1,0 +1,13 @@
+<div class="card card-outline-secondary mb-3">
+  <h5 class="card-header">Line actions</h5>
+  <div class="card-block">
+    <div class="form-actions">
+      Add line:
+      <%= form_for @sales_order, class: 'form-inline' do |f| %>
+        <%= f.fields_for :sales_order_lines, @sales_order.sales_order_lines.new do |builder| %>
+          <%= render 'shared/qlines', f: builder %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

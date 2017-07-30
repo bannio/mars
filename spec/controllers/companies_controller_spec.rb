@@ -18,7 +18,26 @@ require 'spec_helper'
 # Message expectations are only used when there is no simpler way to specify
 # that an instance is receiving a specific message.
 
-describe CompaniesController do
+# June 2017 Rails 5.1.1
+# assigns is removed from Rails and html requests now only accept specific
+# keyword arguments e.g. params: {}.
+# Request type (rather than controller) is one option for future.
+
+describe "Public access to companies", type: :request do
+
+  it "denies access to companies#new" do
+    get new_company_path
+    expect(response).to redirect_to root_url
+  end
+
+  it "denies access to companies#create" do
+    expect{
+      post "/companies", params: { name: "MyCompany" }
+    }.to_not change(Company, :count)
+  end
+end
+
+describe CompaniesController, :type => :controller do
 
   # This should return the minimal set of attributes required to create a valid
   # Company. As you add validations to Company, be sure to
@@ -33,46 +52,48 @@ describe CompaniesController do
   def valid_session
     {"warden.user.user.key" => session["warden.user.user.key"]}
   end
-  
+
   before do
-        user = double('user')
-        request.env['warden'].stub :authenticate! => user
-        controller.stub :current_user => user
-        user.stub(:has_role?) do |role|
-          if role == 'company'
-            true
-          end
-        end
+    user = double('user')
+    allow(request.env['warden']).to receive(:authenticate!).and_return(user)
+    allow(controller).to receive(:current_user).and_return(user)
+    allow(user).to receive(:has_role?).and_return(true)
+      # user.stub(:has_role?) do |role|
+      #   if role == 'company'
+      #     true
+      #   end
+      # end
   end
-  
+
   describe "GET index" do
     it "assigns all companies as @companies" do
       company = Company.create! valid_attributes
-      get :index, {}, valid_session
-      assigns(:companies).should eq([company])
+      get :index, params: {}
+      # get :index, params: {}
+      expect(assigns(:companies)).to eq([company])
     end
   end
 
   describe "GET show" do
     it "assigns the requested company as @company" do
       company = Company.create! valid_attributes
-      get :show, {:id => company.to_param}, valid_session
-      assigns(:company).should eq(company)
+      get :show, params: {:id => company.to_param} #, valid_session
+      expect(assigns(:company)).to eq(company)
     end
   end
 
   describe "GET new" do
     it "assigns a new company as @company" do
-      get :new, {}, valid_session
-      assigns(:company).should be_a_new(Company)
+      get :new, params: {} #, valid_session
+      expect(assigns(:company)).to be_a_new(Company)
     end
   end
 
   describe "GET edit" do
     it "assigns the requested company as @company" do
       company = Company.create! valid_attributes
-      get :edit, {:id => company.to_param}, valid_session
-      assigns(:company).should eq(company)
+      get :edit, params: {:id => company.to_param} #, valid_session
+      expect(assigns(:company)).to eq(company)
     end
   end
 
@@ -80,35 +101,36 @@ describe CompaniesController do
     describe "with valid params" do
       it "creates a new Company" do
         expect {
-          post :create, {:company => valid_attributes}, valid_session
+          post :create, params: {:company => valid_attributes} #, valid_session
         }.to change(Company, :count).by(1)
       end
 
       it "assigns a newly created company as @company" do
-        post :create, {:company => valid_attributes}, valid_session
-        assigns(:company).should be_a(Company)
-        assigns(:company).should be_persisted
+        post :create, params: {:company => valid_attributes} #, valid_session
+        expect(assigns(:company)).to be_a(Company)
+        expect(assigns(:company)).to be_persisted
       end
 
       it "redirects to the created company" do
-        post :create, {:company => valid_attributes}, valid_session
-        response.should redirect_to(Company.last)
+        post :create, params: {:company => valid_attributes} #, valid_session
+        expect(response).to redirect_to(Company.last)
       end
     end
 
     describe "with invalid params" do
       it "assigns a newly created but unsaved company as @company" do
         # Trigger the behavior that occurs when invalid params are submitted
-        Company.any_instance.stub(:save).and_return(false)
-        post :create, {:company => { "name" => "invalid value" }}, valid_session
-        assigns(:company).should be_a_new(Company)
+        allow_any_instance_of(Company).to receive(:save).and_return(false)
+        post :create, params: {:company => { "name" => "invalid value" }} #, valid_session
+        expect(assigns(:company)).to be_a_new(Company)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
-        Company.any_instance.stub(:save).and_return(false)
-        post :create, {:company => { "name" => "invalid value" }}, valid_session
-        response.should render_template("new")
+        # allow_any_instance_of(Company).to receive(:save).and_return(false)
+        allow_any_instance_of(Company).to receive(:save).and_return(false)
+        post :create, params: {:company => { "name" => "invalid value" }} #, valid_session
+        expect(response).to render_template("new")
       end
     end
   end
@@ -121,20 +143,20 @@ describe CompaniesController do
         # specifies that the Company created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Company.any_instance.should_receive(:update_attributes).with({ "name" => "MyString" })
-        put :update, {:id => company.to_param, :company => { "name" => "MyString" }}, valid_session
+        allow_any_instance_of(Company).to receive(:update_attributes).with({ "name" => "MyString" })
+        put :update, params: {:id => company.to_param, :company => { "name" => "MyString" }} #, valid_session
       end
 
       it "assigns the requested company as @company" do
         company = Company.create! valid_attributes
-        put :update, {:id => company.to_param, :company => valid_attributes}, valid_session
-        assigns(:company).should eq(company)
+        put :update, params: {:id => company.to_param, :company => valid_attributes} #, valid_session
+        expect(assigns(:company)).to eq(company)
       end
 
       it "redirects to the company" do
         company = Company.create! valid_attributes
-        put :update, {:id => company.to_param, :company => valid_attributes}, valid_session
-        response.should redirect_to(company)
+        put :update, params: {:id => company.to_param, :company => valid_attributes} #, valid_session
+        expect(response).to redirect_to(company)
       end
     end
 
@@ -142,17 +164,17 @@ describe CompaniesController do
       it "assigns the company as @company" do
         company = Company.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
-        Company.any_instance.stub(:save).and_return(false)
-        put :update, {:id => company.to_param, :company => { "name" => "invalid value" }}, valid_session
-        assigns(:company).should eq(company)
+        allow_any_instance_of(Company).to receive(:save).and_return(false)
+        put :update, params: {:id => company.to_param, :company => { "name" => "invalid value" }}, session: valid_session
+        expect(assigns(:company)).to eq(company)
       end
 
       it "re-renders the 'edit' template" do
         company = Company.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
-        Company.any_instance.stub(:save).and_return(false)
-        put :update, {:id => company.to_param, :company => { "name" => "invalid value" }}, valid_session
-        response.should render_template("edit")
+        allow_any_instance_of(Company).to receive(:save).and_return(false)
+        put :update, params: {:id => company.to_param, :company => { "name" => "invalid value" }}, session: valid_session
+        expect(response).to render_template("edit")
       end
     end
   end
@@ -161,29 +183,30 @@ describe CompaniesController do
     it "destroys the requested company" do
       company = Company.create! valid_attributes
       expect {
-        delete :destroy, {:id => company.to_param}, valid_session
+        delete :destroy, params: {:id => company.to_param} #, session: valid_session
       }.to change(Company, :count).by(-1)
     end
 
     it "redirects to the companies list" do
       company = Company.create! valid_attributes
-      delete :destroy, {:id => company.to_param}, valid_session
-      response.should redirect_to(companies_url)
+      delete :destroy, params: {:id => company.to_param} #, valid_session
+      expect(response).to redirect_to(companies_path)
     end
-    
+
     it "does not destroy when a contact exists" do
       company = Company.create! valid_attributes
+      address = company.addresses.build(name: "My address").save
       contact = company.contacts.build(name: "MyContact").save
       expect {
-        delete :destroy, {:id => company.to_param}, valid_session
+        delete :destroy, params: {:id => company.to_param} , session: valid_session
       }.to_not change(Company, :count)
     end
-    
+
     it "does not destroy when an address exists" do
       company = Company.create! valid_attributes
       contact = company.addresses.build(name: "MyAddress").save
       expect {
-        delete :destroy, {:id => company.to_param}, valid_session
+        delete :destroy, params: {:id => company.to_param} , session: valid_session
       }.to_not change(Company, :count)
     end
 

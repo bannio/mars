@@ -1,12 +1,12 @@
 class ContactsController < ApplicationController
-  
-  before_filter :find_company
-  before_filter :find_contact, except: [:new, :create, :index]
+
+  before_action :find_company
+  before_action :find_contact, except: [:new, :create, :index]
   rescue_from ActiveRecord::RecordNotFound, with: :not_found_message
-  
+
   def index
     @contacts = Contact.includes(:company).order(:name).search(params[:search]).page(params[:page])
-    
+
     respond_to do |format|
       format.html
       format.js
@@ -20,7 +20,7 @@ class ContactsController < ApplicationController
     @contact = @company.contacts.build
     session[:return_to] = request.referer
   end
-  
+
   def edit
     session[:return_to] = request.referer
   end
@@ -67,17 +67,17 @@ class ContactsController < ApplicationController
       end
     end
   end
-  
+
   private
 
     def find_contact
       @contact = Contact.find(params[:id]) if params[:id]
     end
-    
+
     def find_company
       @company = Company.find(params[:company_id]) if params[:company_id]
     end
-    
+
     def not_found_message
       session[:return_to]||= root_url
       redirect_to session[:return_to], flash: {error: 'Not authorised or no record found'}

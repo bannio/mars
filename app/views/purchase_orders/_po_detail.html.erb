@@ -1,4 +1,4 @@
-<table class='table table-condensed table-hover' id='sortable-table'>
+<table class='table table-sm table-hover' id='sortable-table'>
 	<thead>
 	<tr>
 		<th>Item</th>
@@ -11,24 +11,26 @@
 	</tr>
 	</thead>
 	<tbody id="purchase-order-lines" data-update-url="<%= sort_purchase_order_lines_url %>">
-	<% @purchase_order.purchase_order_lines.each do |line| %>
-		<%= content_tag_for :tr, line do %>
-			<td width="120"><%= line.name %></td>
-			<td width="350"><%= line.description %></td>
-			<td class="text-right"><%= line.quantity %></td>
-			<td class="text-right"><%= number_to_currency(line.unit_price) %></td>
-			<td class="text-right"><%= number_to_percentage(line.discount, precision: 2, strip_insignificant_zeros: true) %></td>
-			<td class="text-right"><%= number_to_currency(line.total) %></td>
-			<td class="text-right">
-			<% if @purchase_order.open? %>
-				<% if allow? :purchase_order_lines, :edit %>
-					<i class="icon-th-list handle"></i> |
-					<%= link_to icon(:edit), edit_purchase_order_line_path(line) %> |
-					<%= link_to icon(:plus), copy_purchase_order_line_path(@purchase_order, line), method: :post, data: { confirm: 'Copy this line?' } %> |
-	 				<%= link_to icon(:trash), purchase_order_line_path(line), method: :delete, data: { confirm: 'Delete line - are you sure?' } %>
+		<% @purchase_order.purchase_order_lines.each do |line| %>
+			<% if line.persisted? %>
+			<%= content_tag_for :tr, line do %>
+				<td width="120"><%= line.name %></td>
+				<td width="350"><%= line.description %></td>
+				<td class="text-right"><%= line.quantity %></td>
+				<td class="text-right"><%= number_to_currency(line.unit_price) %></td>
+				<td class="text-right"><%= number_to_percentage(line.discount, precision: 2, strip_insignificant_zeros: true) %></td>
+				<td class="text-right"><%= number_to_currency(line.total) %></td>
+				<td class="text-right">
+					<% if @purchase_order.open? %>
+						<% if allow? :purchase_order_lines, :edit %>
+							<i class="material-icons handle">reorder</i>
+							<%= link_to material_icon(:create), edit_purchase_order_line_path(line) %>
+							<%= link_to material_icon('content_copy'), copy_purchase_order_line_path(@purchase_order, line), method: :post, data: { confirm: 'Copy this line?' } %>
+			 				<%= link_to material_icon(:delete), purchase_order_line_path(line), method: :delete, data: { confirm: 'Delete line - are you sure?' } %>
+						<% end %>
+					<% end %>
+				</td>
 				<% end %>
-			<% end %>
-			</td>
 			<% end %>
 		<% end %>
 	</tbody>

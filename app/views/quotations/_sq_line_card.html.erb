@@ -1,0 +1,29 @@
+<div class="card card-outline-secondary mb-3">
+<h5 class="card-header">Line actions</h5>
+<div class="card-block">
+  <div class="form-actions form-group">
+  <div>
+    Add line:
+  </div>
+
+    <%= form_for @quotation, class: 'form-inline' do |f| %>
+      <%= f.fields_for :quotation_lines, @quotation.quotation_lines.new do |builder| %>
+      <%= render 'shared/qlines', f: builder %>
+      <% end %>
+    <% end %>
+
+    <div class='form-group row'>
+      <div class='col-3'>
+        or select CSV file to upload:
+      </div>
+      <div class='col-6'>
+        <%= form_tag import_quotations_path, multipart: true do %>
+        <%= file_field_tag :file %>
+        <%= hidden_field_tag :id, @quotation.id %>
+        <%= submit_tag "Import",class: "btn btn-primary" %>
+        <% end%>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>

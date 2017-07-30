@@ -1,8 +1,8 @@
 class AddressesController < ApplicationController
-  
-  before_filter :find_company
+
+  before_action :find_company
   rescue_from ActiveRecord::RecordNotFound, with: :not_found_message
-  
+
   def index
     @addresses = Address.all
 
@@ -79,11 +79,11 @@ class AddressesController < ApplicationController
   end
 
   private
-    
+
     def current_resource
       @current_resource ||= Address.find(params[:id]) if params[:id]
     end
-    
+
     def find_company
       if params[:company_id]
         @company = Company.find(params[:company_id])
@@ -91,7 +91,7 @@ class AddressesController < ApplicationController
         @company = Company.find(params[:id]) unless params[:id] == nil
       end
     end
-    
+
     def not_found_message
       session[:return_to]||= root_url
       redirect_to session[:return_to], flash: {error: 'Not authorised or no record found'}

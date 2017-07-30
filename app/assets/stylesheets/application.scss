@@ -1,0 +1,143 @@
+// @import "bootstrap-sprockets";
+@import "select2";
+@import "jquery-ui/core";
+@import "jquery-ui/datepicker";
+@import "bootstrap";
+
+body {
+  padding-top: 60px;
+}
+input[readonly], textarea[readonly], select[readonly] {
+  cursor: not-allowed;
+  background-color: white;
+}
+// @import "bootstrap-responsive";
+
+.text-right
+{
+    text-align: right !important;
+}
+
+.grey-header
+{
+  background-color: rgb(245,245,245);
+}
+
+.handle
+{
+  cursor: move
+}
+
+.vertical-divider
+{
+  border-right: 1px solid #dddddd;
+}
+// apply BS classes to flash messages
+
+.alert-notice {
+  @extend .alert-success;
+}
+.alert-alert {
+  @extend .alert-danger;
+}
+.alert-error {
+  @extend .alert-danger;
+}
+
+// Material Icon fonts
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  // src: url(https://example.com/MaterialIcons-Regular.eot); /* For IE6-8 */
+  src: local('Material Icons'),
+    local('MaterialIcons-Regular'),
+    // url(https://example.com/MaterialIcons-Regular.woff2) format('woff2'),
+    font-url('MaterialIcons-Regular.woff') format('woff'),
+    // url(https://example.com/MaterialIcons-Regular.ttf) format('truetype');
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
+
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-24 { font-size: 24px; }
+
+.material-icons.md-dark { color: rgba(0, 0, 0, 0.54); }
+
+.ui-datepicker {
+  background-color: white;
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgb(92,178,253);
+  border-radius: 4px;
+}
+
+.form-control::placeholder {
+  opacity: 0.75;
+  color: #999;
+}
+
+.select2-selection__placeholder {
+  opacity: 0.75;
+  color: #999;
+}
+
+.select2-container .select2-selection--single {
+  height: 38px;
+}
+
+.select2-container--default .select2-selection--single {
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    line-height: 38px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 38px;
+}
+
+// CSS for use with Bootstrap file selector
+// not currently used as of 23/7/2017
+
+#customFile .custom-file-control:lang(en)::after {
+  content: "Select file...";
+}
+
+#customFile .custom-file-control:lang(en)::before {
+  content: "Browse";
+}
+
+/*when a value is selected, this class removes the content */
+.custom-file-control.selected:lang(en)::after {
+  content: "" !important;
+}
+
+.custom-file {
+  overflow: hidden;
+}
+.custom-file-control {
+  white-space: nowrap;
+}
+

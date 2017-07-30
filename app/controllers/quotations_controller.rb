@@ -1,19 +1,19 @@
 class QuotationsController < ApplicationController
 
-  before_filter :find_quotation, except: [:new, :create, :index]
+  before_action :find_quotation, except: [:new, :create, :index]
     #only: [:show, :edit, :update, :destroy, :issue, :import, :reopen, :convert]
   helper_method :sort_column, :sort_direction
 
   def import
     if params[:file]
       @quotation.import(params[:file])
-      redirect_to :back, flash: {success: 'Lines were successfully imported'}
+      redirect_back(fallback_location: root_url, flash: {success: 'Lines were successfully imported'})
     else
-      redirect_to :back, flash: {error: 'You must select a file before import'}
+      redirect_back(fallback_location: root_url, flash: {error: 'You must select a file before import'})
     end
-    
+
   end
-  
+
   def index
     @quotations = Quotation.current.
                   includes(:project, :customer).
@@ -22,14 +22,14 @@ class QuotationsController < ApplicationController
                   page(params[:page])
 
     respond_to do |format|
-      format.html 
+      format.html
     end
   end
 
   def show
     flash[:notice] = params[:warning] if params[:warning]
     # @line = @quotation.quotation_lines.new
-    
+
     respond_to do |format|
       format.html
       format.pdf do
@@ -91,24 +91,24 @@ class QuotationsController < ApplicationController
       end
     end
   end
-  
+
   def issue
     respond_to do |format|
-      if @quotation.issue(current_user) 
+      if @quotation.issue(current_user)
         @quotation.update_attributes(issue_date: Date.today, status: 'issued')
         @quotation.create_pdf
         format.html { redirect_to new_email_path params: {type: 'Quotation',
-                                                          id: @quotation.id} , 
+                                                          id: @quotation.id} ,
                                 flash: {success: 'Quotation status changed to issued'} }
       else
         format.html { redirect_to @quotation, flash: {error: @quotation.errors.full_messages.join(' ')} }
       end
     end
   end
-  
+
   def reopen
     respond_to do |format|
-      if @quotation.reopen(current_user) 
+      if @quotation.reopen(current_user)
         @quotation.update_attributes(status: 'open')
         format.html { redirect_to @quotation, flash: {success: 'Quotation status changed to open'} }
       else
@@ -120,9 +120,9 @@ class QuotationsController < ApplicationController
   def convert
     respond_to do |format|
       # create a new sales order based on the quotation and change status of quotation to 'ordered'
-      if @quotation.convert(current_user)
+      if @quotation.clone_as_sales_order
+        @quotation.create_ordered_event(current_user)
         @quotation.update_attributes(status: 'ordered')
-        @quotation.clone_as_sales_order
         format.html { redirect_to @quotation.customer, flash: {success: 'New Sales Order created'}}
       else
         format.html { redirect_to @quotation, flash: {error: @quotation.errors.full_messages.join(' ')} }
@@ -140,14 +140,14 @@ class QuotationsController < ApplicationController
         format.html { redirect_to @quotation, flash: {error: @quotation.errors.full_messages.join(' ')} }
       end
     end
-    
+
   end
 
   def destroy
     @quotation.destroy
 
     respond_to do |format|
-      format.html { redirect_to :back } # destroy link on company show page NOT on quotation show
+      format.html { redirect_back( fallback_location: root_url ) } # destroy link on company show page NOT on quotation show
       format.json { head :no_content }
     end
   end
@@ -158,7 +158,7 @@ class QuotationsController < ApplicationController
       @quotation.quotation_lines.create(category:     line.category,
                                         name:         line.name,
                                         description:  line.description,
-                                        unit_price:   line.unit_price, 
+                                        unit_price:   line.unit_price,
                                         quantity:      0)
     end
     redirect_to @quotation
@@ -166,12 +166,12 @@ class QuotationsController < ApplicationController
 
   def list_emails
     @emails = @quotation.emails.page(params[:page])
-    render template: 'emails/index' 
+    render template: 'emails/index'
   end
 
   def list_events
     @events = @quotation.events
-    render template: 'events/index' 
+    render template: 'events/index'
   end
 
   private

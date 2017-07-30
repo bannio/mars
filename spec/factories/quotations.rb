@@ -9,8 +9,8 @@ FactoryGirl.define do
     association :contact
     issue_date "2013-04-14"
     notes "MyText"
-    address_id 1
-    delivery_address_id 1
+    association :address
+    association :delivery_address
     description "more text"
     status "open"
     total 0.0

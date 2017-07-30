@@ -64,7 +64,7 @@ Given(/^I have the following purchase orders to index$/) do |table|
     @supplier = FactoryGirl.create(:company, name: r[:supplier]) unless Company.find_by_name(r[:supplier])
     @project = FactoryGirl.create(:project, code: r[:project], company_id: @client.id)
     @contact = FactoryGirl.create(:contact)
-    @purchase_order = FactoryGirl.create(:purchase_order, code: r[:code], 
+    @purchase_order = FactoryGirl.create(:purchase_order, code: r[:code],
                                     customer: @customer, issue_date: r[:issue_date],
                                     client: @client, contact: @contact,
                                     name: r[:name], project: @project,
@@ -119,7 +119,7 @@ Then(/^I see "(.*?)" before "(.*?)"$/) do |arg1, arg2|
 end
 
 When(/^I click the first "(.*?)" icon$/) do |icon|
-  first(:xpath, "//a[i[contains(@class, '#{icon}')]]").click
+  first(:xpath, "//td/a[@data-method='#{icon}']").click
 end
 
 

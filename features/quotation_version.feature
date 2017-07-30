@@ -1,9 +1,9 @@
 @version
 Feature: Version Control
 	In order to control the workflow and keep a history
-	I want to be able to change the status of any transaction 
+	I want to be able to change the status of any transaction
 	and to know who made the change and when
-	
+
 	Background:
 		Given I have the following companies
 	      | name       |
@@ -20,11 +20,11 @@ Feature: Version Control
 	      | code | name       | company   |
 	      | P001 | My project | A Company |
 		And I have the following quotations
-		  | code | name | customer | supplier | project | contact | 
-		  | SQ001 | Test SQ | A Company | Elderberry | P001 | Fred | 
-		And I am logged in as a user with a role "sales_quote"
+		  | code | name | customer | supplier | project | contact |
+		  | SQ001 | Test SQ | A Company | Elderberry | P001 | Fred |
+		And I am logged in as a user with a role "sales"
 		And I am on the show page for quotation SQ001
-	
+
 	Scenario: Issue quotation with no email
 		Given the status is "open"
 		And I add a line to the quotation
@@ -33,7 +33,7 @@ Feature: Version Control
 		And I should see "Status issued"
 		And I should not see "Issue Quotation"
 		And I should see "Re-open"
-		
+
 	Scenario: Cannot issue a quotation with no lines
 		Given the status is "open"
 		When I click "Issue Quotation"
@@ -41,7 +41,7 @@ Feature: Version Control
 		And I should not see "Status issued"
 		And I should see "Issue Quotation"
 		And I should not see "Re-open"
-		
+
 	Scenario: reopen an issued quotation
 		Given the status is "issued"
 		And I am on the show page for quotation SQ001
@@ -50,7 +50,7 @@ Feature: Version Control
 		And I should see "Status open"
 		And I should see "Issue Quotation"
 		And I should not see "Re-open"
-		
+
 	Scenario: Can issue a quotation without a contact email
 		Given the status is "open"
 		And Fred has no email
@@ -59,7 +59,7 @@ Feature: Version Control
 		And I click "Cancel"
 		Then I should not see "There must be a contact with an email address to issue to"
 		And I should see "Status issued"
-	
+
 	Scenario: Issue quotation with email
 		Given the status is "open"
 		And I add a line to the quotation
@@ -82,3 +82,10 @@ Feature: Version Control
 		Given the status is "issued"
 		When I am on the show page for quotation SQ001
 		Then I should not see "Issue Quotation"
+
+	Scenario: Convert quotation to a sales order
+		Given the status is "issued"
+		When I am on the show page for quotation SQ001
+		When I click "Make Order"
+		Then I should see "New Sales Order created"
+		And I should see "SO0001"

@@ -1,9 +1,9 @@
 class ProjectsController < ApplicationController
-  
+
   rescue_from ActiveRecord::RecordNotFound, with: :not_found_message
 
   helper_method :sort_column, :sort_direction
-  
+
   def index
     @projects = Project.includes(:company).
                 order(sort_column + " " + sort_direction).
@@ -14,28 +14,29 @@ class ProjectsController < ApplicationController
       format.html # index.html.erb
     end
   end
-  
+
   def show
     @project = current_resource
   end
-  
+
   def new
     @project = Project.new
     @project.code = Project.last ? Project.last.code.next : 'P0001'
     @project.start_date = Date.today
+    @project.status = 'new'
     @project.company_id = params[:company] || ''
     session[:return_to] = request.referer
-    
+
     respond_to do |format|
       format.html
     end
   end
-  
+
   def edit
     @project = current_resource
     session[:return_to] = request.referer
   end
-  
+
   def create
     @project = Project.new(params[:project])
 
@@ -48,7 +49,7 @@ class ProjectsController < ApplicationController
       end
     end
   end
-  
+
   def update
     @project = current_resource
 
@@ -60,10 +61,10 @@ class ProjectsController < ApplicationController
       end
     end
   end
-  
+
   def destroy
-    @project = current_resource 
-    
+    @project = current_resource
+
     respond_to do |format|
       if @project.destroy
         format.html { redirect_to projects_url, flash: {success: 'Project was successfully deleted.'} }
@@ -83,13 +84,13 @@ class ProjectsController < ApplicationController
       end
     end
   end
-  
+
   private
-  
+
   def current_resource
     @current_resource ||= Project.find(params[:id]) if params[:id]
   end
-  
+
   def not_found_message
     session[:return_to] ||= root_url
     redirect_to session[:return_to], flash: {error: 'Not authorised or no record found'}

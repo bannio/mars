@@ -1,10 +1,10 @@
 <h1><%= "Search for Purchase Order Line Items" %></h1>
 
 <%= form_tag search_purchase_order_lines_path, method: 'get', class: "navbar-search pull-left", id: "purchase_orders_line_search" do %>
-    <%= text_field_tag :search, params[:search], class: "search-query", 
+    <%= text_field_tag :search, params[:search], class: "search-query",
                                 placeholder: 'Search',
                                 autofocus: 'autofocus' %>
-    <%= submit_tag "Search", name: nil, class: "hidden" %>
+    <%= submit_tag "Search", name: nil, class: "invisible" %>
 <% end %>
 
 <br><br>
@@ -12,7 +12,7 @@
 
 <%= form_tag create_from_search_path(@purchase_order) do %>
 
-<table class="table table-condensed">
+<table class="table table-sm">
   <tr>
     <th>Item</th>
     <th width="50%">Specification</th>
@@ -33,6 +33,6 @@
   <% end %>
 </table>
 
-<%= submit_tag "Copy checked", class: "btn btn-primary pull-right" %>
+<%= submit_tag "Copy checked", class: "btn btn-primary float-right" %>
 <% end %>
 <%= link_to "Back", purchase_order_path(@purchase_order) %>

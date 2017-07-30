@@ -79,7 +79,7 @@ Feature: Purchase Orders
 		When I select the file "spec/fixtures/testquotelines.csv"
 		And I click button "Import"
 		Then I should see a successfully imported message
-		When I click the first "trash" icon
+		When I click the first "delete" icon
     Then I should see a successfully deleted message
 
   Scenario: Import lines from sales order
@@ -101,4 +101,4 @@ Feature: Purchase Orders
 		And I have completed the PO header
 		When I click "Email history"
 		Then I should be on the "Emails" page
-		And I should see "Type From To Attachment Date"
+		And I should see "Type From To Attachment Created at"

@@ -1,21 +1,22 @@
 <h1 id="emails-index-page">Emails</h1>
+<% @title = "MARS - emails"%>
 
 <%= form_tag emails_path, method: 'get', class: "navbar-search pull-left", id: "emails_search" do %>
     <%= hidden_field_tag :direction, params[:direction] %>
     <%= hidden_field_tag :sort, params[:sort] %>
     <%= text_field_tag :search, params[:search], class: "search-query", placeholder: 'Search Attachment', autofocus: "autofocus" %>
-    <%= submit_tag "Search", name: nil, class: "hidden" %>
+    <%= submit_tag "Search", name: nil, class: "invisible" %>
 <% end %>
 
 <br><br>
 
-<table class="table table-condensed table-hover">
+<table class="table table-sm table-hover">
 	<tr>
 		<th>Type</th>
 		<th>From</th>
 		<th>To</th>
 		<th>Attachment</th>
-		<th>Date</th>
+		<th>Created at</th>
 	</tr>
 	<% @emails.each do |email| %>
 		<tr title="Click to view details" class="rowlink" data-rowlink="<%= email_path(email) %>">
@@ -23,7 +24,7 @@
 			<td><%= email.from %></td>
 			<td><%= email.to %></td>
 			<td><%= File.basename(email.attachment) %></td>
-			<td><%= email.created_at.strftime('%F') %></td>
+			<td><%= email.created_at.strftime('%F %I:%M%p') %></td>
 		</tr>
 	<% end %>
 </table>

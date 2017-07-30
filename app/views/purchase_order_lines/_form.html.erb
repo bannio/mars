@@ -1,16 +1,13 @@
-<%= simple_form_for @purchase_order_line, :html => { :class => 'form-horizontal'} do |f| %>
+<%= simple_form_for @purchase_order_line, wrapper: :horizontal_form do |f| %>
   <%= f.error_notification %>
 
-  <div class="form-inputs">
+  <div class="form-inputs col-6">
 	<%= f.hidden_field :purchase_order_id, value: @purchase_order_line.purchase_order_id %>
     <%= f.input :name %>
-    <%= f.input :description, input_html: {rows: 4, class: 'span8'} %>
+    <%= f.input :description, input_html: {rows: 4} %>
     <%= f.input :quantity %>
     <%= f.input :unit_price %>
     <%= f.input :discount %>
-  </div>
-
-  <div class="form-actions">
-    <%= f.button :submit %>
+    <%= f.button :submit, "update", class: 'btn btn-primary offset-4' %>
   </div>
 <% end %>

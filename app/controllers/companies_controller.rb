@@ -1,7 +1,7 @@
 class CompaniesController < ApplicationController
-  before_filter :find_company, except: [:new, :create, :index ]
+  before_action :find_company, except: [:new, :create, :index ]
   rescue_from ActiveRecord::RecordNotFound, with: :not_found_message
-  
+
   def index
     @companies = Company.order(:name).search(params[:search]).page(params[:page])
 
@@ -63,27 +63,15 @@ class CompaniesController < ApplicationController
     else
       redirect_to @company, flash: {error: 'The company has dependents'}
     end
-    
+
   end
 
-  # def destroy    
-  #     begin
-  #       @company.destroy
-  #       flash[:success] = 'Company was successfully deleted.'
-  #     rescue ActiveRecord::DeleteRestrictionError => e
-  #       @company.errors.add(:base, e)
-  #       flash[:error] = "#{e}"
-  #     ensure
-  #       @company ? (redirect_to @company) : (redirect_to companies_url)
-  #     end
-  # end
-
   private
-    
+
     def find_company
       @company ||= Company.find(params[:id]) if params[:id]
     end
-    
+
     def not_found_message
       session[:return_to]||= root_url
       redirect_to session[:return_to], flash: {error: 'Not authorised or no record found'}

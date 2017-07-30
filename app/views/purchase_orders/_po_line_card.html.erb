@@ -1,0 +1,44 @@
+<div class="card card-outline-secondary mb-3">
+<h5 class="card-header">Line actions</h5>
+<div class="card-block">
+  <div>
+    Add line:
+  </div>
+  <!-- <div class="form-group row"> -->
+    <%= form_for @purchase_order, class: 'form-inline' do |f| %>
+      <%= f.fields_for :purchase_order_lines, @purchase_order.purchase_order_lines.new do |builder| %>
+        <%= render 'shared/lines', f: builder %>
+      <% end %>
+    <% end %>
+  <!-- </div> -->
+    <div class='form-group row'>
+      <div class='col-3'>
+        or select CSV file to upload:
+      </div>
+      <div class='col-9'>
+        <%= form_tag import_purchase_orders_path, multipart: true do %>
+          <%= file_field_tag :file %>
+<!--          <label class="custom-file" id="customFile">
+            <input type="file" id="file" class="custom-file-input">
+            <span class="custom-file-control form-control-file"></span>
+          </label> -->
+          <%= hidden_field_tag :id, @purchase_order.id %>
+          <%= submit_tag "Import",class: "btn btn-primary" %>
+        <% end%>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class='col-3'>
+        or copy/find previously used items:
+      </div>
+      <div class='col-3'>
+        <%= link_to "Copy Sales Order Lines", select_order_lines_path(@purchase_order),
+              class: "btn btn-primary" %>
+      </div>
+      <div class="col-2">
+        <%= link_to "Search for Items", search_purchase_order_lines_path(@purchase_order),
+              class: "btn btn-primary" %>
+      </div>
+    </div>
+</div>
+</div>

@@ -17,7 +17,8 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(params[:user])
+    # @user = User.new(params[:user].permit(:name, :email, :full_name, :password, :password_confirmation, :roles))
+    @user = User.new(params.require(:user).permit(:name, :email, :full_name, :password, :password_confirmation, :roles))
 
     respond_to do |format|
       if @user.save
@@ -29,7 +30,7 @@ class UsersController < ApplicationController
       end
     end
   end
-  
+
   def update
     @user = current_resource
     if params[:user][:password].blank?
@@ -50,11 +51,11 @@ class UsersController < ApplicationController
   def destroy
     @user = current_resource
     @user.destroy
-    redirect_to users_url
+    redirect_to users_path
   end
-  
+
   private
-  
+
   def current_resource
     @current_resource ||= User.find(params[:id]) if params[:id]
   end

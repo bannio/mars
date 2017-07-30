@@ -2,15 +2,15 @@ class SalesQuotePdf < Prawn::Document
   def initialize(quotation)
     super(bottom_margin: 50)
     @quotation = quotation
-    
+
     define_grid(columns: 3, rows: 7, gutter: 0)
     #grid.show_all
     font_size 10
-    
+
     grid([0,1],[0,2]).bounding_box do
       logo
     end
-    
+
     grid([0,0],[0,1]).bounding_box do
       sales_quote_heading
     end
@@ -28,15 +28,14 @@ class SalesQuotePdf < Prawn::Document
     sales_quote_page_number
     quotation_number
     
-    
   end
-  
+
   def fold_mark
     repeat([1]) do         # only on first page
       transparent(0.5){stroke_horizontal_line -20, -10, at: 464 }
     end
   end
-  
+
   def address_box
     if @quotation.address
     text_box "#{@quotation.customer.name}
@@ -47,14 +46,14 @@ class SalesQuotePdf < Prawn::Document
       text_box "MISSING AN ADDRESS!"
     end
   end
-  
+
   def sales_quote_heading
     move_down 50
-    text "Sales Quotation", 
-          size: 20, 
+    text "Sales Quotation",
+          size: 20,
           style: :bold
   end
-  
+
   def logo
     if @quotation.supplier.name.include? "Roger"
       image "#{Rails.root}/app/assets/images/RBDC_logo.png",
@@ -67,7 +66,7 @@ class SalesQuotePdf < Prawn::Document
       fit: [70,70]
     end
   end
-  
+
   def quote_number_and_date
     date = @quotation.issue_date ? @quotation.issue_date.strftime("%d %B %Y") : "NOT ISSUED"
     data = [["Ref.:","#{@quotation.code}","Date", date]]
@@ -81,14 +80,14 @@ class SalesQuotePdf < Prawn::Document
       columns(3).width = 100
     end
   end
-    
+
     def quote_comment
       move_down 15
       text "#{@quotation.name}\n", style: :bold, size: 14
       move_down 6
       text "#{@quotation.description}", style: :italic
     end
-     
+
     def quote_table
       move_down 15
       table quote_lines do
@@ -115,7 +114,7 @@ class SalesQuotePdf < Prawn::Document
         columns(5).width = 75       # total
       end
     end
-    
+
     def quote_lines
       output = []
       rowno = 0
@@ -132,7 +131,7 @@ class SalesQuotePdf < Prawn::Document
       end
       output
     end
-    
+
     def quote_total
       move_down 15
       data = [["","Total (excluding VAT):", "#{price(@quotation.total)}"]]
@@ -145,11 +144,11 @@ class SalesQuotePdf < Prawn::Document
         columns(2).width = 80
       end
     end
-    
+
     def price(num)
       helpers.number_to_currency(num)
     end
-    
+
     def our_address
       if @quotation.supplier.addresses.first
         addr = "#{@quotation.supplier.addresses.first.body.gsub(/\n/,', ')}, #{@quotation.supplier.addresses.first.post_code}"
@@ -170,7 +169,7 @@ class SalesQuotePdf < Prawn::Document
         end
       end
     end
-    
+
     def sales_quote_page_number
       string = "page <page> of <total>"
       options = { at: [500, 20],
@@ -197,7 +196,7 @@ class SalesQuotePdf < Prawn::Document
         end
       end
     end
-    
+
     def helpers
       ActionController::Base.helpers
     end

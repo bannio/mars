@@ -1,8 +1,8 @@
 <h1>Project <%= "for #{@project.company.name}"%></h1>
-<% @title = "MARS - show #{@project.name}"%>
-<h3><%= @project.code %> 
+<% @title = "MARS - #{@project.name}"%>
+<h3><%= @project.code %>
     <%= @project.name %>
-    <div class="btn-group pull-right">
+    <div class="btn-group float-right">
       <% if allow? :projects, :edit %>
         <%= link_to 'Edit', edit_project_path(@project), class: 'btn btn-primary' %>
       <% end %>
@@ -12,7 +12,7 @@
       <% end %>
     </div>
 </h3>
-<table class='table table-condensed'>
+<table class='table table-sm'>
   <tr class='grey-header'>
     <th>Summary</th>
     <td class="vertical-divider"></td>
@@ -69,7 +69,7 @@
   </tr>
   <tr>
     <th>Total Sales</th>
-    <th class="text-right"><%= number_to_currency(@project.quotes_total_total + @project.sales_total_total) %></th>
+    <th class="text-right vertical-divider"><%= number_to_currency(@project.quotes_total_total + @project.sales_total_total) %></th>
     <td></td>
     <th>Total</th>
     <th class="text-right"><%= number_to_currency(@project.quotes_total_total) %></th>
@@ -77,7 +77,7 @@
     <th class="text-right"><%= number_to_currency(@project.purchase_total_total) %></th>
   </tr>
 </table>
-<table class='table table-condensed'>
+<table class='table table-sm'>
   <tr>
     <th>Notes</th>
     <td><%= simple_format(@project.notes) %></td>
@@ -87,7 +87,7 @@
 <%= render 'sales_orders' %>
 <%= render 'purchase_orders' %>
 <% if (allow? :projects, :close) && @project.open? %>
-  <%= link_to 'Close Project', close_project_path(@project), method: :put, 
+  <%= link_to 'Close Project', close_project_path(@project), method: :put,
     data: { confirm: 'Close project to future use?' }, class: "btn btn-warning" %>
     <br />
 <% end %>

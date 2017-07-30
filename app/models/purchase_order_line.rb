@@ -1,4 +1,4 @@
-class PurchaseOrderLine < ActiveRecord::Base
+class PurchaseOrderLine < ApplicationRecord
   belongs_to :purchase_order
   acts_as_list scope: :purchase_order
   has_many :sales_links, dependent: :destroy
@@ -6,7 +6,7 @@ class PurchaseOrderLine < ActiveRecord::Base
 
   include PgSearch
 
-  pg_search_scope :full_text_search, 
+  pg_search_scope :full_text_search,
                   against: {name: 'A', description: 'B'},
                   using: {tsearch: {dictionary: 'english',
                                     prefix: true}

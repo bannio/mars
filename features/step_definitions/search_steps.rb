@@ -19,13 +19,23 @@ Then(/^I should see the (.*?) in this order:$/) do |name, table|
 end
 
 When(/^I submit with enter$/) do
+  # click_button "Search"
   find('.search-query').native.send_keys(:return)
 end
 
 When(/^I click on the "(.*?)" row$/) do |arg1|
-  find(:xpath, "//tr[@data-rowlink]").click()
+  # For some reason the click event is not being added
+  # during test run so adding it back here
+  page.execute_script("$('tr.rowlink').click(function() {
+    return window.location = $(this).data('rowlink');});")
+
+  # find(:xpath, "//tr/td[.='#{arg1}']").click
+  find('td', text: "#{arg1}").click
 end
 
+# This is a project specific step:
 Then(/^I should be on the "(.*?)" show page$/) do |arg1|
-  page.should have_content("Project for")
+  project_id = Project.find_by_code(arg1).id
+  # visit show_project_path(project)
+  expect(page).to have_current_path("/projects/#{project_id}")
 end

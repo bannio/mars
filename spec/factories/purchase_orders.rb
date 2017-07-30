@@ -13,9 +13,12 @@ FactoryGirl.define do
     association :address
     code "MyString"
     description "MyText"
-    delivery_address_id 1
+    association :delivery_address
     status "MyString"
     total "9.99"
     due_date 1.month.from_now
+    trait :no_delivery_address do
+        delivery_address nil
+    end
   end
 end

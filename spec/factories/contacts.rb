@@ -3,9 +3,9 @@
 FactoryGirl.define do
   factory :contact do
     sequence(:name) { |n| "contact#{n}"}
-    company_id 1
+    association :company
     job_title "MyString"
-    address nil
+    association :address
     telephone "MyString"
     mobile "MyString"
     fax "MyString"

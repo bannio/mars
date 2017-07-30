@@ -1,9 +1,9 @@
 <% @title = "MARS - show #{@contact.name}"%>
 <h1>
   Contact
-  <div class="btn-group pull-right">
+  <div class="btn-group float-right">
   <% if allow? :contacts, :edit %>
-    <%= link_to 'Edit', edit_company_contact_path(@contact.company, @contact), 
+    <%= link_to 'Edit', edit_company_contact_path(@contact.company, @contact),
       class: "btn btn-primary" %>
   <% end %>
   <% if allow? :contacts, :destroy %>
@@ -11,7 +11,7 @@
   <% end %>
   </div>
 </h1>
-<table class='table table-condensed'>
+<table class='table table-sm'>
   <tr>
     <td>Name</td>
     <td><%= @contact.name %></td>

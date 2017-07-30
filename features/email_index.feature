@@ -18,7 +18,7 @@ Feature: In order to find emails
 		And I should see "From"
 		And I should see "To"
 		And I should see "Attachment"
-		And I should see "Date"
+		And I should see "Created at"
 
 	Scenario: I can search for emails by attachment
 		When I fill_in search box with "SQ001"
@@ -27,10 +27,10 @@ Feature: In order to find emails
 		And I should not see "SQ002.pdf"
 
 	Scenario: I can view the details
-		When I am on the "emails/1" page
+		When I visit the "SQ001" email page
 		Then I should see "email one body"
 
 	Scenario: I can view the attachment
-		When I am on the "emails/1" page
+		When I visit the "SQ001" email page
 		And I click "SQ001.pdf"
 		Then I should be looking at a pdf file

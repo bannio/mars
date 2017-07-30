@@ -14,10 +14,10 @@ module Permissions
       allow :purchase_order_lines, [:index, :show]
       allow 'users/registrations', [:edit, :update]
       allow :emails, [:new, :create, :index, :show, :download_attachment]
-      allow_param :email, [:attachment, :body, :emailable_id, :emailable_type, :from, :subject, 
-                            :to, cc: []]
+      allow_param :email, [:attachment, :body, :emailable_id, :emailable_type,
+        :from, :subject, :to, cc: []]
       if user.has_role?('company')
-        allow :companies, [:new, :create, :edit, :update, :destroy] 
+        allow :companies, [:new, :create, :edit, :update, :destroy]
         allow_param :company, [:name, :reference]
         allow :addresses, [:new, :create, :edit, :update, :destroy]
         allow_param :address, [:name, :body, :post_code, :company_id]
@@ -25,11 +25,12 @@ module Permissions
         allow_param :contact, [:email, :fax, :job_title, :mobile, :name, :notes, :telephone, :company_id, :address_id]
       end
       if user.has_role?('project')
-        allow :projects, [:new, :create, :edit, :update, :destroy, :close] 
-        allow_param :project, [:name, :code, :company_id, :start_date, :due_date, :completion_date, :status, :value, :notes]
+        allow :projects, [:new, :create, :edit, :update, :destroy, :close]
+        allow_param :project, [:name, :code, :company_id, :start_date,
+          :due_date, :completion_date, :status, :value, :notes]
       end
       if user.has_role?('sales_quote')
-        allow :quotations, [:new, :create, :edit, :update, :destroy, 
+        allow :quotations, [:new, :create, :edit, :update, :destroy,
           :import, :issue, :reopen, :cancel, :list_emails, :list_events, :convert, :copy_line]
         allow :quotation_lines, [:new, :create, :edit, :update, :destroy, :sort]
         allow_param :quotation, [:code, :address_id, :delivery_address_id,
@@ -38,7 +39,7 @@ module Permissions
         allow_param :quotation_line, [:quotation_id, :description, :name, :quantity, :total, :unit_price, :category, :position]
       end
       if user.has_role?('sales_order')
-        allow :sales_orders, [:new, :create, :edit, :update, :destroy, 
+        allow :sales_orders, [:new, :create, :edit, :update, :destroy,
                               :issue, :reopen, :cancel, :accept, :invoice, :paid, :list_emails, :list_events, :copy_line]
         allow :sales_order_lines, [:new, :create, :edit, :update, :destroy, :sort]
         allow_param :sales_order, [:code, :address_id, :delivery_address_id, :total,

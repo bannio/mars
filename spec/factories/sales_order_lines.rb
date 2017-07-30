@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :sales_order_line do
-    sales_order_id 1
+    association :sales_order
     name "MyString"
     description "MyText"
     quantity 1

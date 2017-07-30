@@ -15,15 +15,27 @@ end
 
 Given(/^I have the following emails$/) do |table|
   table.hashes.each do |row|
-  	FactoryGirl.create(:email, 
+    case row[:type]
+    when "Quotation"
+      emailable = create(:quotation)
+    when "SalesOrder"
+      emailable = create(:sales_order)
+    end
+  	FactoryGirl.create(:email,
   									from: 			row[:from],
   									to:  				row[:to],
   									emailable_type: 			row[:type],
+                    emailable: emailable,
   									attachment: File.join(ENV['MARS_DATA'], row[:attachment]),
   									body: row[:body] )
   end
 end
 
 Then(/^I should be looking at a pdf file$/) do
-  expect(current_url).to include('emails/1/download_attachment')
+  expect(current_url).to include("emails/#{@email[0].id}/download_attachment")
+end
+
+When(/^I visit the "([^"]*)" email page$/) do |arg1|
+  @email = Email.search(arg1)
+  visit "/emails/#{@email[0].id}"
 end

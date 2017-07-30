@@ -1,4 +1,4 @@
-<table class='table table-condensed table-hover' id='sortable-table'>
+<table class='table table-sm table-hover' id='sortable-table'>
 	<thead>
 	<tr>
 		<th>Category</th>
@@ -12,6 +12,7 @@
 	</thead>
 	<tbody id="quote-lines" data-update-url="<%= sort_quotation_lines_url %>">
 	<% @quotation.quotation_lines.each do |line| %>
+	<% if line.persisted? %>
 		<%= content_tag_for :tr, line do %>
 			<td width="120"><%= line.category %></td>
 			<td width="120"><%= line.name %></td>
@@ -21,13 +22,14 @@
 			<td class="text-right"><%= number_to_currency(line.total) %></td>
 			<% if @quotation.open? && allow?(:quotation_lines, :edit) %>
       <td class="text-right">
-      	<i class="icon-th-list handle"></i> |
-				<%= link_to icon(:edit), edit_quotation_line_path(line) %> |
-				<%= link_to icon(:plus), copy_quotation_line_path(@quotation, line), method: :post, data: { confirm: 'Copy this line?' } %> |
-				<%= link_to icon(:trash), quotation_line_path(line), method: :delete, data: { confirm: 'Delete line - are you sure?' }, id: "Remove" %>
+      	<i class="material-icons handle">reorder</i>
+				<%= link_to material_icon(:create), edit_quotation_line_path(line) %>
+				<%= link_to material_icon('content_copy'), copy_quotation_line_path(@quotation, line), method: :post, data: { confirm: 'Copy this line?' } %>
+				<%= link_to material_icon(:delete), quotation_line_path(line), method: :delete, data: { confirm: 'Delete line - are you sure?' }, id: "Remove" %>
 				</td>
 			<% else %>
 			  <td></td>
+			<% end %>
 			<% end %>
 		<% end %>
 	<% end %>

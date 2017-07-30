@@ -2,6 +2,7 @@
 
 FactoryGirl.define do
   factory :quotation_line do
+    association :quotation
     name "MyString"
     description "MyText"
     quantity 1

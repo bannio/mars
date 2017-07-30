@@ -30,6 +30,7 @@
 /spec/fixtures/salesorder
 /spec/fixtures/quotation
 /spec/fixtures/purchaseorder
+/*.backup
 
 # Ignore pow config
 /.powrc

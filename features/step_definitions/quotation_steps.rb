@@ -19,6 +19,19 @@ When(/^I select quotation contact "(.*?)"$/) do |contact|
   select( contact, from: 'quotation[contact_id]' )
 end
 
+Given(/^"(.*?)" has an address "([^"]*)"$/) do |company, address|
+  company = Company.find_by_name(company)
+  create(:address, name: address, company_id: company.id)
+end
+
+When(/^I select delivery address "(.*?)"$/) do |address|
+  select( address, from: 'quotation[delivery_address_id]' )
+end
+
+When(/^I select contact address "(.*?)"$/) do |address|
+  select( address, from: 'quotation[address_id]' )
+end
+
 When(/^I click button "(.*?)"$/) do |target|
   click_button "#{target}"
 end
@@ -46,7 +59,7 @@ Given(/^I have the following quotations to index$/) do |table|
   table.hashes.each do |r|
     customer = FactoryGirl.create(:customer, name: r[:customer])
     project = FactoryGirl.create(:project, code: r[:project], company_id: customer.id)
-    quotation = FactoryGirl.create(:quotation, code: r[:code], 
+    quotation = FactoryGirl.create(:quotation, code: r[:code],
                                     customer: customer, issue_date: r[:issue_date],
                                     name: r[:name], project: project,
                                     status: r[:status])

@@ -10,11 +10,11 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
-//= require jquery
-//= require jquery-ui
+//= require jquery3
+//= require jquery-ui/widgets/datepicker
+//= require jquery-ui/widgets/sortable
 //= require jquery_ujs
-//= require jquery.ui.datepicker
 //= require select2
+//= require popper
 //= require bootstrap
 //= require_tree .
-
