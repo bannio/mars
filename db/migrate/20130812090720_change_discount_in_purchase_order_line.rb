@@ -1,4 +1,4 @@
-class ChangeDiscountInPurchaseOrderLine < ActiveRecord::Migration
+class ChangeDiscountInPurchaseOrderLine < ActiveRecord::Migration[4.2]
   # remove default so that placeholder works. Set value to zero in model
   def up
     remove_column :purchase_order_lines, :discount

@@ -1,4 +1,4 @@
-class CreateQuotationLines < ActiveRecord::Migration
+class CreateQuotationLines < ActiveRecord::Migration[4.2]
   def change
     create_table :quotation_lines do |t|
       t.integer :quotation_id

@@ -1,4 +1,4 @@
-class CreatePurchaseOrderLines < ActiveRecord::Migration
+class CreatePurchaseOrderLines < ActiveRecord::Migration[4.2]
   def change
     create_table :purchase_order_lines do |t|
       t.belongs_to :purchase_order

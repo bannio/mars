@@ -1,4 +1,4 @@
-class CreateQuotations < ActiveRecord::Migration
+class CreateQuotations < ActiveRecord::Migration[4.2]
   def change
     create_table :quotations do |t|
       t.string :name

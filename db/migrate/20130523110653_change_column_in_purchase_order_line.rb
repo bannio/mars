@@ -1,4 +1,4 @@
-class ChangeColumnInPurchaseOrderLine < ActiveRecord::Migration
+class ChangeColumnInPurchaseOrderLine < ActiveRecord::Migration[4.2]
   def up
   	change_column :purchase_order_lines, :unit_price, :decimal, precision: 10, scale: 2
   end

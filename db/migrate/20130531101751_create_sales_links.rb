@@ -1,4 +1,4 @@
-class CreateSalesLinks < ActiveRecord::Migration
+class CreateSalesLinks < ActiveRecord::Migration[4.2]
   def change
     create_table :sales_links do |t|
       t.belongs_to :purchase_order_line

@@ -1,4 +1,4 @@
-class CreateSalesOrderLines < ActiveRecord::Migration
+class CreateSalesOrderLines < ActiveRecord::Migration[4.2]
   def change
     create_table :sales_order_lines do |t|
       t.integer :sales_order_id
