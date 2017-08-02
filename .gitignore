@@ -15,13 +15,12 @@
 /tmp
 
 /coverage
-/config/application.yml
-/config/database.yml
 .DS_Store
 /data
 
 # Ignore application configuration
 /config/application.yml
+/config/database.yml
 
 # Ignore private data
 /db/seeds.rb

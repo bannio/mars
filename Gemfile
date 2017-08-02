@@ -43,10 +43,9 @@ gem 'record_tag_helper'
 
 group :development do
 # Deploy with Capistrano
-  # gem 'capistrano', '~> 3.4.0'
-  # gem 'rvm-capistrano','~> 1.5.6'
-  gem 'capistrano-rails',   '~> 1.1', require: false
-  gem 'capistrano-bundler', '~> 1.1', require: false
+  gem 'capistrano', '~> 3.6', require: false
+  gem 'capistrano-rails',   '~> 1.3', require: false
+  gem 'capistrano-bundler', '~> 1.2', require: false
   gem 'capistrano-rvm',   '~> 0.1', require: false
   gem "better_errors"
   gem "binding_of_caller"
