@@ -8,7 +8,7 @@ class EmailsController < ApplicationController
   def show
     @email = Email.find(params[:id])
   end
-  
+
   def new
     @email = Email.new
     @email.emailable_type = params[:type]
@@ -18,14 +18,14 @@ class EmailsController < ApplicationController
 
   def download_attachment
     @email = Email.find(params[:id])
-    send_file @email.attachment,type: "application/pdf",
-                                disposition: "inline"
+    send_file @email.attachment, disposition: "inline"
+    # send_file @email.attachment, disposition: "inline", type: "application/pdf"
   end
-  
+
   def create
     @email = Email.new(params[:email])
     # @email.cc.reject(&:empty?) if @email.cc
-    
+
     respond_to do |format|
       if @email.save
         format.html { redirect_to @email.emailable, flash: { success: 'Email was successfully created.'} }

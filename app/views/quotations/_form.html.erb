@@ -1,33 +1,19 @@
 <%= simple_form_for(@quotation, wrapper: :horizontal_form) do |f| %>
   <%= f.error_notification %>
 
-  <div class="col-sm-6">
+  <div class="col-6">
 		<%= f.association :supplier, collection: Company.owned, selected: Company.owned.first %>
-	    <%= f.hidden_field :customer_id %>
-	    <%= f.association :project, collection: @quotation.customer.projects.current %>
+    <%= f.hidden_field :customer_id %>
+    <%= f.association :project, collection: @quotation.customer.projects.current %>
 		<%= f.hidden_field :code, value: @quotation.code %>
-	    <%= f.input :name, label: 'Title' %>
+    <%= f.input :name, label: 'Title' %>
 		<%= f.association :contact, collection: @quotation.customer.contacts %>
-
-	    <%= f.association :address, collection: @quotation.customer.addresses, label: 'Contact address' %>
+    <%= f.association :address, collection: @quotation.customer.addresses, label: 'Contact address' %>
 		<%= f.association :delivery_address, collection: @quotation.customer.addresses %>
-		<div class="control-group string optional">
-    <label class="string optional control-label">Date Issued </label>
-		<div class="controls string optional">
-    <label class="string optional control-label">
-		<%= @quotation.issue_date %></label>
-    </div>
-    </div>
-	    <div class="control-group string optional">
-      <label class="string optional control-label">Status </label>
-		<div class="controls string optional">
-    <label class="string optional control-label"><%= @quotation.status %></label> </div>
-    </div>
-
-
-
+    <%= f.input :issue_date, as: :string, label: 'Date issued', disabled: true %>
+    <%= f.input :status, disabled: true %>
 		<%= f.input :description, placeholder: 'visible to customer', input_html: {rows: 4 } %>
-	    <%= f.input :notes, label: 'Internal Notes', input_html: {rows: 6} %>
+    <%= f.input :notes, label: 'Internal Notes', input_html: {rows: 6} %>
 
     <%= f.button :submit, class: "btn btn-primary offset-sm-4" %>
     <%= link_to 'Cancel', :back, class: 'btn btn-warning'  %>

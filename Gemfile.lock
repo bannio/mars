@@ -321,6 +321,9 @@ GEM
     thread_safe (0.3.6)
     tilt (2.0.7)
     ttfunk (1.4.0)
+    turbolinks (5.0.1)
+      turbolinks-source (~> 5)
+    turbolinks-source (5.0.3)
     tzinfo (1.2.3)
       thread_safe (~> 0.1)
     uglifier (3.2.0)
@@ -381,6 +384,7 @@ DEPENDENCIES
   selenium-webdriver
   simple_form
   simplecov
+  turbolinks
   uglifier
   unicorn
   validates_email_format_of

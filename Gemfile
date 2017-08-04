@@ -40,6 +40,7 @@ gem 'pg_search'
 gem 'kaminari'
 # gem required to support content_tag_for
 gem 'record_tag_helper'
+gem 'turbolinks'
 
 group :development do
 # Deploy with Capistrano
