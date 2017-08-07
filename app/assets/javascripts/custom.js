@@ -1,20 +1,25 @@
-$(document).on('turbolinks:load', function () {
-  $('select').select2({
-        placeholder: "Please Select",
-        width: 'resolve'
-    });
+var Mars = {
 
-  $("input.date_picker").datepicker({dateFormat: "yy-mm-dd", changeMonth: true, changeYear: true});
+    onReady: function () {
+      $('select').select2({
+            placeholder: "Please Select",
+            width: 'resolve'
+        });
 
-  $('#sortable-table tbody').sortable({
-        axis: 'y',
-        handle: '.handle',
-        update: function () {
-            return $.post($(this).data('update-url'), $(this).sortable('serialize'));
-        }
-    });
+      $("input.date_picker").datepicker(
+            {dateFormat: "yy-mm-dd", changeMonth: true, changeYear: true}
+        );
+      $('#sortable-table tbody').sortable({
+            axis: 'y',
+            handle: '.handle',
+            update: function () {
+                return $.post($(this).data('update-url'), $(this).sortable('serialize'));
+            }
+        });
+      $('tr.rowlink').click(function () {
+            return window.location = $(this).data("rowlink");
+        });
+    }
+};
 
-  $('tr.rowlink').click(function () {
-        return window.location = $(this).data("rowlink");
-    });
-});
+$(document).on('turbolinks:load', Mars.onReady);
