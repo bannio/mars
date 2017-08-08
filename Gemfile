@@ -67,7 +67,6 @@ group :test, :development do
   gem 'database_cleaner'
   # gem 'capybara','~> 2.0.1'         installed as part of cucumber-rails
   gem 'factory_girl_rails'
-  gem 'launchy'
   gem 'rack-mini-profiler'
   gem 'selenium-client'
   gem "selenium-webdriver"
@@ -78,5 +77,6 @@ end
 
 group :test, :development, :staging do
   gem "letter_opener"
+  gem 'launchy'
 end
 
