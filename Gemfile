@@ -19,6 +19,9 @@ gem 'sass-rails'
 gem 'coffee-rails'
 # gem 'bootstrap-sass'
 gem 'bootstrap'
+source 'https://rails-assets.org' do
+  gem 'rails-assets-tether', '>= 1.3.3'
+end
 gem 'popper_js'
 gem 'uglifier'
 gem 'jquery-ui-rails'
