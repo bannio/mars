@@ -74,5 +74,9 @@ group :test, :development do
   gem 'simplecov', :require => false
   gem 'rb-fsevent', :require => false
   gem 'guard-rspec'
+end
+
+group :test, :development, :staging do
   gem "letter_opener"
 end
+
