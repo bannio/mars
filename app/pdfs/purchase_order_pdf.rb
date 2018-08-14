@@ -1,13 +1,17 @@
 class PurchaseOrderPdf < Prawn::Document
 	def initialize(purchase_order)
-    super(bottom_margin: 50)
+    super(bottom_margin: 72)
     @purchase_order = purchase_order
 
     define_grid(columns: 3, rows: 6, gutter: 0)
-    # grid.show_all
+    # grid.show_all    # show grids for development
+    # stroke_axis      # show axis for development
+
+    font_setup
     font_size 10
 
-    grid([0,1],[0,2]).bounding_box do
+    #grid([0,1],[0,2]).bounding_box do
+    grid([0,0],[0,1]).bounding_box do
       logo
     end
 
@@ -35,12 +39,29 @@ class PurchaseOrderPdf < Prawn::Document
     order_total
     poterms
     fold_mark
-    our_address
-    purchase_order_number
-    purchase_order_page_number
-
-
+    footer
   end
+
+  def font_setup
+    font_families.update("GillSansLight" => {
+      :normal => "#{Rails.root}/app/assets/fonts/GillSans-Light-08.ttf",
+      :italic => "#{Rails.root}/app/assets/fonts/GillSans-Lightitalic-09.ttf",
+      :bold => "#{Rails.root}/app/assets/fonts/GillSans-SemiBold-05.ttf",
+    })
+    font "GillSansLight"
+  end
+
+  def logo
+    if @purchase_order.customer.name.include? "Roger"
+      image "#{Rails.root}/app/assets/images/RBDC_logo.png",
+      at: [-10,cursor]
+    else
+      image "#{Rails.root}/app/assets/images/ElderberryLogo.png",
+      at: [-2,cursor],
+      fit: [375,75]
+    end
+  end
+
 
   def fold_mark
     repeat([1]) do         # only on first page
@@ -72,33 +93,21 @@ class PurchaseOrderPdf < Prawn::Document
   end
 
   def purchase_order_heading
-    move_down 50
+    move_down 40
     text "Purchase Order",
           size: 20,
           style: :bold
   end
 
-  def logo
-    if @purchase_order.customer.name.include? "Roger"
-      image "#{Rails.root}/app/assets/images/RBDC_logo.png",
-      postion: :right,
-      fit: [350,50]
-    else
-      image "#{Rails.root}/app/assets/images/blue_square_logo.png",
-      position: :right,
-      vposition: :center,
-      fit: [70,70]
-    end
-  end
-
   def order_number_and_dates
     date = @purchase_order.issue_date ? @purchase_order.issue_date.strftime("%d %B %Y") : "NOT ISSUED"
     due_date = @purchase_order.due_date ? @purchase_order.due_date.strftime("%d %B %Y") : "NOT SET"
-    data = [["Order No.:","#{@purchase_order.code}","Date", date],["Delivery Date:", due_date,"Project","#{@purchase_order.project.code}"]]
+    data = [["Order No.:","#{@purchase_order.code}","Date:", date],["Delivery Date:", due_date,"Project:","#{@purchase_order.project.code}"]]
     table(data) do
       cells.borders = []
       columns(2).align = :right
       columns(1).font_style = :bold
+      columns(3).font_style = :bold
       columns(3).align = :right
       columns(0).width = 80
       columns(1).width = 250
@@ -132,9 +141,9 @@ class PurchaseOrderPdf < Prawn::Document
         row(0).size = 10
         columns(0).size = 9
         columns(1).size = 9
-        columns(0).width = 15       # row number
+        columns(0).width = 20       # row number
         columns(1).width = 70       # item (name)
-        columns(2).width = 215      # specification (description)
+        columns(2).width = 210      # specification (description)
         columns(3).width = 30       # quantity
         columns(4).width = 70       # unit_price
         columns(5).width = 70       # discount
@@ -183,6 +192,40 @@ class PurchaseOrderPdf < Prawn::Document
       text content, style: :italic, size: 8
     end
 
+    def footer
+
+      # Table with three columns but not able to make 'number_pages' work in
+      # cells so only two column's used
+
+      data = [[purchase_order_number, our_address, ""]]
+
+      repeat(:all) do
+        move_cursor_to -25
+        transparent(0.5){stroke_horizontal_rule}
+        canvas do       # overrules margin bounding box to work outside margins
+          font_size 8
+          bounding_box [bounds.left + 30, bounds.bottom + 40], width: 540 do
+
+            table(data) do
+              cells.borders = []
+              columns(0).align = :left
+              columns(1).align = :center
+              columns(2).align = :right
+              columns(0).width = 100
+              columns(1).width = 340
+              columns(2).width = 100
+            end
+          end
+        end
+      end
+      purchase_order_page_number
+
+    end
+
+    def purchase_order_number
+      @purchase_order.code
+    end
+
     def our_address
       if @purchase_order.customer.addresses.first
         addr = "#{@purchase_order.customer.addresses.first.body.gsub(/\n/,', ')}, #{@purchase_order.customer.addresses.first.post_code}"
@@ -192,42 +235,21 @@ class PurchaseOrderPdf < Prawn::Document
       else
         addr = "address missing"
       end
-
-      repeat(:all) do
-        canvas do
-          move_cursor_to 30
-          line_width 0.1
-          transparent(0.5){
-          stroke_horizontal_rule}
-          text_box addr, at: [70,20], align: :center, size: 8, width: 400
-        end
-      end
     end
 
     def purchase_order_page_number
       string = "page <page> of <total>"
-      options = { at: [500, 20],
-                width: 70,
+
+      options = {
+                at: [450, -40],
+                width: 90,
                 align: :right,
                 size: 8,
                 start_count: 1
                 }
-      canvas do
-        number_pages string, options
-      end
-    end
 
-    def purchase_order_number
-      string = @purchase_order.code
-      options = { at: [30, 20],
-                width: 40,
-                align: :left,
-                size: 8
-                }
-      repeat(:all) do
-        canvas do
-          text_box string, options
-        end
+      repeat(:all, dynamic: true) do
+        number_pages string, options
       end
     end
 

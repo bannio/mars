@@ -21,7 +21,8 @@ class SalesOrdersController < ApplicationController
         pdf = SalesOrderPdf.new(@sales_order)
         send_data pdf.render, filename: "#{@sales_order.code}.pdf",
                               type: "application/pdf",
-                              disposition: "inline"
+                              disposition: "inline",
+                              page_size: "A4"
       end
       format.csv do
         send_data @sales_order.to_csv

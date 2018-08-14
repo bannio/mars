@@ -36,7 +36,8 @@ class QuotationsController < ApplicationController
         pdf = SalesQuotePdf.new(@quotation)
         send_data pdf.render, filename: "#{@quotation.code}.pdf",
                               type: "application/pdf",
-                              disposition: "inline"
+                              disposition: "inline",
+                              page_size: "A4"
       end
       format.csv do
         send_data @quotation.to_csv
