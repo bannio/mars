@@ -45,7 +45,7 @@ class PurchaseOrderPdf < Prawn::Document
   def font_setup
     font_families.update("GillSansLight" => {
       :normal => "#{Rails.root}/app/assets/fonts/GillSans-Light-08.ttf",
-      :italic => "#{Rails.root}/app/assets/fonts/GillSans-Lightitalic-09.ttf",
+      :italic => "#{Rails.root}/app/assets/fonts/GillSans-LightItalic-09.ttf",
       :bold => "#{Rails.root}/app/assets/fonts/GillSans-SemiBold-05.ttf",
     })
     font "GillSansLight"
